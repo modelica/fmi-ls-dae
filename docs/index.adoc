@@ -32,6 +32,93 @@ The licenses text can be found in the https://raw.githubusercontent.com/modelica
 === Intent of this Document
        
 
+
+ 
+== ODE with invariants or constraint
+
+When a mathematical model is derived for a physical system, 
+the fundamental conservation laws (such as energy or momentum) or geometric properties are directly
+embedded into the differential equations. 
+These consevration laws are the system's **invariants** (quantities that remain constant over time). 
+Examples include total energy in a closed system, total mass in a chemical reaction, or angular momentum in a gravitational field.
+
+The analytical solution to the differential equation respects these invariants perfectly. However, when numerical solvers (like Euler's method, Runge-Kutta, or Adams-Bashforth) are used to simulate the differential equations, *numerical drift* are introduced.
+
+Numerical solvers solve the ODE/DAEs by approximating the continuous-time variable with a series of discrete steps. 
+At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error. 
+While high-order methods can make this error very small for the *state variables* themselves, they are generally **not designed to preserve arbitrary invariants of the system**.
+
+This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = E_0), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant. 
+The solver is effectively solving a *nearby* differential equation, one whose true solution does not possess the same conserved quantities.
+Consider the simple harmonic oscillator, a mass on a spring, governed by:
+
+[latexmath]
+++++
+\begin{aligned}
+\dot{x} &= v, \\
+\dot{v} &= -\omega^2 x
+\end{aligned}
+++++
+
+where `x` is position and `v` is velocity.
+
+The total energy `H` (the Hamiltonian) is an invariant:
+
+[latexmath]
+++++
+H(x, v) = \frac{1}{2}v^2 + \frac{1}{2}\omega^2 x^2 = \text{constant}
+++++
+
+In the phase space of `(x, v)`, the analytical solution traces a perfect ellipse, forever staying on this "energy manifold."
+
+Now, let's simulate this with the explicit Euler method:
+
+[latexmath]
+++++
+\begin{aligned}
+x_{n+1} &= x_n + h \cdot v_n \\
+v_{n+1} &= v_n + h \cdot (-\omega^2 x_n)
+\end{aligned}
+++++
+
+where `h` is the time step.
+
+If we substitute the Euler update into the energy function, we find that:
+
+[latexmath]
+++++
+H(x_{n+1}, v_{n+1}) \approx H(x_n, v_n) + h \cdot ( \text{terms that do not cancel} )
+++++
+
+ The energy is not conserved. In fact, for the Euler method, the energy increases monotonically. 
+ The numerical solution spirals outward, deviating further from the true elliptical path with each step. 
+ The solver has no built-in knowledge that it should be constrained to the energy manifold.
+The drift may have several consequences:
+
+* **Unphysical Results:** The simulation can produce results that violate fundamental physical laws. A satellite's orbit might slowly decay or escape when it should be stable. In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall, rendering the simulation useless.
+* **Long-Term Instability:** Small drifts can accumulate, leading to a complete breakdown of the solution over long time horizons. The numerical solution may blow up or behave chaotically even when the true solution is well-behaved.
+* **Qualitative Errors:** The drifted solution might belong to a different class of behavior altogether. A stable limit cycle might appear unstable, or a periodic orbit might seem quasi-periodic.
+
+The constraints are not always related to conservation laws; if the index of a DAE is reduced to zero to obtain an ODE, some equations may be omited. In order to ensure that these equations are taken into account and used to avoid drift, these equations should be exploited.
+
+=== The Solution: Invariant and Manifold Checking
+
+This is where invariant and manifold checking (and correction) becomes essential.
+
+* **Checking:** At regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute `H(x_n, v_n)` and monitor its change from the initial value `H(x_0, v_0)`. A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
+
+* **Correction (Projection):** Simply knowing there's drift isn't enough. For critical simulations, we use *geometric integrators* or *projection methods*.
+
+  * **Geometric Integrators** (e.g., Symplectic Euler, Verlet): These are specialized algorithms designed from the ground up to preserve certain types of invariants (like energy or symplectic structure). They often yield much better long-term behavior.
+  * **Projection Methods:** After a few steps with a standard solver, the solution is "projected" back onto the correct invariant manifold. For instance, the state `(x_n, v_n)` is minimally adjusted to a new state `(\tilde{x}_n, \tilde{v}_n)` such that `H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)`.  Sundials provides this useful feature.
+
+=== implementation of invariants in FMI-ls-DAE
+
+Invariant checking is not merely a post-processing step on integrating ODEs; it is a critical part of **validating the physical fidelity** of a numerical integration of an ODE (or a DAE whose index has been reduced to zero).  
+By monitoring and enforcing these constraints, we ensure that our numerical solutions remain not just mathematically accurate for the ODE, but *physically meaningful* for the system they are intended to represent.
+In the current FMI-2.0/FMI3.0 implementations, the manifold, invariant, or constraints can be exposed as local variables. 
+A layared standard can be used to designate these variables as invariants to be checked by the numerical solver to rectify the solution.       
+
 [bibliography]
 == References
 
