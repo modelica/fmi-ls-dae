@@ -110,14 +110,35 @@ This is where invariant and manifold checking (and correction) becomes essential
 * **Correction (Projection):** Simply knowing there's drift isn't enough. For critical simulations, we use *geometric integrators* or *projection methods*.
 
   * **Geometric Integrators** (e.g., Symplectic Euler, Verlet): These are specialized algorithms designed from the ground up to preserve certain types of invariants (like energy or symplectic structure). They often yield much better long-term behavior.
-  * **Projection Methods:** After a few steps with a standard solver, the solution is "projected" back onto the correct invariant manifold. For instance, the state `(x_n, v_n)` is minimally adjusted to a new state `(\tilde{x}_n, \tilde{v}_n)` such that `H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)`.  Sundials provides this useful feature.
+  * **Projection Methods:** The correction is done during the integration. With standard numerical solvers (multi-step or single step), after a few steps or even after any step, the solution is "projected" back onto the correct invariant manifold. 
+  For instance, the state `(x_n, v_n)` is minimally adjusted to a new state `(\tilde{x}_n, \tilde{v}_n)` such that `H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)`.  The Sundials numerical solver supports this useful feature.
 
 === implementation of invariants in FMI-ls-DAE
 
 Invariant checking is not merely a post-processing step on integrating ODEs; it is a critical part of **validating the physical fidelity** of a numerical integration of an ODE (or a DAE whose index has been reduced to zero).  
 By monitoring and enforcing these constraints, we ensure that our numerical solutions remain not just mathematically accurate for the ODE, but *physically meaningful* for the system they are intended to represent.
-In the current FMI-2.0/FMI3.0 implementations, the manifold, invariant, or constraints can be exposed as local variables. 
-A layared standard can be used to designate these variables as invariants to be checked by the numerical solver to rectify the solution.       
+
+Currently the only differential equations that can be supported by FMI is in the form. 
+
+[latexmath]
+++++
+\dot{x} = f(x,u)
+++++
+
+In order to be able to monitor invariants or constraints, 
+extra invariant equations should be added to be monitored by the importer.
+
+ 
+[latexmath]
+++++
+\begin{aligned}
+\dot{x} &= f(x,u), \\
+0 &= H(x)
+\end{aligned}
+++++
+
+Invariants  equations ('v=H(x)') can be introduced in the current FMI-2.0/FMI-3.0 specification   exposed as local variables without breaking the backward compatibility.  
+A new layared standard can be defined to designate the local invariant variables to be used by the numerical solver to rectify the solution at simulation time. 
 
 [bibliography]
 == References
