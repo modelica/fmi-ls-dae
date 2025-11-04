@@ -587,7 +587,7 @@ document.addEventListener('keydown', (event) => {
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version f1fffc4,</span>
+<span id="revnumber">version 2c13c4a,</span>
 <span id="revdate">2025-11-04</span>
 </div>
 <div id="toc" class="toc2">
@@ -596,12 +596,6 @@ document.addEventListener('keydown', (event) => {
 <li><a href="#_introduction">1. Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#_intent_of_this_document">1.1. Intent of this Document</a></li>
-</ul>
-</li>
-<li><a href="#_ode_with_invariants_or_constraint">2. ODE with invariants or constraint</a>
-<ul class="sectlevel2">
-<li><a href="#_the_solution_invariant_and_manifold_checking">2.1. The Solution: Invariant and Manifold Checking</a></li>
-<li><a href="#_implementation_of_invariants_in_fmi_ls_dae">2.2. implementation of invariants in FMI-ls-DAE</a></li>
 </ul>
 </li>
 <li><a href="#_references">References</a></li>
@@ -634,130 +628,6 @@ The licenses text can be found in the <a href="https://raw.githubusercontent.com
 <div class="sect2">
 <h3 id="_intent_of_this_document">1.1. Intent of this Document</h3>
 
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ode_with_invariants_or_constraint">2. ODE with invariants or constraint</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>When a mathematical model is derived for a physical system,
-the fundamental conservation laws (such as energy or momentum) or geometric properties are directly
-embedded into the differential equations.
-These consevration laws are the system&#8217;s <strong>invariants</strong> (quantities that remain constant over time).
-Examples include total energy in a closed system, total mass in a chemical reaction, or angular momentum in a gravitational field.</p>
-</div>
-<div class="paragraph">
-<p>The analytical solution to the differential equation respects these invariants perfectly. However, when numerical solvers (like Euler&#8217;s method, Runge-Kutta, or Adams-Bashforth) are used to simulate the differential equations, <strong>numerical drift</strong> are introduced.</p>
-</div>
-<div class="paragraph">
-<p>Numerical solvers solve the ODE/DAEs by approximating the continuous-time variable with a series of discrete steps.
-At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error.
-While high-order methods can make this error very small for the <strong>state variables</strong> themselves, they are generally <strong>not designed to preserve arbitrary invariants of the system</strong>.</p>
-</div>
-<div class="paragraph">
-<p>This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = E_0), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant.
-The solver is effectively solving a <strong>nearby</strong> differential equation, one whose true solution does not possess the same conserved quantities.
-Consider the simple harmonic oscillator, a mass on a spring, governed by:</p>
-</div>
-<div class="stemblock">
-<div class="content">
-\[\begin{aligned}
-\dot{x} &amp;= v, \\
-\dot{v} &amp;= -\omega^2 x
-\end{aligned}\]
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>x</code> is position and <code>v</code> is velocity.</p>
-</div>
-<div class="paragraph">
-<p>The total energy <code>H</code> (the Hamiltonian) is an invariant:</p>
-</div>
-<div class="stemblock">
-<div class="content">
-\[H(x, v) = \frac{1}{2}v^2 + \frac{1}{2}\omega^2 x^2 = \text{constant}\]
-</div>
-</div>
-<div class="paragraph">
-<p>In the phase space of <code>(x, v)</code>, the analytical solution traces a perfect ellipse, forever staying on this "energy manifold."</p>
-</div>
-<div class="paragraph">
-<p>Now, let&#8217;s simulate this with the explicit Euler method:</p>
-</div>
-<div class="stemblock">
-<div class="content">
-\[\begin{aligned}
-x_{n+1} &amp;= x_n + h \cdot v_n \\
-v_{n+1} &amp;= v_n + h \cdot (-\omega^2 x_n)
-\end{aligned}\]
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>h</code> is the time step.</p>
-</div>
-<div class="paragraph">
-<p>If we substitute the Euler update into the energy function, we find that:</p>
-</div>
-<div class="stemblock">
-<div class="content">
-\[H(x_{n+1}, v_{n+1}) \approx H(x_n, v_n) + h \cdot ( \text{terms that do not cancel} )\]
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre> The energy is not conserved. In fact, for the Euler method, the energy increases monotonically.
- The numerical solution spirals outward, deviating further from the true elliptical path with each step.
- The solver has no built-in knowledge that it should be constrained to the energy manifold.
-The drift may have several consequences:</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Unphysical Results:</strong> The simulation can produce results that violate fundamental physical laws. A satellite&#8217;s orbit might slowly decay or escape when it should be stable. In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall, rendering the simulation useless.</p>
-</li>
-<li>
-<p><strong>Long-Term Instability:</strong> Small drifts can accumulate, leading to a complete breakdown of the solution over long time horizons. The numerical solution may blow up or behave chaotically even when the true solution is well-behaved.</p>
-</li>
-<li>
-<p><strong>Qualitative Errors:</strong> The drifted solution might belong to a different class of behavior altogether. A stable limit cycle might appear unstable, or a periodic orbit might seem quasi-periodic.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The constraints are not always related to conservation laws; if the index of a DAE is reduced to zero to obtain an ODE, some equations may be omited. In order to ensure that these equations are taken into account and used to avoid drift, these equations should be exploited.</p>
-</div>
-<div class="sect2">
-<h3 id="_the_solution_invariant_and_manifold_checking">2.1. The Solution: Invariant and Manifold Checking</h3>
-<div class="paragraph">
-<p>This is where invariant and manifold checking (and correction) becomes essential.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Checking:</strong> At regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute <code>H(x_n, v_n)</code> and monitor its change from the initial value <code>H(x_0, v_0)</code>. A significant deviation is a direct measure of the simulation&#8217;s accumulated error with respect to the physics of the problem.</p>
-</li>
-<li>
-<p><strong>Correction (Projection):</strong> Simply knowing there&#8217;s drift isn&#8217;t enough. For critical simulations, we use <strong>geometric integrators</strong> or <strong>projection methods</strong>.</p>
-</li>
-<li>
-<p><strong>Geometric Integrators</strong> (e.g., Symplectic Euler, Verlet): These are specialized algorithms designed from the ground up to preserve certain types of invariants (like energy or symplectic structure). They often yield much better long-term behavior.</p>
-</li>
-<li>
-<p><strong>Projection Methods:</strong> After a few steps with a standard solver, the solution is "projected" back onto the correct invariant manifold. For instance, the state <code>(x_n, v_n)</code> is minimally adjusted to a new state <code>(\tilde{x}_n, \tilde{v}_n)</code> such that <code>H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)</code>.  Sundials provides this useful feature.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_implementation_of_invariants_in_fmi_ls_dae">2.2. implementation of invariants in FMI-ls-DAE</h3>
-<div class="paragraph">
-<p>Invariant checking is not merely a post-processing step on integrating ODEs; it is a critical part of <strong>validating the physical fidelity</strong> of a numerical integration of an ODE (or a DAE whose index has been reduced to zero).
-By monitoring and enforcing these constraints, we ensure that our numerical solutions remain not just mathematically accurate for the ODE, but <strong>physically meaningful</strong> for the system they are intended to represent.
-In the current FMI-2.0/FMI3.0 implementations, the manifold, invariant, or constraints can be exposed as local variables.
-A layared standard can be used to designate these variables as invariants to be checked by the numerical solver to rectify the solution.</p>
-</div>
 </div>
 </div>
 </div>
