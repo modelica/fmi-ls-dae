@@ -48,7 +48,7 @@ Numerical solvers solve the ODE/DAEs by approximating the continuous-time variab
 At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error. 
 While high-order methods can make this error very small for the *state variables* themselves, they are generally **not designed to preserve arbitrary invariants of the system**.
 
-This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = E_0), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant. 
+This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = stem:[E_0]), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant. 
 The solver is effectively solving a *nearby* differential equation, one whose true solution does not possess the same conserved quantities.
 Consider the simple harmonic oscillator, a mass on a spring, governed by:
 
@@ -60,16 +60,16 @@ Consider the simple harmonic oscillator, a mass on a spring, governed by:
 \end{aligned}
 ++++
 
-where `x` is position and `v` is velocity.
+where stem:[x] is position and stem:[v] is velocity.
 
-The total energy `H` (the Hamiltonian) is an invariant:
+The total energy stem:[H] (the Hamiltonian) is an invariant:
 
 [latexmath]
 ++++
 H(x, v) = \frac{1}{2}v^2 + \frac{1}{2}\omega^2 x^2 = \text{constant}
 ++++
 
-In the phase space of `(x, v)`, the analytical solution traces a perfect ellipse, forever staying on this "energy manifold."
+In the phase space of stem:[(x, v)], the analytical solution traces a perfect ellipse, forever staying on this "energy manifold."
 
 Now, let's simulate this with the explicit Euler method:
 
@@ -81,7 +81,7 @@ v_{n+1} &= v_n + h \cdot (-\omega^2 x_n)
 \end{aligned}
 ++++
 
-where `h` is the time step.
+where stem:[h] is the time step.
 
 If we substitute the Euler update into the energy function, we find that:
 
@@ -90,9 +90,9 @@ If we substitute the Euler update into the energy function, we find that:
 H(x_{n+1}, v_{n+1}) \approx H(x_n, v_n) + h \cdot ( \text{terms that do not cancel} )
 ++++
 
- The energy is not conserved. In fact, for the Euler method, the energy increases monotonically. 
- The numerical solution spirals outward, deviating further from the true elliptical path with each step. 
- The solver has no built-in knowledge that it should be constrained to the energy manifold.
+The energy is not conserved. In fact, for the Euler method, the energy increases monotonically. 
+The numerical solution spirals outward, deviating further from the true elliptical path with each step. 
+The solver has no built-in knowledge that it should be constrained to the energy manifold.
 The drift may have several consequences:
 
 * **Unphysical Results:** The simulation can produce results that violate fundamental physical laws. A satellite's orbit might slowly decay or escape when it should be stable. In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall, rendering the simulation useless.
@@ -105,13 +105,13 @@ The constraints are not always related to conservation laws; if the index of a D
 
 This is where invariant and manifold checking (and correction) becomes essential.
 
-* **Checking:** At regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute `H(x_n, v_n)` and monitor its change from the initial value `H(x_0, v_0)`. A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
+* **Checking:** At regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute stem:[H(x_n, v_n)] and monitor its change from the initial value stem:[H(x_0, v_0)]. A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
 
 * **Correction (Projection):** Simply knowing there's drift isn't enough. For critical simulations, we use *geometric integrators* or *projection methods*.
 
   * **Geometric Integrators** (e.g., Symplectic Euler, Verlet): These are specialized algorithms designed from the ground up to preserve certain types of invariants (like energy or symplectic structure). They often yield much better long-term behavior.
   * **Projection Methods:** The correction is done during the integration. With standard numerical solvers (multi-step or single step), after a few steps or even after any step, the solution is "projected" back onto the correct invariant manifold. 
-  For instance, the state `(x_n, v_n)` is minimally adjusted to a new state `(\tilde{x}_n, \tilde{v}_n)` such that `H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)`.  The Sundials numerical solver supports this useful feature.
+  For instance, the state stem:[(x_n, v_n)] is minimally adjusted to a new state stem:[(\tilde{x}_n, \tilde{v}_n)] such that stem:[H(\tilde{x}_n, \tilde{v}_n) = H(x_0, v_0)].  The Sundials numerical solver supports this useful feature.
 
 === implementation of invariants in FMI-ls-DAE
 
@@ -137,7 +137,7 @@ extra invariant equations should be added to be monitored by the importer.
 \end{aligned}
 ++++
 
-Invariants  equations ('v=H(x)') can be introduced in the current FMI-2.0/FMI-3.0 specification   exposed as local variables without breaking the backward compatibility.  
+Invariants  equations (stem:[v=H(x)]) can be introduced in the current FMI-2.0/FMI-3.0 specification   exposed as local variables without breaking the backward compatibility.  
 A new layared standard can be defined to designate the local invariant variables to be used by the numerical solver to rectify the solution at simulation time. 
 
 [bibliography]
