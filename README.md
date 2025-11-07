@@ -5,8 +5,8 @@ This is a private repository of the FMI Project to discuss and possibly develop 
 Issues in FMI Design Repo
 
 * https://github.com/modelica/fmi-standard/issues/2031
-* Handling ODE with constraints (drift elimination for index reduced DAE)
-* https://github.com/modelica/fmi-standard/issues/144?reload=1
+* https://github.com/modelica/fmi-standard/issues/1651
+* https://github.com/modelica/fmi-standard/issues/144
 
 Meetings:
 
