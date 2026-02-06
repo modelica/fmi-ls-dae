@@ -13,3 +13,10 @@ Meetings:
 
 * [2025-07-08-Discussion-Continuous-DAE-support)](https://github.com/modelica/fmi-design/tree/master/Meetings/2025/2025-07-08-Discussion-Continuous-DAE-support)
 * [2025-11-07-Working-Group-DAE-support](https://github.com/modelica/fmi-design/tree/master/Meetings/2025/2025-11-07-Working-Group-DAE-support)
+* [2026-01-09-DAE-Working-Group](https://github.com/modelica/fmi-design/tree/master/Meetings/2026/2026-01-09-DAE-Working-Group)
+* [2026-01-23-DAE-Working-Group](https://github.com/modelica/fmi-design/tree/master/Meetings/2026/2026-01-23-DAE-Working-Group)
+* [2026-02-06-DAE-Working-Group](https://github.com/modelica/fmi-design/tree/master/Meetings/2026/2026-02-06-DAE-Working-Group)
+
+Sandbox:
+
+* https://github.com/modelica/fmi-ls-dae-sandbox
