@@ -43,10 +43,10 @@ asciidoctor                      \
 
 ### Using Asciidoctor PDF
 
-Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/) and
-[Asciidoctor PDF](https://docs.asciidoctor.org/pdf-converter/latest/install/)
-and [asciidoctor-mathematical](https://docs.asciidoctor.org/pdf-converter/latest/stem/).
-and run
+Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/),
+[Asciidoctor PDF](https://docs.asciidoctor.org/pdf-converter/latest/install/),
+and [asciidoctor-mathematical](https://docs.asciidoctor.org/pdf-converter/latest/stem/),
+then run
 
 ```bash
 asciidoctor-pdf                  \

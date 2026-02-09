@@ -1,0 +1,79 @@
+:stem: latexmath
+:eqnums:
+
+[indices]
+==== Indices
+
+There are multiple, sometimes closely related, definitions of indices for DAE
+systems.
+Usually these indices are a measure of how far from an ODE the DAE is.
+
+[differential-index]
+===== Differential Index
+
+The minimum number of times a DAE
+
+[latexmath]
+++++
+F(\dot{x}(t), x(t), t) = 0
+++++
+
+has to be differentiated with respect to time latexmath:[t] to be able to
+determine latexmath:[\dot{x}(t)] as a function of latexmath:[t] and
+latexmath:[x] is called the _differential index_.
+
+See <<hairer2006numerical,[hairer2006numerical]>>.
+
+[perturbation-index]
+===== Perturbation Index
+
+The _perturbation index_ is a measure of the constraints among equations. An
+index-0 DAE contains neither algebraic loops nor structural singularities. An
+index-1 DAE contains algebraic loops, but no structural singularities. A DAE
+with a perturbation index greater than 1, a so-called _higher-index DAE_,
+contains structural singularities
+footnote:[
+  From <<cellier2006continuous,[cellier2006continuous]>>, p. 285.
+].
+
+See <<hairer2006numerical,[hairer2006numerical]>>.
+
+[example-structural-singularity]
+====== Example of Structural Singularity
+
+<<cellier2006continuous,[cellier2006continuous, chapter 7.7 Structural
+Singularity Elimination]>> provides a simple electric circuit model that is an
+higher-index DAE.
+
+[[ParallelCapacitor]]
+.Modelica model of an electric circuit with two capacitors in parallel.
+image::images/TwoParallelCapacitors.png[Electric circuit]
+
+The circuit has two capacitors in parallel and can be represented with
+equations:
+
+[latexmath]
+++++
+\begin{split}
+v_0 &= f(t) \\
+v_R &= R \cdot i_0 \\
+i_1 &= C_1 \cdot \dot{v_1} \\
+i_2 &= C_2 \cdot \dot{v_2} \\
+v_0 &= v_R + v_1 \\
+\label{constraintEquationExampleCellier}
+v_2 &= v_1 \\
+i_0 &= i_1 + i_2
+\end{split}
+++++
+
+When both capacitive voltages latexmath:[v_1] and latexmath:[v_2] are chosen as
+state variables equation latexmath:[\eqref{constraintEquationExampleCellier}]
+has no unknowns left, so it is a _constraint equation_.
+
+There are different ways to solve this. The modeler could change the causality
+or exporting tools can try to reduce the perturbation index symbolically
+footnote:[e.g. by using Pantelides algorithm, see <<cellier1993automated>>] to
+end up with a consistent initialization for the system.
+
+// Disable equation numbering again
+:eqnums: none

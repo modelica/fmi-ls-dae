@@ -3,7 +3,7 @@
 A differential-algebraic system of equations (DAE) is a system of equations that
 either contains differential equations and algebraic equations, or is equivalent
 to such a system
-footnote:[Stolen from https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations].
+footnote:[Source: https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations].
 
 * Avoid the requirement of index reduction inside of FMUs.
     ** This may improve accuracy due to better drift handling.
@@ -14,5 +14,5 @@ footnote:[Stolen from https://en.wikipedia.org/wiki/Differential-algebraic_syste
   reduced ODE systems.
     ** This may improve the performance by usage of the sparseness.
 * Allow connections between constraint FMUs.
-    ** Connecting reduced ODE FMUs may lead globally to a none solvable
-       (singular) system but not for not reduced DAE FMUs.
+    ** Connecting reduced ODE FMUs may lead globally to a non-solvable
+       (singular) system but not for unreduced DAE FMUs.

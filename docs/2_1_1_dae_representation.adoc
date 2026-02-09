@@ -1,28 +1,139 @@
 :stem: latexmath
 
+// Sources: https://www.fs.isy.liu.se/Edu/Courses/Simulation/OH/
+
+[dae-representation]
 ==== DAE representation
 
-There are different forms od DAEs
+There are different forms of DAEs.
+
+For simplicity discontinuous states are currently disregarded.
 
 [implicit-dae]
-===== Implicit DAE
+===== Fully-Implicit DAE
+
+The generic _fully-implicit DAE_, or _implicit DAE_, formulation:
 
 [latexmath]
 ++++
-F(\dot{x}, x, t) = 0
+F(\dot{z}(t), z(t), t) = 0
 ++++
 
+where latexmath:[z(t)] represents state and additional variables
+and latexmath:[t] is time.
 
-[semi-explicit-dae]
-===== Semi-Explicit DAE
+A similar and sometimes more useful representation:
+
+[latexmath]
+++++
+F(\dot{x}(t), x(t), y(t), t) = 0
+++++
+
+with dynamic variables latexmath:[x(t)], algebraic variables latexmath:[y(t)]
+and time latexmath:[t].
+
+Note that latexmath:[x(t)] is not necessarily the state
+variables, more on this in <<Perturbation Index, section 2.1.1>>.
+
+[semi-explicit-index-1-dae]
+===== Semi-Explicit Index 1 / Hessenberg index 1 DAE
+
+The _semi-explicit index 1_, also called _Hessenberg index 1_, DAE representation
 
 [latexmath]
 ++++
 \begin{split}
-\dot{x} & = f(x, s, t)    \\
-0       & = g^1 (x, s, t) \\
-0       & = g^2 (x, s, t) \\
-0       & = g^3 (x, s, t) \\
-        & \vdots
+\dot{x}(t) & = f(x(t), y(t), t) \\
+         0 & = g(x(t), y(t), t)
 \end{split}
 ++++
+
+with latexmath:[g] solvable for latexmath:[y],
+latexmath:[det \left( \frac{\partial}{\partial y}g\right) \neq 0].
+
+Here latexmath:[f] is called the _differential equations_ and latexmath:[g]
+the _algebraic equations_.
+
+[relationship-fully-implicit-semi-explicit]
+===== Relationship between fully-implicit and semi-explicit DAE
+
+A fully implicit DAE
+
+[latexmath]
+++++
+F(\dot{x}(t), x(t), t) = 0
+++++
+
+can always be rewritten as a semi-explicit DAE by introducing a new algebraic
+variable latexmath:[x^{\prime}]
+
+[latexmath]
+++++
+\begin{split}
+\dot{x}(t) &= x^{\prime}(t) \\
+0 &= F(x^{\prime}(t), x(t), t)
+\end{split}
+++++
+
+[semi-explicit-dae]
+===== Semi-Explicit DAE
+
+The _semi-explicit DAE_ representation
+
+[latexmath]
+++++
+\begin{split}
+\dot{x}(t) & =   f(x(t), y(t), t) \\
+         0 & = g^1(x(t), y(t), t) \\
+         0 & = g^2(x(t), y(t), t) \\
+         0 & = g^3(x(t), y(t), t) \\
+           & \vdots
+\end{split}
+++++
+
+with latexmath:[g^1] solvable for latexmath:[y],
+latexmath:[det \left( \frac{\partial}{\partial y}g^1\right) \neq 0]
+and
+latexmath:[\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k > 1].
+
+[mass-matrix-dae]
+===== Mass matrix DAE
+
+[latexmath]
+++++
+M \dot{x}(t) = f(x(t), t)
+++++
+
+where _mass matrix_ latexmath:[M] is singular.
+
+An equivalent explicit formulation:
+
+[latexmath]
+++++
+\begin{bmatrix}
+M_x & 0\\
+0   & 0
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\dot{x} \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{f}(x(t), y(t), t) \\
+g(x(t), y(t), t)
+\end{bmatrix}
+++++
+
+See <<cui2020mass>>.
+
+[linear-time-invariant-dae]
+===== Linear time-invariant DAE
+
+[latexmath]
+++++
+E \dot{x}(t) = Ax(t)
+++++
+
+where matrix latexmath:[E] is singular.

@@ -1,11 +1,11 @@
-This layered standard on top of FMI 3.0, defines how to exchange dynamic models
+This layered standard on top of FMI 3.0 defines how to exchange dynamic models
 in differential algebraic equation form.
 
-NOTE: Note: Although the document refers to version 3.0 of the FMI standard,
-everything described in this document also applies to all subsequent minor
-versions. For further information on compatibility, see section
-https://fmi-standard.org/docs/3.0/#VersioningLayered[Versioning and Layered Standards]
-in the FMI 3.0 specification.
+NOTE: Although the document refers to version 3.0 of the FMI standard,
+      everything described in this document also applies to all subsequent minor
+      versions. For further information on compatibility, see section
+      https://fmi-standard.org/docs/3.0/#VersioningLayered[Versioning and
+      Layered Standards] in the FMI 3.0 specification.
 
 Copyright (C) 2025 The Modelica Association Project FMI.
 

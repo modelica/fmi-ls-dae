@@ -1,3 +1,6 @@
+[mathematical-notation]
 === Mathematical Notation
 
 include::2_1_1_dae_representation.adoc[]
+
+include::2_1_2_indices.adoc[]

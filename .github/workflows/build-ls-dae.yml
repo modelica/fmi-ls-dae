@@ -30,10 +30,24 @@ jobs:
         mkdir -p build/schema
         mkdir -p build/images
 
-    - name: Build layered standard dae
+    - name: Build HTML
       uses: avattathil/asciidoctor-action@master
       with:
         program: "asciidoctor -D build --backend=html5 --attribute=revnumber=${{ env.REVNUMBER }} --attribute=revdate=$(date +%F) docs/index.adoc"
+
+    - name: Build PDF
+      run: |
+        docker run --rm -v $PWD:/documents/ asciidoctor/docker-asciidoctor     \
+          asciidoctor-pdf                                                      \
+            -r asciidoctor-mathematical                                        \
+            -a mathematical-format=svg                                         \
+            --base-dir /documents/docs                                         \
+            --destination-dir /documents/build                                 \
+            --failure-level WARN                                               \
+            --verbose                                                          \
+            --attribute=revnumber=${{ env.REVNUMBER }}                         \
+            --attribute=revdate=$(date +%F)                                    \
+            docs/index.adoc
 
     - name: Copy resources
       run: |

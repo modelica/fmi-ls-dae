@@ -1,2 +1,56 @@
 [bibliography]
 == References
+
+// @article{cui2020mass,
+//   title={Mass-matrix differential-algebraic equation formulation for transient stability simulation},
+//   author={Cui, Hantao and Li, Fangxing and Chow, Joe H},
+//   journal={arXiv preprint arXiv:2008.03883},
+//   year={2020}
+// }
+
+* [[[cui2020mass]]]
+  Cui, Hantao, Fangxing Li, and Joe H. Chow.
+  "Mass-matrix differential-algebraic equation formulation for transient stability simulation."
+  arXiv preprint arXiv:2008.03883, 2020.
+
+
+// @book{cellier2006continuous,
+//   title={Continuous system simulation},
+//   author={Cellier, Fran{\c{c}}ois E and Kofman, Ernesto},
+//   year={2006},
+//   publisher={Springer}
+// }
+
+* [[[cellier2006continuous]]]
+  Cellier, François E., and Ernesto Kofman.
+  "Continuous system simulation".
+  Boston, MA: Springer US, 2006.
+
+// @book{hairer2006numerical,
+//   title={The numerical solution of differential-algebraic systems by Runge-Kutta methods},
+//   author={Hairer, Ernst and Lubich, Christian and Roche, Michel},
+//   volume={1409},
+//   year={2006},
+//   publisher={Springer}
+// }
+
+* [[[hairer2006numerical]]]
+  Hairer, Ernst, Christian Lubich, and Michel Roche.
+  "The numerical solution of differential-algebraic systems by Runge-Kutta methods".
+  Vol. 1409. Springer, 2006.
+
+// @article{cellier1993automated,
+//   title={Automated formula manipulation supports object-oriented continuous-system modeling},
+//   author={Cellier, Fran{\c{c}}ois E and Elmqvist, Hilding},
+//   journal={IEEE Control Systems Magazine},
+//   volume={13},
+//   number={2},
+//   pages={28--38},
+//   year={1993},
+//   publisher={IEEE}
+// }
+
+* [[[cellier1993automated]]]
+  Cellier, Francois E., and Hilding Elmqvist.
+  "Automated formula manipulation supports object-oriented continuous-system modeling".
+  IEEE Control Systems Magazine 13.2 (1993): 28-38.
