@@ -1,0 +1,33 @@
+unmatched equations: 13, 15 Index Reduction neccessary!
+MSS subsets:
+ 15, 10
+ 13, 7
+
+##############--MSSS--##############
+Indices of constraint equations: 13 7
+
+------------------7------------------
+Constraint equation to be differentiated:
+'C2.v' = 'L1.v'
+Differentiated equation:
+der('C2.v') = der('L1.v')
+
+------------------13------------------
+Constraint equation to be differentiated:
+'L1.v' = 'C1.v' - 'C3.v'
+Differentiated equation:
+der('L1.v') = der('C1.v') - der('C3.v') Update Adjacency Matrix: 12 7 13
+
+##############--MSSS--##############
+Indices of constraint equations: 15 10
+
+------------------10------------------
+Constraint equation to be differentiated:
+'C4.v' = 'L2.v'
+Differentiated equation:
+der('C4.v') = der('L2.v')
+------------------15------------------
+Constraint equation to be differentiated:
+'L2.v' = 'C3.v' - 'C5.v'
+Differentiated equation:
+der('L2.v') = der('C3.v') - der('C5.v') Update Adjacency Matrix: 14 10 15
