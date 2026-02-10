@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
+      with:
+        submodules: recursive
 
     - name: Generate revnumber
       run: |
@@ -31,9 +33,9 @@ jobs:
         mkdir -p build/images
 
     - name: Build HTML
-      uses: avattathil/asciidoctor-action@master
+      uses: avattathil/asciidoctor-action@v2
       with:
-        program: "asciidoctor -D build --backend=html5 --attribute=revnumber=${{ env.REVNUMBER }} --attribute=revdate=$(date +%F) docs/index.adoc"
+        program: "asciidoctor --destination-dir=build --backend=html5 --attribute=revnumber=${{ env.REVNUMBER }} --attribute=revdate=$(date +%F) --failure-level=WARN --verbose docs/index.adoc"
 
     - name: Build PDF
       run: |
@@ -53,11 +55,11 @@ jobs:
       run: |
         cp LICENSE.txt build
         cp schema/*.xsd build/schema
-        cp docs/images/favicon.ico build/images
-        cp docs/images/*.svg build/images
+        cp -r docs/images build/images
+        cp -r docs/theme/ build/theme
 
     - name: Archive layered standard DAE
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: FMI-LS-DAE
         path: build/*
@@ -70,7 +72,7 @@ jobs:
 
     - name: Deploy
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      uses: peaceiris/actions-gh-pages@v3.9.3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: build

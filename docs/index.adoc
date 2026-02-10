@@ -4,19 +4,22 @@
 :toc: left
 :toc-title: Contents
 :toclevels: 5
+:idprefix:
+:idseparator: -
 :xrefstyle: short
+:docinfo: shared
 :docinfodir: theme/docinfo
-:stylesheet: theme/css/modelica.css
 :stem: latexmath
 :source-highlighter: highlightjs
+:highlightjs-theme: github
 :nofooter:
-:favicon: images/favicon.ico
-:revdate: 30.09.2025
-:revnumber: 0.0.0
 :icons: font
 :website-url: https://fmi-standard.org/
 :repo-url: https://github.com/modelica/fmi-ls-dae
 :logo: FMI
+:favicon: images/favicon.ico
+:revdate: 30.09.2025
+:revnumber: 0.0.0
 
 {empty} +
 {empty}

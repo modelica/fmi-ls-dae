@@ -21,26 +21,16 @@
       ],
       "group": {
         "kind": "build",
-        "isDefault": false,
+        "isDefault": false
       }
     },
     {
       "label": "build-doc-html",
-      "type": "process",
-      "command": "asciidoctor",
-      "args": [
-        "--base-dir",
-        "${workspaceFolder}/docs",
-        "--destination-dir",
-        "${workspaceFolder}/build/html",
-        "--failure-level",
-        "WARN",
-        "--verbose",
-        "docs/index.adoc"
-      ],
+      "type": "shell",
+      "command": "asciidoctor --base-dir \"${workspaceFolder}/docs\" --destination-dir \"${workspaceFolder}/build\" --backend=html5 --failure-level WARN --verbose docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
       "group": {
         "kind": "build",
-        "isDefault": false,
+        "isDefault": false
       }
     },
     {
@@ -49,17 +39,27 @@
       "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor-pdf -r asciidoctor-mathematical -a mathematical-format=svg --base-dir /documents/docs --destination-dir /documents/build/pdf --failure-level WARN --verbose docs/index.adoc",
       "group": {
         "kind": "build",
-        "isDefault": true,
+        "isDefault": true
       }
     },
     {
       "label": "build-doc-docker-html",
       "type": "shell",
-      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor --base-dir /documents/docs --destination-dir /documents/build/html --failure-level WARN --verbose docs/index.adoc",
+      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor --base-dir /documents/docs --destination-dir /documents/build --failure-level WARN --verbose docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
       "group": {
         "kind": "build",
-        "isDefault": false,
+        "isDefault": false
       }
+    },
+    {
+      "label": "serve-build",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m http.server -d build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
     }
   ]
 }
