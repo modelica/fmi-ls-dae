@@ -17,8 +17,8 @@
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 43de2f5,</span>
-<span id="revdate">2026-02-06</span>
+<span id="revnumber">version e4c983f,</span>
+<span id="revdate">2026-02-10</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -32,12 +32,26 @@
 </li>
 <li><a href="#_common_concepts">2. Common Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#_mathematical_notation">2.1. Mathematical Notation</a>
+<li><a href="#_mathematical_notation">Mathematical Notation</a>
 <ul class="sectlevel3">
-<li><a href="#_dae_representation">2.1.1. DAE representation</a>
+<li><a href="#_dae_representation">DAE representation</a>
 <ul class="sectlevel4">
-<li><a href="#_implicit_dae">Implicit DAE</a></li>
+<li><a href="#_fully_implicit_dae">Fully-Implicit DAE</a></li>
+<li><a href="#_semi_explicit_index_1_hessenberg_index_1_dae">Semi-Explicit Index 1 / Hessenberg index 1 DAE</a></li>
+<li><a href="#_relationship_between_fully_implicit_and_semi_explicit_dae">Relationship between fully-implicit and semi-explicit DAE</a></li>
 <li><a href="#_semi_explicit_dae">Semi-Explicit DAE</a></li>
+<li><a href="#_mass_matrix_dae">Mass matrix DAE</a></li>
+<li><a href="#_linear_time_invariant_dae">Linear time-invariant DAE</a></li>
+</ul>
+</li>
+<li><a href="#_indices">Indices</a>
+<ul class="sectlevel4">
+<li><a href="#_differential_index">Differential Index</a></li>
+<li><a href="#_perturbation_index">Perturbation Index</a>
+<ul class="sectlevel5">
+<li><a href="#_example_of_structural_singularity">Example of Structural Singularity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -56,7 +70,7 @@
 </p>
 </div>
 <div class="paragraph">
-<p>This layered standard on top of FMI 3.0, defines how to exchange dynamic models
+<p>This layered standard on top of FMI 3.0 defines how to exchange dynamic models
 in differential algebraic equation form.</p>
 </div>
 <div class="admonitionblock note">
@@ -66,11 +80,11 @@ in differential algebraic equation form.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Note: Although the document refers to version 3.0 of the FMI standard,
-everything described in this document also applies to all subsequent minor
-versions. For further information on compatibility, see section
-<a href="https://fmi-standard.org/docs/3.0/#VersioningLayered">Versioning and Layered Standards</a>
-in the FMI 3.0 specification.
+Although the document refers to version 3.0 of the FMI standard,
+      everything described in this document also applies to all subsequent minor
+      versions. For further information on compatibility, see section
+      <a href="https://fmi-standard.org/docs/3.0/#VersioningLayered">Versioning and
+      Layered Standards</a> in the FMI 3.0 specification.
 </td>
 </tr>
 </table>
@@ -139,8 +153,8 @@ reduced ODE systems.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Connecting reduced ODE FMUs may lead globally to a none solvable
-(singular) system but not for not reduced DAE FMUs.</p>
+<p>Connecting reduced ODE FMUs may lead globally to a non-solvable
+(singular) system but not for unreduced DAE FMUs.</p>
 </li>
 </ul>
 </div>
@@ -162,31 +176,241 @@ reduced ODE systems.</p>
 <h2 id="_common_concepts">2. Common Concepts</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_mathematical_notation">2.1. Mathematical Notation</h3>
+<h3 id="_mathematical_notation">Mathematical Notation</h3>
 <div class="sect3">
-<h4 id="_dae_representation">2.1.1. DAE representation</h4>
+<h4 id="_dae_representation">DAE representation</h4>
 <div class="paragraph">
-<p>There are different forms od DAEs</p>
+<p>There are different forms of DAEs.</p>
+</div>
+<div class="paragraph">
+<p>For simplicity discontinuous states are currently disregarded.</p>
 </div>
 <div class="sect4">
-<h5 id="_implicit_dae">Implicit DAE</h5>
+<h5 id="_fully_implicit_dae">Fully-Implicit DAE</h5>
+<div class="paragraph">
+<p>The generic <em>fully-implicit DAE</em>, or <em>implicit DAE</em>, formulation:</p>
+</div>
 <div class="stemblock">
 <div class="content">
-\[F(\dot{x}, x, t) = 0\]
+\[F(\dot{z}(t), z(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(z(t)\) represents state and additional variables
+and \(t\) is time.</p>
+</div>
+<div class="paragraph">
+<p>A similar and sometimes more useful representation:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), y(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>with dynamic variables \(x(t)\), algebraic variables \(y(t)\)
+and time \(t\).</p>
+</div>
+<div class="paragraph">
+<p>Note that \(x(t)\) is not necessarily the state
+variables, more on this in <a href="#_perturbation_index">section 2.1.1</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_semi_explicit_index_1_hessenberg_index_1_dae">Semi-Explicit Index 1 / Hessenberg index 1 DAE</h5>
+<div class="paragraph">
+<p>The <em>semi-explicit index 1</em>, also called <em>Hessenberg index 1</em>, DAE representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x}(t) &amp; = f(x(t), y(t), t) \\
+         0 &amp; = g(x(t), y(t), t)
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with \(g\) solvable for \(y\),
+\(det \left( \frac{\partial}{\partial y}g\right) \neq 0\).</p>
+</div>
+<div class="paragraph">
+<p>Here \(f\) is called the <em>differential equations</em> and \(g\)
+the <em>algebraic equations</em>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_relationship_between_fully_implicit_and_semi_explicit_dae">Relationship between fully-implicit and semi-explicit DAE</h5>
+<div class="paragraph">
+<p>A fully implicit DAE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>can always be rewritten as a semi-explicit DAE by introducing a new algebraic
+variable \(x^{\prime}\)</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x}(t) &amp;= x^{\prime}(t) \\
+0 &amp;= F(x^{\prime}(t), x(t), t)
+\end{split}\]
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_semi_explicit_dae">Semi-Explicit DAE</h5>
+<div class="paragraph">
+<p>The <em>semi-explicit DAE</em> representation</p>
+</div>
 <div class="stemblock">
 <div class="content">
 \[\begin{split}
-\dot{x} &amp; = f(x, s, t)    \\
-0       &amp; = g^1 (x, s, t) \\
-0       &amp; = g^2 (x, s, t) \\
-0       &amp; = g^3 (x, s, t) \\
-        &amp; \vdots
+\dot{x}(t) &amp; =   f(x(t), y(t), t) \\
+         0 &amp; = g^1(x(t), y(t), t) \\
+         0 &amp; = g^2(x(t), y(t), t) \\
+         0 &amp; = g^3(x(t), y(t), t) \\
+           &amp; \vdots
 \end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with \(g^1\) solvable for \(y\),
+\(det \left( \frac{\partial}{\partial y}g^1\right) \neq 0\)
+and
+\(\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k &gt; 1\).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_mass_matrix_dae">Mass matrix DAE</h5>
+<div class="stemblock">
+<div class="content">
+\[M \dot{x}(t) = f(x(t), t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where <em>mass matrix</em> \(M\) is singular.</p>
+</div>
+<div class="paragraph">
+<p>An equivalent explicit formulation:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{bmatrix}
+M_x &amp; 0\\
+0   &amp; 0
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\dot{x} \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{f}(x(t), y(t), t) \\
+g(x(t), y(t), t)
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#cui2020mass">[cui2020mass]</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_linear_time_invariant_dae">Linear time-invariant DAE</h5>
+<div class="stemblock">
+<div class="content">
+\[E \dot{x}(t) = Ax(t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where matrix \(E\) is singular.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_indices">Indices</h4>
+<div class="paragraph">
+<p>There are multiple, sometimes closely related, definitions of indices for DAE
+systems.
+Usually these indices are a measure of how far from an ODE the DAE is.</p>
+</div>
+<div class="sect4">
+<h5 id="_differential_index">Differential Index</h5>
+<div class="paragraph">
+<p>The minimum number of times a DAE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>has to be differentiated with respect to time \(t\) to be able to
+determine \(\dot{x}(t)\) as a function of \(t\) and
+\(x\) is called the <em>differential index</em>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_perturbation_index">Perturbation Index</h5>
+<div class="paragraph">
+<p>The <em>perturbation index</em> is a measure of the constraints among equations. An
+index-0 DAE contains neither algebraic loops nor structural singularities. An
+index-1 DAE contains algebraic loops, but no structural singularities. A DAE
+with a perturbation index greater than 1, a so-called <em>higher-index DAE</em>,
+contains structural singularities
+<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
+</div>
+<div class="sect5">
+<h6 id="_example_of_structural_singularity">Example of Structural Singularity</h6>
+<div class="paragraph">
+<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural
+Singularity Elimination]</a> provides a simple electric circuit model that is an
+higher-index DAE.</p>
+</div>
+<div id="ParallelCapacitor" class="imageblock">
+<div class="content">
+<img src="images/TwoParallelCapacitors.png" alt="Electric circuit">
+</div>
+<div class="title">Figure 1. Modelica model of an electric circuit with two capacitors in parallel.</div>
+</div>
+<div class="paragraph">
+<p>The circuit has two capacitors in parallel and can be represented with
+equations:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+v_0 &amp;= f(t) \\
+v_R &amp;= R \cdot i_0 \\
+i_1 &amp;= C_1 \cdot \dot{v_1} \\
+i_2 &amp;= C_2 \cdot \dot{v_2} \\
+v_0 &amp;= v_R + v_1 \\
+\label{constraintEquationExampleCellier}
+v_2 &amp;= v_1 \\
+i_0 &amp;= i_1 + i_2
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as
+state variables equation \(\eqref{constraintEquationExampleCellier}\)
+has no unknowns left, so it is a <em>constraint equation</em>.</p>
+</div>
+<div class="paragraph">
+<p>There are different ways to solve this. The modeler could change the causality
+or exporting tools can try to reduce the perturbation index symbolically
+<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> to
+end up with a consistent initialization for the system.</p>
 </div>
 </div>
 </div>
@@ -197,14 +421,59 @@ reduced ODE systems.</p>
 <div class="sect1">
 <h2 id="_references">References</h2>
 <div class="sectionbody">
-
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cui2020mass"></a>[cui2020mass]
+Cui, Hantao, Fangxing Li, and Joe H. Chow.
+"Mass-matrix differential-algebraic equation formulation for transient stability simulation."
+arXiv preprint arXiv:2008.03883, 2020.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cellier2006continuous"></a>[cellier2006continuous]
+Cellier, François E., and Ernesto Kofman.
+"Continuous system simulation".
+Boston, MA: Springer US, 2006.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="hairer2006numerical"></a>[hairer2006numerical]
+Hairer, Ernst, Christian Lubich, and Michel Roche.
+"The numerical solution of differential-algebraic systems by Runge-Kutta methods".
+Vol. 1409. Springer, 2006.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cellier1993automated"></a>[cellier1993automated]
+Cellier, Francois E., and Hilding Elmqvist.
+"Automated formula manipulation supports object-oriented continuous-system modeling".
+IEEE Control Systems Magazine 13.2 (1993): 28-38.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. Stolen from <a href="https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations" class="bare">https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations</a>
+<a href="#_footnoteref_1">1</a>. Source: <a href="https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations" class="bare">https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations</a>
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. From <a href="#cellier2006continuous">[cellier2006continuous]</a>, p. 285.
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. e.g. by using Pantelides algorithm, see <a href="#cellier1993automated">[cellier1993automated]</a>
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
