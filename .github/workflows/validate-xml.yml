@@ -18,8 +18,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Validate with schema-validation-action
-        uses: cardinalby/schema-validator-action@v3
+      - name: Validate XSD manifest
+        uses: phpcsstandards/xmllint-validate@v1
         with:
-          schema: 'schema/fmi3LayeredStandardDaeManifest.xsd'
-          file: 'examples/**/*.xml'
+          pattern: schema/fmi3LayeredStandardDaeManifest.xsd
+          xsd-url: https://www.w3.org/2012/04/XMLSchema.xsd
+
+      - name: Validate XML examples
+        uses: phpcsstandards/xmllint-validate@v1
+        with:
+          patern: 'examples/**/*.xml'
+          xsd-file: 'schema/fmi3LayeredStandardDaeManifest.xsd'
