@@ -32,4 +32,6 @@ include::1____introduction.adoc[]
 
 include::2____common_concepts.adoc[]
 
+include::3___layeredManifest.adoc[]
+
 include::4____literature.adoc[]

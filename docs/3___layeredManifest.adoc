@@ -1,0 +1,230 @@
+== Layered Standard Manifest File [[layered-standard-manifest-file]]
+
+This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`. 
+
+An example of a manifest file for this layered standard is shown below:
+
+[source, xml]
+----
+include::../examples/fmi-ls-manifest-example.xml[]
+----
+
+[Add figure here] shows the root element `fmiLayeredStandardManifest`.
+
+Two additional elements - `<AlgebraicVariables>` and `<ModelStructure>` - are included in the layered standard manifest file to describe the DAE formulation. 
+
+.`fmiModelDescription` element details.
+[[table-schema-fmiModelDescription]]
+[cols="1,3",options="header"]
+|====
+|Element
+|Description
+
+|<<AlgebraicVariables>>
+|Ordered list of all <<algebraic,algebraic variables>> exposed for the DAE formulation.
+
+|<<ModelStructure>>
+|Defines the structure of the DAE formulation for the model.
+Especially, the ordered lists of <<output,`outputs`>>, continuous-time <<state,states>>, <<residuals, `residuals`>>, and the initial unknowns (the unknowns during <<InitializationMode>>) are *re*-defined and overwrite the corresponding `<ModelStructure>` present in the `modelDescription.xml`.
+Furthermore, the dependency of the unknowns from the knowns (as described in <<model-dependencies>>) can be optionally defined for <<output,`outputs`>>, continuous-time <<state,states>> and initial unknowns.
+
+|<<Annotations>>
+|Optional annotations for the top-level element.
+
+|====
+
+The XML attributes of `<fmiLayeredStandardManifest>` are:
+
+.`<fmiLayeredStandardManifest>`` attribute details.
+[[table-schema-fmi-ls-dae-attributes]]
+[cols="1,1,1,2",options="header"]
+|====
+|Attribute
+|Namespace
+|Value
+|Description
+
+|`fmi-ls-name`
+|`\http://fmi-standard.org/fmi-ls-manifest`
+|`org.fmi-standard.fmi-ls-dae`
+|Name of the layered standard in reverse domain name notation.
+
+|`fmi-ls-version`
+|`\http://fmi-standard.org/fmi-ls-manifest`
+|`0.0.1`
+|Version of the layered standard. This layered standard uses semantic versioning, as defined in <<PW13>>.
+
+|`fmi-ls-description`
+|`\http://fmi-standard.org/fmi-ls-manifest`
+|`Layered standard for DAE support in FMI`
+|String with a brief description of the layered standard that is suitable for display to users.
+|====
+
+=== Algebraic variables [[AlgebraicVariables, `<AlgebraicVariables>`]]
+The element `<AlgebraicVariables>` defines the ordered list of the algebraic variables.
+
+.AlgebraicVariables elements.
+[[table-algebraicvariables-details]]
+[cols="1,5a", options="header"]
+|====
+|Element
+|Description
+
+|`AlgebraicVariable`
+|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml. This list must be the same size as the number of `<<Residual>>` elements.
+|====
+
+Each `<<AlgebraicVariable>>` has only one attribute defining the value reference.
+
+.Attributes to <<AlgebraicVariable>> element.
+[[table-alg-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`valueReference`
+|The value reference for the algebraic variable present in the `ModelVariables` of the modelDescription.xml.
+|====
+
+=== Model Structure [[ModelStructure,`<ModelStructure>`]]
+
+The structure of the model for the DAE-formulation is defined in element `<ModelStructure>`.
+It defines the <<model-dependencies,dependencies>> between variables. The `<ModelStructure>` element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables. 
+
+An FMU that follows this layered standard must expose all residuals in order in <<Residual>>. 
+
+It should be noted that the ModelStructure below is not a straight extension of the ModelStructure from the core standard, since it e.g. does not specify how the elements `ClockedState` or `EventIndicator` are affected by the DAE-formulation. That is also why some elements in <<table-model-structure-elements>> are defined in a similar way to the core standard, with the exception that references to concepts in co-simulation, clocks, and events are excluded. Moreover, notes and examples that are already present in the core standard are omitted here.
+
+Similar to the `ModelStructure` from the core FMI-standard, the optional part of the model structure defines in which way <<derivative,`derivatives`>>, <<output,`outputs`>>, and initial unknowns depend on <<input,`inputs`>> and/or <<parameter,`parameters`>>, and continuous-time <<state,states>>. Therefore the concepts from Model Exchange in the core-standard that are applicable to the DAE-formulation are repeated. The unknowns are extended with the <<Residual>> element, and each unknown can now also depend on <<AlgebraicVariables>>. 
+
+.ModelStructure elements.
+[#table-model-structure-elements]
+[cols="1,5a",options="header"]
+|====
+|Element
+|Description
+
+|`Output`
+|[[Output,`<Output>`]]
+Ordered list of all outputs, in other words, a list of value references where every corresponding variable must have <<causality>> = <<output>> (and every variable with <<causality>> = <<output>> must be listed here).
+Attribute <<dependencies>> defines the dependencies of the <<output,`outputs`>> from the knowns after the <<InitializationMode>>.
+The functional dependency is defined as: +
+latexmath:[{(\mathbf{y}_c, \mathbf{y}_d) := \mathbf{f}_{\mathit{output}}(\mathbf{x}_c, , \mathbf{z}_c, \mathbf{u}_c, \mathbf{u}_d, t, \mathbf{p})}]
+
+|`ContinuousStateDerivative`
+|[[ContinuousStateDerivative,`<ContinuousStateDerivative>`]]
+Ordered list of value references of all derivatives of continuous <<state,states>>.
+The order defined by this list defines the order of the elements for <<fmi3GetContinuousStates>>, <<fmi3SetContinuousStates>>, and <<fmi3GetContinuousStateDerivatives>>.
+
+The corresponding continuous-time <<state,states>> are defined by attribute <<derivative>> of the corresponding variable state-derivative element.
+
+The functional dependency is defined as: +
+latexmath:[{\dot{\mathbf{x}}_c := \mathbf{f}_{\mathit{der}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, \mathbf{u}_d, t, \mathbf{p})}]
+
+|`Residual`
+|[[Residual,`<Residual>`]]
+Ordered list of value references of all residual equations (constraints).
+
+The functional dependency is defined as: +
+latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, t, \mathbf{p})}]
+
+|`InitialUnknown`
+a|
+[[InitialUnknown,`<InitialUnknown>`]]
+Ordered list of all exposed unknowns in <<InitializationMode>>.
+This list consists of all variables which:
+
+* are not <<clocked-variable,clocked variables>> and have <<causality>> = <<output>> (with <<initial>> = <<approx>> or <<calculated>>), or
+* have <<causality>> = <<calculatedParameter>>, or
+* are continuous-time <<state,states>> or state derivatives (defined with elements <<ContinuousStateDerivative>>) with <<initial>> = <<approx>> or <<calculated>>, or
+* are <<algebraic-variable,algebraic variables>> that the FMU wishes to initialize in initialization mode.
+
+The resulting list is not allowed to have duplicates (for example, if a <<state>> is also an <<output>>, it is included only once in the list). +
+Attribute <<dependencies>> defines the dependencies of the unknowns from the knowns in <<InitializationMode>>.
+The functional dependency is defined as:
+
+latexmath:[{\mathbf{v}_{\mathit{initialUnknowns}} := \mathbf{f}_{\mathit{init}}(\mathbf{u}_c, \mathbf{u}_d, t_{\mathit{start}}, \mathbf{v}_{\mathit{initial=exact}})}]
+
+Since, <<output,`outputs`>>, continuous-time <<state,states>> and state derivatives are either present as knowns (if <<initial>> = <<exact>>) or as unknowns (if <<initial>> = <<approx>> or <<calculated>>), they can be inquired with <<get-and-set-variable-values,`fmi3Get{VariableType}`>> in <<InitializationMode>>.
+|====
+
+Elements <<Output>>, <<ContinuousStateDerivative>>, <<Residual>>, and <<InitialUnknown>> have (partially) the following attributes:
+
+.<<Output>>, <<ContinuousStateDerivative>>, <<Residual>>, and <<InitialUnknown>> common attributes details.
+[[table-output-der-res-initialUnknown-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`valueReference`
+|The value reference of the unknown latexmath:[{v_{\mathit{unknown}}}].
+
+|`dependencies`
+|
+[[dependencies,`dependencies`]]
+Optional attribute defining the algebraic dependencies as list of value references of the unknown latexmath:[{\mathbf{v}_{\mathit{unknown}}}] directly with respect to latexmath:[{\mathbf{v}_{\mathit{known}}}].
+For a real valued unknown and a real valued known, if the known is not listed among the dependencies then the partial derivative of the unknown with respect to that known is identically zero.
+If dependencies is not present, it must be assumed that the unknown depends on all knowns.
+If dependencies is present as empty list, the unknown depends on none of the knowns.
+
+Otherwise the unknown depends on the knowns defined by the given value references.
+
+Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in <<ContinuousTimeMode>> (ME) for <<Output>>, <<ContinuousStateDerivative>> and <<Residual>> elements are: +
+
+* inputs (variables with <<causality>> = <<input>>),
+
+* continuous states,
+
+* parameters (variables with <<causality>> = <<parameter>>),
+
+* algebraic variables (variables listed in the `<<AlgebraicVariables>>` element)
+
+* <<independent>> variable (usually time; <<causality>> = <<independent>>).
+
+Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in <<InitializationMode>> (for elements <<InitialUnknown>>) are:
+
+* inputs (variables with <<causality>> = <<input>>),
+
+* variables with <<initial>> = <<exact>>,
+
+* algebraic variables (variables listed in the `<<AlgebraicVariables>>` element)
+
+* <<independent>> variable (usually time; <<causality>> = <<independent>>).
+
+|`dependenciesKind`
+|
+[[dependenciesKind, `dependenciesKind`]]
+If <<dependenciesKind>> is present, <<dependencies>> must be present and must have the same number of list elements.
+If <<dependenciesKind>> is not present, it must be assumed that the unknown latexmath:[{\mathbf{v}_{\mathit{unknown}}}] depends on the knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] without a particular structure.
+Otherwise, the corresponding known latexmath:[{\mathbf{v}_{\mathit{known},i}}] enters the equation as:
+
+`= dependent`: no particular structure, latexmath:[{{\mathbf{f}(..,\ \mathbf{v}}_{\mathit{known},i}},..)]
+
+The following <<dependenciesKind>> is only allowed for floating point latexmath:[{\mathbf{v}_{\mathit{unknown}}}]:
+
+`=` <<constant>>: constant factor, latexmath:[{\mathbf{c} \cdot \mathbf{v}_{\mathit{known},i}}] where latexmath:[\mathbf{c}] is an expression that is evaluated before <<fmi3EnterInitializationMode>> is called.
+
+The following <<dependenciesKind>> is only allowed for floating point latexmath:[{\mathbf{v}_{\mathit{unknown}}}] in <<ContinuousTimeMode>> (ME), and not for <<InitialUnknown>> for <<InitializationMode>>:
+
+`=` <<fixed>>: fixed factor, latexmath:[{\mathbf{p} \cdot \mathbf{v}_{\mathit{known},i}}] where latexmath:[\mathbf{p}] is an expression that is evaluated before <<fmi3ExitInitializationMode>> is called.
+
+`=` <<tunable>>: tunable factor, latexmath:[{\mathbf{p} \cdot \mathbf{v}_{\mathit{known},i}}] where latexmath:[\mathbf{p}] is an expression that is evaluated before <<fmi3ExitInitializationMode>> is called and in <<EventMode>> or at a communication point (ME and CS) due to a change of a <<tunable>> parameter.
+
+`=` <<discrete>>: discrete factor, latexmath:[{\mathbf{d} \cdot \mathbf{v}_{\mathit{known},i}}] where latexmath:[\mathbf{d}] is an expression that is evaluated before <<fmi3ExitInitializationMode>>.
+|====
+
+An additional attribute specifying the index must also be present for the `<<Residual>>` element.
+
+.Unique attribute to <<Residual>> element.
+[[table-res-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`index`
+|The index of the residual.
+|====
+

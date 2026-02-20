@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiLayeredStandardManifest
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://fmi-standard.org/fmi-ls-manifest ../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xmlns="http://fmi-standard.org/fmi-ls-manifest"
+  xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+  fmi-ls:fmi-ls-name="fmi-ls-dae"
+  fmi-ls:fmi-ls-version="0.1"
+  fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI">
+  <AlgebraicVariables>
+    <AlgebraicVariable
+      valueReference="889192448"/>
+    <AlgebraicVariable
+      valueReference="889192449"/>
+  </AlgebraicVariables>
+  <ModelStructure>
+    <ContinuousStateDerivative
+      valueReference="1124073472"
+      dependencies="33554432 33554433 889192448 889192449 620756992"
+      dependenciesKind="dependent dependent dependent dependent dependent"/>
+    <ContinuousStateDerivative
+      valueReference="1124073473"
+      dependencies="33554432 33554433 889192448 889192449 620756992"
+      dependenciesKind="dependent dependent dependent dependent dependent"/>
+    <Residual
+      valueReference="1409286144"
+      dependencies="889192448 889192449"
+      dependenciesKind="dependent dependent"
+	  index="1"/>
+    <Residual
+      valueReference="1409286145"
+      dependencies="33554432 33554433 889192448 889192449"
+      dependenciesKind="dependent dependent dependent dependent"
+	  index="1"/>
+    <Output
+      valueReference="603979776"
+      dependencies="889192449"
+      dependenciesKind="dependent"/>
+    <Output
+      valueReference="603979777"
+      dependencies="889192448"
+      dependenciesKind="dependent"/>
+  </ModelStructure>
+</fmiLayeredStandardManifest>
