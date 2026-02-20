@@ -1,0 +1,25 @@
+name: Validate XML manifests
+
+on:
+  push:
+    paths:
+      - 'examples/**/*.xml'
+      - 'schema/**'
+  pull_request:
+    paths:
+      - 'examples/**/*.xml'
+      - 'schema/**'
+
+jobs:
+  validate:
+    name: Validate XML against XSD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate with schema-validation-action
+        uses: cardinalby/schema-validator-action@v3
+        with:
+          schema: schema/fmi3LayeredStandardDaeManifest.xsd
+          files: examples/**/*.xml
