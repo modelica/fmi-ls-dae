@@ -27,5 +27,5 @@ jobs:
       - name: Validate XML examples
         uses: phpcsstandards/xmllint-validate@v1
         with:
-          patern: 'examples/**/*.xml'
+          pattern: 'examples/**/*.xml'
           xsd-file: 'schema/fmi3LayeredStandardDaeManifest.xsd'
