@@ -25,13 +25,11 @@
     <Residual
       valueReference="1409286144"
       dependencies="889192448 889192449"
-      dependenciesKind="dependent dependent"
-	  index="1"/>
+      dependenciesKind="dependent dependent"/>
     <Residual
       valueReference="1409286145"
       dependencies="33554432 33554433 889192448 889192449"
-      dependenciesKind="dependent dependent dependent dependent"
-	  index="1"/>
+      dependenciesKind="dependent dependent dependent dependent"/>
     <Output
       valueReference="603979776"
       dependencies="889192449"

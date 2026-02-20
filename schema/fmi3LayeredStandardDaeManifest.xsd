@@ -41,4 +41,44 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<xs:attribute ref="fmi-ls:fmi-ls-description" use="required" fixed="Layered standard for DAE support in FMI"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:sequence>
+	<xs:element name="AlgebraicVariables" minOccurs="0">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AlgebraicVariable" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="valueReference" type="xs:unsignedLong" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ModelStructure" minOccurs="0">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ContinuousStateDerivative" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="valueReference" type="xs:unsignedLong" use="required"/>
+						<xs:attribute name="dependencies" type="xs:string" use="optional"/>
+						<xs:attribute name="dependenciesKind" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Residual" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="valueReference" type="xs:unsignedLong" use="required"/>
+						<xs:attribute name="dependencies" type="xs:string" use="optional"/>
+						<xs:attribute name="dependenciesKind" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Output" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="valueReference" type="xs:unsignedLong" use="required"/>
+						<xs:attribute name="dependencies" type="xs:string" use="optional"/>
+						<xs:attribute name="dependenciesKind" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:sequence>
 </xs:schema>
