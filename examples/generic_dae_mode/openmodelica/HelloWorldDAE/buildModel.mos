@@ -1,0 +1,13 @@
+// Simulate ODE
+loadFile("HelloWorldDAE.mo"); getErrorString();
+
+mkdir("HelloWorldDAE_ODE"); getErrorString();
+cd("HelloWorldDAE_ODE"); getErrorString();
+simulate(HelloWorldDAE, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+// Simulate DAE
+setCommandLineOptions("--daeMode"); getErrorString();
+mkdir("HelloWorldDAE_DAE"); getErrorString();
+cd("HelloWorldDAE_DAE"); getErrorString();
+simulate(HelloWorldDAE, method="ida"); getErrorString();

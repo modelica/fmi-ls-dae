@@ -6,6 +6,7 @@ docs/stem-*.svg
 
 # PyCharm projects
 .idea/
+.venv/
 
 # schema figure generator
 xsddiagram/

@@ -1,0 +1,19 @@
+// Export base Modelica
+setCommandLineOptions(" --baseModelica --modelicaOutput"); getErrorString();
+writeFile("CauerLowPassAnalog.bmo", OpenModelica.Scripting.instantiateModel(Modelica.Electrical.Analog.Examples.CauerLowPassAnalog)); getErrorString();
+clearDebugFlags(); getErrorString();
+
+// Build ODE
+loadFile("CauerLowPassAnalog.bmo"); getErrorString();
+setCommandLineOptions("-d=bltdump"); getErrorString();
+
+mkdir("CauerLowPassAnalog_ODE"); getErrorString();
+cd("CauerLowPassAnalog_ODE"); getErrorString();
+buildModel(Modelica.Electrical.Analog.Examples.CauerLowPassAnalog); getErrorString();
+cd(".."); getErrorString();
+
+// Build DAE
+setCommandLineOptions("--daeMode"); getErrorString();
+mkdir("CauerLowPassAnalog_DAE"); getErrorString();
+cd("CauerLowPassAnalog_DAE"); getErrorString();
+buildModel(Modelica.Electrical.Analog.Examples.CauerLowPassAnalog); getErrorString();

@@ -1,0 +1,85 @@
+installPackage(Modelica,
+               version = "4.1.0+maint.om",
+               exactMatch = true); getErrorString();
+installPackage(ScalableTestSuite,
+               version = "2.2.0",
+               exactMatch = true); getErrorString();
+
+loadModel(ModelicaServices, {"4.1.0+maint.om"}); getErrorString();
+loadModel(Complex, {"4.1.0+maint.om"}); getErrorString();
+loadModel(Modelica, {"4.1.0+maint.om"}); getErrorString();
+loadModel(ScalableTestSuite, {"2.2.0"}); getErrorString();
+
+// ODE simulation
+mkdir("TransmissionLine_ODE"); getErrorString();
+cd("TransmissionLine_ODE"); getErrorString();
+
+mkdir("N_10"); getErrorString(); cd("N_10"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_20"); getErrorString(); cd("N_20"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_20, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_40"); getErrorString(); cd("N_40"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_40, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_80"); getErrorString(); cd("N_80"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_80, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_160"); getErrorString(); cd("N_160"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_160, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_320"); getErrorString(); cd("N_320"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_320, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_640"); getErrorString(); cd("N_640"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_640, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_1280"); getErrorString(); cd("N_1280"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280, method="ida"); getErrorString();
+cd(".."); getErrorString();
+
+// DAE simulation
+setCommandLineOptions("--daeMode"); getErrorString();
+cd(".."); getErrorString();
+mkdir("TransmissionLine_DAE"); getErrorString();
+cd("TransmissionLine_DAE"); getErrorString();
+
+mkdir("N_10"); getErrorString(); cd("N_10"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_20"); getErrorString(); cd("N_20"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_20, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_40"); getErrorString(); cd("N_40"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_40, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_80"); getErrorString(); cd("N_80"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_80, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_160"); getErrorString(); cd("N_160"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_160, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_320"); getErrorString(); cd("N_320"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_320, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_640"); getErrorString(); cd("N_640"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_640, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
+
+mkdir("N_1280"); getErrorString(); cd("N_1280"); getErrorString();
+simulate(ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280, method="ida", simflags="-daeMode"); getErrorString();
+cd(".."); getErrorString();
