@@ -10,6 +10,8 @@
         "asciidoctor-mathematical",
         "-a",
         "mathematical-format=svg",
+        "-a",
+        "source-highlighter=rouge",
         "--base-dir",
         "${workspaceFolder}/docs",
         "--destination-dir",
@@ -36,7 +38,7 @@
     {
       "label": "build-doc-docker-pdf",
       "type": "shell",
-      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor-pdf -r asciidoctor-mathematical -a mathematical-format=svg --base-dir /documents/docs --destination-dir /documents/build/pdf --failure-level WARN --verbose docs/index.adoc",
+      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor-pdf -r asciidoctor-mathematical -a source-highlighter=rouge -a mathematical-format=svg --base-dir /documents/docs --destination-dir /documents/build/pdf --failure-level WARN --verbose docs/index.adoc",
       "group": {
         "kind": "build",
         "isDefault": true
