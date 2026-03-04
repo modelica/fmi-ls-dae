@@ -479,8 +479,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 71b0a03,</span>
-<span id="revdate">2026-02-20</span>
+<span id="revnumber">version 48ad744,</span>
+<span id="revdate">2026-03-04</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -516,6 +516,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#hello-world-dae-example">Hello World DAE Example</a>
+<ul class="sectlevel4">
+<li><a href="#helloworlddae-fully-implicit-dae">HelloWorldDAE - Fully-Implicit DAE</a></li>
+<li><a href="#helloworlddae-semi-explicit-dae">HelloWorldDAE - Semi-Explicit DAE</a></li>
+<li><a href="#helloworlddae-explicit-ode">HelloWorldDAE - Explicit ODE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#use-cases">3. Use Cases</a>
+<ul class="sectlevel2">
+<li><a href="#generic-dae-use-case">3.1. Generic DAE Use Case</a>
+<ul class="sectlevel3">
+<li><a href="#modelica-example-cauerlowpassanalog">3.1.1. Modelica Example CauerLowPassAnalog</a></li>
+<li><a href="#scaling-power-grids-example">3.1.2. Scaling Power Grids Example</a></li>
 </ul>
 </li>
 </ul>
@@ -857,7 +874,6 @@ v_R &amp;= R \cdot i_0 \\
 i_1 &amp;= C_1 \cdot \dot{v_1} \\
 i_2 &amp;= C_2 \cdot \dot{v_2} \\
 v_0 &amp;= v_R + v_1 \\
-\label{constraintEquationExampleCellier}
 v_2 &amp;= v_1 \\
 i_0 &amp;= i_1 + i_2
 \end{split}\]
@@ -865,16 +881,311 @@ i_0 &amp;= i_1 + i_2
 </div>
 <div class="paragraph">
 <p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as
-state variables equation \(\eqref{constraintEquationExampleCellier}\)
+state variables equation \(v_2 = v_1\)
 has no unknowns left, so it is a <em>constraint equation</em>.</p>
 </div>
 <div class="paragraph">
 <p>There are different ways to solve this. The modeler could change the causality
 or exporting tools can try to reduce the perturbation index symbolically
-<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> to
-end up with a consistent initialization for the system.</p>
+<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>
+to end up with a consistent initialization for the system.</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="hello-world-dae-example">Hello World DAE Example</h4>
+<div class="paragraph">
+<p>A simple initial-value problem</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp;= y   \\
+y + 2 z &amp;= x   \\
+y - 3 z &amp;= 2 x
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with variables \(x,y,z \in \mathbb{R}\) and start condition</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{pmatrix}
+x(t_0) \\
+y(t_0) \\
+z(t_0) \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_0 \\
+y_0 \\
+z_0 \\
+\end{pmatrix} \; \text{and} \;
+\dot{x}(t_0) = \dot{x}_0\]
+</div>
+</div>
+<div class="paragraph">
+<p>at time \(t_0\).
+For this specific example a start condition \(x_0\) is sufficient to
+calculate consistent start values.
+The independent variable (usually time) \(t\) is omitted for simplicity.</p>
+</div>
+<div class="sect4">
+<h5 id="helloworlddae-fully-implicit-dae">HelloWorldDAE - Fully-Implicit DAE</h5>
+<div class="paragraph">
+<p>The fully-implicit representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}, x, t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>is given by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F: \mathbb{R}^{3 \times 3 \times 1} \to \mathbb{R}^{3},
+\begin{pmatrix}
+x \\
+\dot{x} \\
+t
+\end{pmatrix}
+\mapsto
+\begin{pmatrix}
+\dot{x_1}   - x_2   \\
+x_2 + 2 x_3 - x_1   \\
+x_2 - 3 x_3 - 2 x_1
+\end{pmatrix}\]
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="helloworlddae-semi-explicit-dae">HelloWorldDAE - Semi-Explicit DAE</h5>
+<div class="paragraph">
+<p>The semi-explicit representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp; = f(x, y, t) \\
+      0 &amp; = g(x, y, t)
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>is given by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+f: \mathbb{R}^{1 \times 2 \times 1} \to \mathbb{R}^{1},
+&amp;(x,y,t) \mapsto
+\begin{pmatrix}
+y_1
+\end{pmatrix}
+ \\
+g: \mathbb{R}^{1 \times 2 \times 2} \to \mathbb{R}^{1},
+&amp;(x,y,t) \mapsto
+\begin{pmatrix}
+y_1 + 2 y_2 - x   \\
+y_1 - 3 y_2 - 2 x
+\end{pmatrix}
+\end{split}\]
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="helloworlddae-explicit-ode">HelloWorldDAE - Explicit ODE</h5>
+<div class="paragraph">
+<p>This simple system could also be transformed into an explicit ODE formulation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp;= \frac{7}{5}x
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with local variables \(y\) and \(z\)</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+y       &amp;= \frac{7}{5}x   \\
+z       &amp;= -\frac{x}{5}
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>and exported as an ODE ModelExchange FMU.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use-cases">3. Use Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="generic-dae-use-case">3.1. Generic DAE Use Case</h3>
+<div class="paragraph">
+<p>There are a number of possible reasons to export a model as a system of
+differential-algebraic equations (DAE) instead of a system of ordinary
+differential equations (ODE):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The exporting tool doesn&#8217;t support methods to transform a DAE into ODE
+representation.</p>
+</li>
+<li>
+<p>The time needed to perform symbolic transformation to ODE representation takes
+a significant amount of time for large systems.</p>
+</li>
+<li>
+<p>Large system models are usually characterized by a high degree of sparsity.
+Some DAE solvers can utilize sparsity to reduce simulation time.</p>
+</li>
+<li>
+<p>More efficient simulation of models with large algebraic loops for DAE
+representation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="#braun2017solving">[braun2017solving]</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="modelica-example-cauerlowpassanalog">3.1.1. Modelica Example CauerLowPassAnalog</h4>
+<div class="paragraph">
+<p>The Modelica model
+<a href="#CauerLowPassAnalog">Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</a>
+from the Modelica Standard Library
+<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+</div>
+<div id="CauerLowPassAnalog" class="imageblock">
+<div class="content">
+<img src="images/CauerLowPassAnalog.png" alt="Modelica.Electrical.Analog.Examples.CauerLowPassAnalog">
+</div>
+<div class="title">Figure 2. Graphical representation of the Cauer low-pass-filter <code>Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</code>.</div>
+</div>
+<div class="paragraph">
+<p>has structural singularities.</p>
+</div>
+<div class="paragraph">
+<p>To produce a complete and consistent set of initial conditions for the DAE
+exporting tools usually use a symbolic index reduction algorithm.</p>
+</div>
+<div class="paragraph">
+<p>The model has nine state candidates</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>1: L1.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+2: L2.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+3: C2.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+4: C4.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+5: L1.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+6: L2.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+7: C1.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+8: C5.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+9: C3.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and four constraint equations</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>1: L2.v = C3.v - C5.v
+2: L1.v = C1.v - C3.v
+3: C4.v = L2.v
+4: C2.v = L1.v</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Modelica tools that want to export an ODE ModelExchange FMU need to reduce the
+perturbation index to index 1 to end up with an ODE representation of the DAE
+system.</p>
+</div>
+<div class="paragraph">
+<p>One option to achieve this is the so called dummy derivative method.
+From the set of state candidates five state variables are chosen (e.g.
+<code>C1.v</code>,<code>C3.v</code>,<code>C5.v</code>,<code>L1.i</code>,<code>L2.i</code>) and the constraint equations</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+C2.v &amp;= L1.v        \\
+L1.v &amp;= C1.v - C3.v \\
+C4.v &amp;= L2.v        \\
+L2.v &amp;= C3.v - C5.v
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>are differentiated</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\frac{d}{dt}C2.v &amp;= \frac{d}{dt}L1.v                    \\
+\frac{d}{dt}L1.v &amp;= \frac{d}{dt}C1.v - \frac{d}{dt}C3.v \\
+\frac{d}{dt}C4.v &amp;= \frac{d}{dt}L2.v                    \\
+\frac{d}{dt}L2.v &amp;= \frac{d}{dt}C3.v - \frac{d}{dt}C5.v
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>which results in four additional dummy states (<code>$DER.L1.v</code>, <code>$DER.L2.v</code>,
+<code>$DER.C2.v</code>, <code>$DER.C4.v</code>). Here Modelica keyword <code>stateSelect</code> influences how
+variables are picked.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="scaling-power-grids-example">3.1.2. Scaling Power Grids Example</h4>
+<div class="paragraph">
+<p>For simulation models representing power grids on nation or larger scale
+traditional ODE solvers may struggle with convergence and performance. Also the
+time needed to perform symbolic transformation from DAE to ODE is growing with
+the number of equations.</p>
+</div>
+<div class="paragraph">
+<p>See for example Modelica models
+<code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10</code>
+to <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280</code>
+from ScalableTestSuite
+<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ODE_vs_DAE_export_times.png" alt="Scaling of symbolic transformation">
+</div>
+</div>
+<div class="paragraph">
+<p>The simulation was performed using <code>OpenModelica v1.27-dev-92</code> with the
+following settings:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DAE export: <code>--daeMode</code></p>
+</li>
+<li>
+<p>Method: Sundials IDA <sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since OpenModelica does not support FMI 3.0 or FMI-LS-DAE at the time of
+writing, the export and simulation times were measured using OpenModelica&#8217;s
+default C export and simulation.</p>
 </div>
 </div>
 </div>
@@ -921,6 +1232,25 @@ Cellier, Francois E., and Hilding Elmqvist.
 "Automated formula manipulation supports object-oriented continuous-system modeling".
 IEEE Control Systems Magazine 13.2 (1993): 28-38.</p>
 </li>
+<li>
+<p><a id="braun2017solving"></a>[braun2017solving]
+Willi Braun, Francesco Casella, and Bernhard Bachmann.
+"Solving Large-Scale Modelica Models: New Approaches and Experimental Results Using OpenModelica".
+<em>Linköping Electronic Conference Proceedings (Print)</em>, pp. 557-563.
+Linköping University Electronic Press, 2017.
+<a href="https://re.public.polimi.it/bitstream/11311/1065357/1/2017-BraunCasellaBachmann.pdf" class="bare">https://re.public.polimi.it/bitstream/11311/1065357/1/2017-BraunCasellaBachmann.pdf</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="casella2015simulation"></a>[casella2015simulation]
+Casella, Francesco.
+"Simulation of Large-Scale Models in Modelica: State of the Art and Future Perspectives".
+Proceedings of the 11th International Modelica Conference, pp. 459-468, 2015.
+<a href="https://dx.doi.org/10.3384/ecp15118459" class="bare">https://dx.doi.org/10.3384/ecp15118459</a></p>
+</li>
 </ul>
 </div>
 </div>
@@ -936,6 +1266,15 @@ IEEE Control Systems Magazine 13.2 (1993): 28-38.</p>
 </div>
 <div class="footnote" id="_footnotedef_3">
 <a href="#_footnoteref_3">3</a>. e.g. by using Pantelides algorithm, see <a href="#cellier1993automated">[cellier1993automated]</a>
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. Modelica Standard Library version 4.1.0
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. <a href="https://github.com/casella/ScalableTestSuite" class="bare">https://github.com/casella/ScalableTestSuite</a>, see also <a href="#casella2015simulation">[casella2015simulation]</a>
+</div>
+<div class="footnote" id="_footnotedef_6">
+<a href="#_footnoteref_6">6</a>. <a href="https://computing.llnl.gov/projects/sundials/ida" class="bare">https://computing.llnl.gov/projects/sundials/ida</a>
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
