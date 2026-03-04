@@ -1,0 +1,116 @@
+:stem: latexmath
+
+=== Generic DAE Use Case
+
+There are a number of possible reasons to export a model as a system of
+differential-algebraic equations (DAE) instead of a system of ordinary
+differential equations (ODE):
+
+* The exporting tool doesn't support methods to transform a DAE into ODE
+  representation.
+* The time needed to perform symbolic transformation to ODE representation takes
+  a significant amount of time for large systems.
+* Large system models are usually characterized by a high degree of sparsity.
+  Some DAE solvers can utilize sparsity to reduce simulation time.
+* More efficient simulation of models with large algebraic loops for DAE
+  representation.
+
+See <<braun2017solving,[braun2017solving]>>.
+
+==== Modelica Example CauerLowPassAnalog
+
+The Modelica model
+<<CauerLowPassAnalog, Modelica.Electrical.Analog.Examples.CauerLowPassAnalog>>
+from the Modelica Standard Library
+footnote:[Modelica Standard Library version 4.1.0]
+
+[[CauerLowPassAnalog]]
+.Graphical representation of the Cauer low-pass-filter `Modelica.Electrical.Analog.Examples.CauerLowPassAnalog`.
+image::images/CauerLowPassAnalog.png[Modelica.Electrical.Analog.Examples.CauerLowPassAnalog]
+
+has structural singularities.
+
+To produce a complete and consistent set of initial conditions for the DAE
+exporting tools usually use a symbolic index reduction algorithm.
+
+The model has nine state candidates
+
+----
+1: L1.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+2: L2.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+3: C2.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+4: C4.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+5: L1.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+6: L2.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+7: C1.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+8: C5.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+9: C3.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+----
+
+and four constraint equations
+
+----
+1: L2.v = C3.v - C5.v
+2: L1.v = C1.v - C3.v
+3: C4.v = L2.v
+4: C2.v = L1.v
+----
+
+Modelica tools that want to export an ODE ModelExchange FMU need to reduce the
+perturbation index to index 1 to end up with an ODE representation of the DAE
+system.
+
+One option to achieve this is the so called dummy derivative method.
+From the set of state candidates five state variables are chosen (e.g.
+`C1.v`,`C3.v`,`C5.v`,`L1.i`,`L2.i`) and the constraint equations
+
+[latexmath]
+++++
+\begin{split}
+C2.v &= L1.v        \\
+L1.v &= C1.v - C3.v \\
+C4.v &= L2.v        \\
+L2.v &= C3.v - C5.v
+\end{split}
+++++
+
+are differentiated
+
+[latexmath]
+++++
+\begin{split}
+\frac{d}{dt}C2.v &= \frac{d}{dt}L1.v                    \\
+\frac{d}{dt}L1.v &= \frac{d}{dt}C1.v - \frac{d}{dt}C3.v \\
+\frac{d}{dt}C4.v &= \frac{d}{dt}L2.v                    \\
+\frac{d}{dt}L2.v &= \frac{d}{dt}C3.v - \frac{d}{dt}C5.v
+\end{split}
+++++
+
+which results in four additional dummy states (`$DER.L1.v`, `$DER.L2.v`,
+`$DER.C2.v`, `$DER.C4.v`). Here Modelica keyword `stateSelect` influences how
+variables are picked.
+
+==== Scaling Power Grids Example
+
+For simulation models representing power grids on nation or larger scale
+traditional ODE solvers may struggle with convergence and performance. Also the
+time needed to perform symbolic transformation from DAE to ODE is growing with
+the number of equations.
+
+See for example Modelica models
+`ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10`
+to `ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280`
+from ScalableTestSuite
+footnote:[https://github.com/casella/ScalableTestSuite, see also <<casella2015simulation,[casella2015simulation]>>].
+
+image::images/ODE_vs_DAE_export_times.png[Scaling of symbolic transformation]
+
+The simulation was performed using `OpenModelica v1.27-dev-92` with the
+following settings:
+
+* DAE export: `--daeMode`
+* Method: Sundials IDA footnote:[https://computing.llnl.gov/projects/sundials/ida]
+
+Since OpenModelica does not support FMI 3.0 or FMI-LS-DAE at the time of
+writing, the export and simulation times were measured using OpenModelica's
+default C export and simulation.

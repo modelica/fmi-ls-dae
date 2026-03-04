@@ -54,3 +54,32 @@
   Cellier, Francois E., and Hilding Elmqvist.
   "Automated formula manipulation supports object-oriented continuous-system modeling".
   IEEE Control Systems Magazine 13.2 (1993): 28-38.
+// @inproceedings{braun2017solving,
+//   title={Solving large-scale Modelica models: new approaches and experimental results using OpenModelica},
+//   author={Braun, Willi and Casella, Francesco and Bachmann, Bernhard and others},
+//   booktitle={LINK{\"O}PING ELECTRONIC CONFERENCE PROCEEDINGS (PRINT)},
+//   pages={557--563},
+//   year={2017},
+//   organization={Linkoping University Electronic Press}
+// }
+
+* [[[braun2017solving]]]
+  Willi Braun, Francesco Casella, and Bernhard Bachmann.
+  "Solving Large-Scale Modelica Models: New Approaches and Experimental Results Using OpenModelica".
+  _Linköping Electronic Conference Proceedings (Print)_, pp. 557-563.
+  Linköping University Electronic Press, 2017.
+  https://re.public.polimi.it/bitstream/11311/1065357/1/2017-BraunCasellaBachmann.pdf
+
+// @inproceedings{casella2015simulation,
+//   title={Simulation of large-scale models in modelica: State of the art and future perspectives},
+//   author={Casella, Francesco and others},
+//   booktitle={Link{\"o}ping electronic conference proceedings},
+//   pages={459--468},
+//   year={2015}
+// }
+
+* [[[casella2015simulation]]]
+  Casella, Francesco.
+  "Simulation of Large-Scale Models in Modelica: State of the Art and Future Perspectives".
+  Proceedings of the 11th International Modelica Conference, pp. 459-468, 2015.
+  https://dx.doi.org/10.3384/ecp15118459

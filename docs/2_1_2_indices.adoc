@@ -1,5 +1,4 @@
 :stem: latexmath
-:eqnums:
 
 [indices]
 ==== Indices
@@ -60,20 +59,16 @@ v_R &= R \cdot i_0 \\
 i_1 &= C_1 \cdot \dot{v_1} \\
 i_2 &= C_2 \cdot \dot{v_2} \\
 v_0 &= v_R + v_1 \\
-\label{constraintEquationExampleCellier}
 v_2 &= v_1 \\
 i_0 &= i_1 + i_2
 \end{split}
 ++++
 
 When both capacitive voltages latexmath:[v_1] and latexmath:[v_2] are chosen as
-state variables equation latexmath:[\eqref{constraintEquationExampleCellier}]
+state variables equation latexmath:[v_2 = v_1]
 has no unknowns left, so it is a _constraint equation_.
 
 There are different ways to solve this. The modeler could change the causality
 or exporting tools can try to reduce the perturbation index symbolically
-footnote:[e.g. by using Pantelides algorithm, see <<cellier1993automated>>] to
-end up with a consistent initialization for the system.
-
-// Disable equation numbering again
-:eqnums: none
+footnote:[e.g. by using Pantelides algorithm, see <<cellier1993automated>>]
+to end up with a consistent initialization for the system.

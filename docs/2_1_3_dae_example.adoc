@@ -1,0 +1,121 @@
+:stem: latexmath
+
+
+[dae-example]
+==== Hello World DAE Example
+
+A simple initial-value problem
+[latexmath]
+++++
+\begin{split}
+\dot{x} &= y   \\
+y + 2 z &= x   \\
+y - 3 z &= 2 x
+\end{split}
+++++
+
+with variables latexmath:[x,y,z \in \mathbb{R}] and start condition
+
+[latexmath]
+++++
+\begin{pmatrix}
+x(t_0) \\
+y(t_0) \\
+z(t_0) \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_0 \\
+y_0 \\
+z_0 \\
+\end{pmatrix} \; \text{and} \;
+\dot{x}(t_0) = \dot{x}_0
+++++
+
+at time latexmath:[t_0].
+For this specific example a start condition latexmath:[x_0] is sufficient to
+calculate consistent start values.
+The independent variable (usually time) latexmath:[t] is omitted for simplicity.
+
+===== HelloWorldDAE - Fully-Implicit DAE
+
+The fully-implicit representation
+[latexmath]
+++++
+F(\dot{x}, x, t) = 0
+++++
+
+is given by
+
+[latexmath]
+++++
+F: \mathbb{R}^{3 \times 3 \times 1} \to \mathbb{R}^{3},
+\begin{pmatrix}
+x \\
+\dot{x} \\
+t
+\end{pmatrix}
+\mapsto
+\begin{pmatrix}
+\dot{x_1}   - x_2   \\
+x_2 + 2 x_3 - x_1   \\
+x_2 - 3 x_3 - 2 x_1
+\end{pmatrix}
+++++
+
+===== HelloWorldDAE - Semi-Explicit DAE
+
+The semi-explicit representation
+
+[latexmath]
+++++
+\begin{split}
+\dot{x} & = f(x, y, t) \\
+      0 & = g(x, y, t)
+\end{split}
+++++
+
+is given by
+
+[latexmath]
+++++
+\begin{split}
+f: \mathbb{R}^{1 \times 2 \times 1} \to \mathbb{R}^{1},
+&(x,y,t) \mapsto
+\begin{pmatrix}
+y_1
+\end{pmatrix}
+ \\
+g: \mathbb{R}^{1 \times 2 \times 2} \to \mathbb{R}^{1},
+&(x,y,t) \mapsto
+\begin{pmatrix}
+y_1 + 2 y_2 - x   \\
+y_1 - 3 y_2 - 2 x
+\end{pmatrix}
+\end{split}
+++++
+
+===== HelloWorldDAE - Explicit ODE
+
+
+This simple system could also be transformed into an explicit ODE formulation
+
+
+[latexmath]
+++++
+\begin{split}
+\dot{x} &= \frac{7}{5}x
+\end{split}
+++++
+
+with local variables latexmath:[y] and latexmath:[z]
+
+[latexmath]
+++++
+\begin{split}
+y       &= \frac{7}{5}x   \\
+z       &= -\frac{x}{5}
+\end{split}
+++++
+
+and exported as an ODE ModelExchange FMU.
