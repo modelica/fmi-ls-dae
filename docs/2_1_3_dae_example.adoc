@@ -37,7 +37,7 @@ For this specific example a start condition latexmath:[x_0] is sufficient to
 calculate consistent start values.
 The independent variable (usually time) latexmath:[t] is omitted for simplicity.
 
-===== HelloWorldDAE - Fully-Implicit DAE
+===== Hello World DAE - Fully-Implicit DAE
 
 The fully-implicit representation
 [latexmath]
@@ -49,7 +49,7 @@ is given by
 
 [latexmath]
 ++++
-F: \mathbb{R}^{3 \times 3 \times 1} \to \mathbb{R}^{3},
+F: \mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R} \to \mathbb{R}^3,
 \begin{pmatrix}
 x \\
 \dot{x} \\
@@ -63,7 +63,7 @@ x_2 - 3 x_3 - 2 x_1
 \end{pmatrix}
 ++++
 
-===== HelloWorldDAE - Semi-Explicit DAE
+===== Hello World DAE - Semi-Explicit DAE
 
 The semi-explicit representation
 
@@ -80,13 +80,13 @@ is given by
 [latexmath]
 ++++
 \begin{split}
-f: \mathbb{R}^{1 \times 2 \times 1} \to \mathbb{R}^{1},
+f: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
 &(x,y,t) \mapsto
 \begin{pmatrix}
 y_1
 \end{pmatrix}
  \\
-g: \mathbb{R}^{1 \times 2 \times 2} \to \mathbb{R}^{1},
+g: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
 &(x,y,t) \mapsto
 \begin{pmatrix}
 y_1 + 2 y_2 - x   \\
@@ -95,7 +95,7 @@ y_1 - 3 y_2 - 2 x
 \end{split}
 ++++
 
-===== HelloWorldDAE - Explicit ODE
+===== Hello World DAE - Explicit ODE
 
 
 This simple system could also be transformed into an explicit ODE formulation
