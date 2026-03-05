@@ -479,8 +479,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 48ad744,</span>
-<span id="revdate">2026-03-04</span>
+<span id="revnumber">version ea89319,</span>
+<span id="revdate">2026-03-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -518,9 +518,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#hello-world-dae-example">Hello World DAE Example</a>
 <ul class="sectlevel4">
-<li><a href="#helloworlddae-fully-implicit-dae">HelloWorldDAE - Fully-Implicit DAE</a></li>
-<li><a href="#helloworlddae-semi-explicit-dae">HelloWorldDAE - Semi-Explicit DAE</a></li>
-<li><a href="#helloworlddae-explicit-ode">HelloWorldDAE - Explicit ODE</a></li>
+<li><a href="#hello-world-dae-fully-implicit-dae">Hello World DAE - Fully-Implicit DAE</a></li>
+<li><a href="#hello-world-dae-semi-explicit-dae">Hello World DAE - Semi-Explicit DAE</a></li>
+<li><a href="#hello-world-dae-explicit-ode">Hello World DAE - Explicit ODE</a></li>
 </ul>
 </li>
 </ul>
@@ -933,7 +933,7 @@ calculate consistent start values.
 The independent variable (usually time) \(t\) is omitted for simplicity.</p>
 </div>
 <div class="sect4">
-<h5 id="helloworlddae-fully-implicit-dae">HelloWorldDAE - Fully-Implicit DAE</h5>
+<h5 id="hello-world-dae-fully-implicit-dae">Hello World DAE - Fully-Implicit DAE</h5>
 <div class="paragraph">
 <p>The fully-implicit representation</p>
 </div>
@@ -947,7 +947,7 @@ The independent variable (usually time) \(t\) is omitted for simplicity.</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[F: \mathbb{R}^{3 \times 3 \times 1} \to \mathbb{R}^{3},
+\[F: \mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R} \to \mathbb{R}^3,
 \begin{pmatrix}
 x \\
 \dot{x} \\
@@ -963,7 +963,7 @@ x_2 - 3 x_3 - 2 x_1
 </div>
 </div>
 <div class="sect4">
-<h5 id="helloworlddae-semi-explicit-dae">HelloWorldDAE - Semi-Explicit DAE</h5>
+<h5 id="hello-world-dae-semi-explicit-dae">Hello World DAE - Semi-Explicit DAE</h5>
 <div class="paragraph">
 <p>The semi-explicit representation</p>
 </div>
@@ -981,13 +981,13 @@ x_2 - 3 x_3 - 2 x_1
 <div class="stemblock">
 <div class="content">
 \[\begin{split}
-f: \mathbb{R}^{1 \times 2 \times 1} \to \mathbb{R}^{1},
+f: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
 &amp;(x,y,t) \mapsto
 \begin{pmatrix}
 y_1
 \end{pmatrix}
  \\
-g: \mathbb{R}^{1 \times 2 \times 2} \to \mathbb{R}^{1},
+g: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
 &amp;(x,y,t) \mapsto
 \begin{pmatrix}
 y_1 + 2 y_2 - x   \\
@@ -998,7 +998,7 @@ y_1 - 3 y_2 - 2 x
 </div>
 </div>
 <div class="sect4">
-<h5 id="helloworlddae-explicit-ode">HelloWorldDAE - Explicit ODE</h5>
+<h5 id="hello-world-dae-explicit-ode">Hello World DAE - Explicit ODE</h5>
 <div class="paragraph">
 <p>This simple system could also be transformed into an explicit ODE formulation</p>
 </div>
