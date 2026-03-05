@@ -6,7 +6,7 @@ An example of a manifest file for this layered standard is shown below:
 
 [source, xml]
 ----
-include::../examples/fmi-ls-manifest-example.xml[]
+include::../examples/xml/fmi-ls-manifest-example.xml[]
 ----
 
 [Add figure here] shows the root element `fmiLayeredStandardManifest`.
