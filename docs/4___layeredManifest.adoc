@@ -1,13 +1,7 @@
+:stem: latexmath
 == Layered Standard Manifest File [[layered-standard-manifest-file]]
 
 This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`. 
-
-An example of a manifest file for this layered standard is shown below:
-
-[source, xml]
-----
-include::../examples/xml/fmi-ls-manifest-example.xml[]
-----
 
 [Add figure here] shows the root element `fmiLayeredStandardManifest`.
 
@@ -25,8 +19,8 @@ Two additional elements - `<AlgebraicVariables>` and `<ModelStructure>` - are in
 
 |<<ModelStructure>>
 |Defines the structure of the DAE formulation for the model.
-Especially, the ordered lists of <<output,`outputs`>>, continuous-time <<state,states>>, <<residuals, `residuals`>>, and the initial unknowns (the unknowns during <<InitializationMode>>) are *re*-defined and overwrite the corresponding `<ModelStructure>` present in the `modelDescription.xml`.
-Furthermore, the dependency of the unknowns from the knowns (as described in <<model-dependencies>>) can be optionally defined for <<output,`outputs`>>, continuous-time <<state,states>> and initial unknowns.
+Especially, the ordered lists of <<output,`outputs`>>, continuous-time <<state,states>>, and the initial unknowns (the unknowns during <<InitializationMode>>) are *re*-defined and overwrite the corresponding `<ModelStructure>` present in the `modelDescription.xml`, with the addition of the  <<residuals, `residuals`>> element.
+Furthermore, the dependency of the unknowns from the knowns (as described in <<model-dependencies>>) can be optionally defined for <<output,`outputs`>>, continuous-time <<state,states>> and initial unknowns. The <<algebraic,algebraic variables>> can now also be included as dependencies.
 
 |<<Annotations>>
 |Optional annotations for the top-level element.
@@ -71,7 +65,7 @@ The element `<AlgebraicVariables>` defines the ordered list of the algebraic var
 |Description
 
 |`AlgebraicVariable`
-|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml. This list must be the same size as the number of `<<Residual>>` elements.
+|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml. 
 |====
 
 Each `<<AlgebraicVariable>>` has only one attribute defining the value reference.
@@ -124,7 +118,7 @@ latexmath:[{\dot{\mathbf{x}}_c := \mathbf{f}_{\mathit{der}}(\mathbf{x}_c, \mathb
 
 |`Residual`
 |[[Residual,`<Residual>`]]
-Ordered list of value references of all residual equations (constraints).
+Ordered list of residual equations (constraints). Each `<Residual>` contains one or more `<<Formulation>>` child elements. When a single `<Formulation>` is present, it defines the residual equation directly. When multiple `<Formulation>` elements are present within the same `<Residual>`, they represent the same constraint differentiated to successive orders. This grouping tells the the importer that the equations are structurally related, which can e.g. be used to perform index reduction with dummy derivatives or projection methods. Note that each formulation inside one residual element must be unique variables in the FMU. 
 
 The functional dependency is defined as: +
 latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, t, \mathbf{p})}]
@@ -149,10 +143,10 @@ latexmath:[{\mathbf{v}_{\mathit{initialUnknowns}} := \mathbf{f}_{\mathit{init}}(
 Since, <<output,`outputs`>>, continuous-time <<state,states>> and state derivatives are either present as knowns (if <<initial>> = <<exact>>) or as unknowns (if <<initial>> = <<approx>> or <<calculated>>), they can be inquired with <<get-and-set-variable-values,`fmi3Get{VariableType}`>> in <<InitializationMode>>.
 |====
 
-Elements <<Output>>, <<ContinuousStateDerivative>>, <<Residual>>, and <<InitialUnknown>> have (partially) the following attributes:
+Elements <<Output>>, <<ContinuousStateDerivative>>, and <<InitialUnknown>> have (partially) the following attributes. The `<<Residual>>` element differs in that its attributes are carried by its `<<Formulation>>` child elements, as described in <<table-formulation-details>>.
 
-.<<Output>>, <<ContinuousStateDerivative>>, <<Residual>>, and <<InitialUnknown>> common attributes details.
-[[table-output-der-res-initialUnknown-details]]
+.<<Output>>, <<ContinuousStateDerivative>>, and <<InitialUnknown>> common attributes details.
+[[table-output-der-initialUnknown-details]]
 [cols="1,5a", options="header"]
 |====
 |Attribute
@@ -171,7 +165,7 @@ If dependencies is present as empty list, the unknown depends on none of the kno
 
 Otherwise the unknown depends on the knowns defined by the given value references.
 
-Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in <<ContinuousTimeMode>> (ME) for <<Output>>, <<ContinuousStateDerivative>> and <<Residual>> elements are: +
+Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in <<ContinuousTimeMode>> (ME) for <<Output>> and <<ContinuousStateDerivative>> elements are: +
 
 * inputs (variables with <<causality>> = <<input>>),
 
@@ -215,16 +209,158 @@ The following <<dependenciesKind>> is only allowed for floating point latexmath:
 `=` <<discrete>>: discrete factor, latexmath:[{\mathbf{d} \cdot \mathbf{v}_{\mathit{known},i}}] where latexmath:[\mathbf{d}] is an expression that is evaluated before <<fmi3ExitInitializationMode>>.
 |====
 
-An additional attribute specifying the index must also be present for the `<<Residual>>` element.
+#### Formulation [[Formulation, `<Formulation>`]]
 
-.Unique attribute to <<Residual>> element.
-[[table-res-details]]
+Each `<<Formulation>>` element within a `<<Residual>>` has the following attributes:
+
+.Attributes to `<<Formulation>>` element.
+[[table-formulation-details]]
 [cols="1,5a", options="header"]
 |====
 |Attribute
 |Description
 
+|`valueReference`
+|The value reference of the residual variable latexmath:[{v_{\mathit{unknown}}}], which must be present in the `ModelVariables` element of the `modelDescription.xml`. 
+
 |`index`
-|The index of the residual.
+|[[index-formulation]]
+Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation must be differentiated in order to solve for a particular derivative. 
+
+|`dependencies`
+|Optional attribute defining the algebraic dependencies as a list of value references of the knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] that this formulation directly depends on.
+
+Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in <<ContinuousTimeMode>> (ME) for `<<Formulation>>` elements are: +
+
+* inputs (variables with <<causality>> = <<input>>),
+
+* continuous states,
+
+* continous state derivatives
+
+* parameters (variables with <<causality>> = <<parameter>>),
+
+* algebraic variables (variables listed in the `<<AlgebraicVariables>>` element),
+
+* <<independent>> variable (usually time; <<causality>> = <<independent>>).
+
+If `dependencies` is not present, it must be assumed that the formulation depends on all knowns.
+If `dependencies` is present as an empty list, the formulation depends on none of the knowns.
+Otherwise the formulation depends on the knowns defined by the given value references.
+
+|`dependenciesKind`
+|See the description of <<dependenciesKind>> in <<table-output-der-initialUnknown-details>>. TODO: Extend to help importer?
 |====
 
+---
+
+**Example**
+
+Consider the following index 2 DAE system:
+
+latexmath:[C_1\frac{dx_1}{dt} + y = 0]
+
+latexmath:[C_2\frac{dx_2}{dt} - y + 1 = 0]
+
+latexmath:[x_1 - x_2 = 0]
+
+Assume it is exported as a DAE FMU with the following variables:
+
+[cols="1,1", options="header"]
+|====
+|Variable | valueReference
+|latexmath:[x_1] | 1
+|latexmath:[x_2] | 2
+|latexmath:[y] | 3
+|latexmath:[\frac{dx_1}{dt}] | 4
+|latexmath:[\frac{dx_2}{dt}] | 5
+|latexmath:[r_1] | 6
+|latexmath:[r_2] | 7
+|latexmath:[r_3] | 8
+|latexmath:[\frac{dr_3}{dt}] | 9
+|====
+
+**Case 1:** No structural analysis. The importer is responsible to figure out how to solve the system:
+```xml
+<ModelStructure>
+  <Residual> <!-- r1 -->
+    <Formulation
+      valueReference="6"
+      dependencies="3 4"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r2 -->
+    <Formulation
+      valueReference="7"
+      dependencies="3 5"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r3 -->
+    <Formulation
+      valueReference="8"
+      dependencies="1 2"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+</ModelStructure>
+```
+
+**Case 2:** The FMU additionally indicates that latexmath:[r_3] is a constraint of index 2, i.e., it must be differentiated twice to obtain an index 1 system. This gives the importer structural information to know to apply a solver able to handle index 2 problems:
+```xml
+<ModelStructure>
+  <Residual> <!-- r1 -->
+    <Formulation
+      valueReference="6"
+      dependencies="3 4"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r2 -->
+    <Formulation
+      valueReference="7"
+      dependencies="3 5"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r3, index=2 signals this constraint needs 2 differentiations -->
+    <Formulation
+      index="2"
+      valueReference="8"
+      dependencies="1 2"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+</ModelStructure>
+```
+
+**Case 3:** The FMU exposes both latexmath:[r_3] and its time derivative latexmath:[\dot{r}_3] grouped within the same `<Residual>`, which indicates that these are the original constraint and its differentiated form. The importer can use this grouping to apply the dummy derivatives algorithm or use latexmath:[r_3] as a drift-correction projection when integrating the index 1 formulation:
+
+latexmath:[r_3 = x_1 - x_2 = 0]
+
+latexmath:[\dot{r}_3 = \frac{dx_1}{dt} - \frac{dx_2}{dt} = 0]
+```xml
+<ModelStructure>
+  <Residual> <!-- r1 -->
+    <Formulation
+      valueReference="6"
+      dependencies="3 4"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r2 -->
+    <Formulation
+      valueReference="7"
+      dependencies="3 5"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+  <Residual> <!-- r3 and its derivative, grouped as related formulations -->
+    <Formulation <!-- r3 -->
+      index="2"
+      valueReference="8"
+      dependencies="1 2"
+      dependenciesKind="dependent dependent"/>
+    <Formulation <!-- der(r3) -->
+      index="1"
+      valueReference="9"
+      dependencies="4 5"
+      dependenciesKind="dependent dependent"/>
+  </Residual>
+</ModelStructure>
+```
+
+The API for partial derivative, `GetDirectionalDerivative` and/or `GetAdjointDerivative` could be with this structure to apply the dummy derivatives algorithm, or the index 2 constraint can serve as a projection constraint when integrating the index 1 formulation.
