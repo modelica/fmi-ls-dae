@@ -19,8 +19,7 @@ The generic _fully-implicit DAE_, or _implicit DAE_, formulation:
 F(\dot{z}(t), z(t), t) = 0
 ++++
 
-where latexmath:[z(t)] represents state and additional variables
-and latexmath:[t] is time.
+where latexmath:[z(t)] represents state and additional variables and latexmath:[t] is time.
 
 A similar and sometimes more useful representation:
 
@@ -29,11 +28,9 @@ A similar and sometimes more useful representation:
 F(\dot{x}(t), x(t), y(t), t) = 0
 ++++
 
-with dynamic variables latexmath:[x(t)], algebraic variables latexmath:[y(t)]
-and time latexmath:[t].
+with dynamic variables latexmath:[x(t)], algebraic variables latexmath:[y(t)] and time latexmath:[t].
 
-Note that latexmath:[x(t)] is not necessarily the state
-variables, more on this in <<Perturbation Index, section 2.1.1>>.
+Note that latexmath:[x(t)] is not necessarily the state variables, more on this in <<Perturbation Index, section 2.1.1>>.
 
 [semi-explicit-index-1-dae]
 ===== Semi-Explicit Index 1 / Hessenberg index 1 DAE
@@ -48,11 +45,9 @@ The _semi-explicit index 1_, also called _Hessenberg index 1_, DAE representatio
 \end{split}
 ++++
 
-with latexmath:[g] solvable for latexmath:[y],
-latexmath:[det \left( \frac{\partial}{\partial y}g\right) \neq 0].
+with latexmath:[g] solvable for latexmath:[y], latexmath:[det \left( \frac{\partial}{\partial y}g\right) \neq 0].
 
-Here latexmath:[f] is called the _differential equations_ and latexmath:[g]
-the _algebraic equations_.
+Here latexmath:[f] is called the _differential equations_ and latexmath:[g] the _algebraic equations_.
 
 [relationship-fully-implicit-semi-explicit]
 ===== Relationship between fully-implicit and semi-explicit DAE
@@ -64,8 +59,7 @@ A fully implicit DAE
 F(\dot{x}(t), x(t), t) = 0
 ++++
 
-can always be rewritten as a semi-explicit DAE by introducing a new algebraic
-variable latexmath:[x^{\prime}]
+can always be rewritten as a semi-explicit DAE by introducing a new algebraic variable latexmath:[x^{\prime}]
 
 [latexmath]
 ++++
@@ -91,10 +85,7 @@ The _semi-explicit DAE_ representation
 \end{split}
 ++++
 
-with latexmath:[g^1] solvable for latexmath:[y],
-latexmath:[det \left( \frac{\partial}{\partial y}g^1\right) \neq 0]
-and
-latexmath:[\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k > 1].
+with latexmath:[g^1] solvable for latexmath:[y], latexmath:[det \left( \frac{\partial}{\partial y}g^1\right) \neq 0] and latexmath:[\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k > 1].
 
 [mass-matrix-dae]
 ===== Mass matrix DAE

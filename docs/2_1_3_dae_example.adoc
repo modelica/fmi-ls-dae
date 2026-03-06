@@ -1,10 +1,10 @@
 :stem: latexmath
 
-
 [dae-example]
 ==== Hello World DAE Example
 
 A simple initial-value problem
+
 [latexmath]
 ++++
 \begin{split}
@@ -33,13 +33,13 @@ z_0 \\
 ++++
 
 at time latexmath:[t_0].
-For this specific example a start condition latexmath:[x_0] is sufficient to
-calculate consistent start values.
+For this specific example a start condition latexmath:[x_0] is sufficient to calculate consistent start values.
 The independent variable (usually time) latexmath:[t] is omitted for simplicity.
 
 ===== Hello World DAE - Fully-Implicit DAE
 
 The fully-implicit representation
+
 [latexmath]
 ++++
 F(\dot{x}, x, t) = 0
@@ -97,9 +97,7 @@ y_1 - 3 y_2 - 2 x
 
 ===== Hello World DAE - Explicit ODE
 
-
 This simple system could also be transformed into an explicit ODE formulation
-
 
 [latexmath]
 ++++
