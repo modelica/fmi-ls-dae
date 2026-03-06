@@ -127,6 +127,25 @@ To validate all XML examples run:
 xmllint --noout --schema schema/fmi3LayeredStandardDaeManifest.xsd examples/**/*.xml
 ```
 
+### Pre-commit Hooks
+
+The repository uses [pre-commit][pre-commit] to enforce the whitespace rules
+listed in the [Formatting Rules](#formatting-rules) section automatically.
+
+To install and enable the hooks locally:
+
+```sh
+pip install pre-commit
+pre-commit install
+```
+
+Once installed, the hooks run automatically on every `git commit`.
+To run them manually on all files:
+
+```sh
+pre-commit run --all-files
+```
+
 ## Using the Issue Tracker
 
 The [issue tracker][fmi-ls-dae-new-issue] is the preferred channel for
@@ -481,6 +500,7 @@ SVG (file extension `.xml`) and commit the files together.
 [github-pull-request]: https://help.github.com/articles/about-pull-requests/
 [modelica-cla]: https://github.com/modelica/ModelicaAssociationCLA/releases/download/1.1.1/ModelicaAssociationCLA_1.1.1.pdf
 [podman]: https://podman.io/get-started
+[pre-commit]: https://pre-commit.com/
 [ruby-install]: https://www.ruby-lang.org/en/downloads/
 [semver]: https://semver.org/
 [stackoverflow]: https://stackoverflow.com
