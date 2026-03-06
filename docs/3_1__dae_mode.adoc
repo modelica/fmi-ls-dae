@@ -22,7 +22,7 @@ image::images/CauerLowPassAnalog.png[Modelica.Electrical.Analog.Examples.CauerLo
 
 has structural singularities.
 
-To produce a complete and consistent set of initial conditions for the DAE exporting tools usually use a symbolic index reduction algorithm.
+To produce a complete and consistent set of initial conditions for the DAE, exporting tools usually use a symbolic index reduction algorithm.
 
 The model has nine state candidates
 
@@ -50,7 +50,7 @@ and four constraint equations
 Modelica tools that want to export an ODE ModelExchange FMU need to reduce the perturbation index to index 1 to end up with an ODE representation of the DAE system.
 
 One option to achieve this is the so called dummy derivative method.
-From the set of state candidates five state variables are chosen (e.g. `C1.v`,`C3.v`,`C5.v`,`L1.i`,`L2.i`) and the constraint equations
+From the set of state candidates, five state variables are chosen (e.g. `C1.v`, `C3.v`, `C5.v`, `L1.i`, `L2.i`) and the constraint equations
 
 [latexmath]
 ++++
@@ -75,12 +75,12 @@ are differentiated
 ++++
 
 which results in four additional dummy states (`$DER.L1.v`, `$DER.L2.v`, `$DER.C2.v`, `$DER.C4.v`).
-Here Modelica keyword `stateSelect` influences how variables are picked.
+Here the Modelica keyword `stateSelect` influences how variables are picked.
 
 ==== Scaling Power Grids Example
 
-For simulation models representing power grids on nation or larger scale traditional ODE solvers may struggle with convergence and performance.
-Also the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.
+For simulation models representing power grids on a national or larger scale, traditional ODE solvers may struggle with convergence and performance.
+Also, the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.
 
 See for example Modelica models `ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10` to `ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280` from ScalableTestSuite footnote:[https://github.com/casella/ScalableTestSuite, see also <<casella2015simulation,[casella2015simulation]>>].
 
