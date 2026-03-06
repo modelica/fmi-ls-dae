@@ -1,11 +1,11 @@
 :stem: latexmath
 == Layered Standard Manifest File [[layered-standard-manifest-file]]
 
-This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`. 
+This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`.
 
 [Add figure here] shows the root element `fmiLayeredStandardManifest`.
 
-Two additional elements - `<AlgebraicVariables>` and `<ModelStructure>` - are included in the layered standard manifest file to describe the DAE formulation. 
+Two additional elements - `<AlgebraicVariables>` and `<ModelStructure>` - are included in the layered standard manifest file to describe the DAE formulation.
 
 .`fmiModelDescription` element details.
 [[table-schema-fmiModelDescription]]
@@ -65,7 +65,7 @@ The element `<AlgebraicVariables>` defines the ordered list of the algebraic var
 |Description
 
 |`AlgebraicVariable`
-|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml. 
+|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml.
 |====
 
 Each `<<AlgebraicVariable>>` has only one attribute defining the value reference.
@@ -84,13 +84,13 @@ Each `<<AlgebraicVariable>>` has only one attribute defining the value reference
 === Model Structure [[ModelStructure,`<ModelStructure>`]]
 
 The structure of the model for the DAE-formulation is defined in element `<ModelStructure>`.
-It defines the <<model-dependencies,dependencies>> between variables. The `<ModelStructure>` element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables. 
+It defines the <<model-dependencies,dependencies>> between variables. The `<ModelStructure>` element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables.
 
-An FMU that follows this layered standard must expose all residuals in order in <<Residual>>. 
+An FMU that follows this layered standard must expose all residuals in order in <<Residual>>.
 
 It should be noted that the ModelStructure below is not a straight extension of the ModelStructure from the core standard, since it e.g. does not specify how the elements `ClockedState` or `EventIndicator` are affected by the DAE-formulation. That is also why some elements in <<table-model-structure-elements>> are defined in a similar way to the core standard, with the exception that references to concepts in co-simulation, clocks, and events are excluded. Moreover, notes and examples that are already present in the core standard are omitted here.
 
-Similar to the `ModelStructure` from the core FMI-standard, the optional part of the model structure defines in which way <<derivative,`derivatives`>>, <<output,`outputs`>>, and initial unknowns depend on <<input,`inputs`>> and/or <<parameter,`parameters`>>, and continuous-time <<state,states>>. Therefore the concepts from Model Exchange in the core-standard that are applicable to the DAE-formulation are repeated. The unknowns are extended with the <<Residual>> element, and each unknown can now also depend on <<AlgebraicVariables>>. 
+Similar to the `ModelStructure` from the core FMI-standard, the optional part of the model structure defines in which way <<derivative,`derivatives`>>, <<output,`outputs`>>, and initial unknowns depend on <<input,`inputs`>> and/or <<parameter,`parameters`>>, and continuous-time <<state,states>>. Therefore the concepts from Model Exchange in the core-standard that are applicable to the DAE-formulation are repeated. The unknowns are extended with the <<Residual>> element, and each unknown can now also depend on <<AlgebraicVariables>>.
 
 .ModelStructure elements.
 [#table-model-structure-elements]
@@ -104,7 +104,7 @@ Similar to the `ModelStructure` from the core FMI-standard, the optional part of
 Ordered list of all outputs, in other words, a list of value references where every corresponding variable must have <<causality>> = <<output>> (and every variable with <<causality>> = <<output>> must be listed here).
 Attribute <<dependencies>> defines the dependencies of the <<output,`outputs`>> from the knowns after the <<InitializationMode>>.
 The functional dependency is defined as: +
-latexmath:[{(\mathbf{y}_c, \mathbf{y}_d) := \mathbf{f}_{\mathit{output}}(\mathbf{x}_c, , \mathbf{z}_c, \mathbf{u}_c, \mathbf{u}_d, t, \mathbf{p})}]
+latexmath:[{(\mathbf{y}_c, \mathbf{y}_d) := \mathbf{f}_{\mathit{output}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, \mathbf{u}_d, t, \mathbf{p})}]
 
 |`ContinuousStateDerivative`
 |[[ContinuousStateDerivative,`<ContinuousStateDerivative>`]]
@@ -118,7 +118,7 @@ latexmath:[{\dot{\mathbf{x}}_c := \mathbf{f}_{\mathit{der}}(\mathbf{x}_c, \mathb
 
 |`Residual`
 |[[Residual,`<Residual>`]]
-Ordered list of residual equations (constraints). Each `<Residual>` contains one or more `<<Formulation>>` child elements. When a single `<Formulation>` is present, it defines the residual equation directly. When multiple `<Formulation>` elements are present within the same `<Residual>`, they represent the same constraint differentiated to successive orders. This grouping tells the the importer that the equations are structurally related, which can e.g. be used to perform index reduction with dummy derivatives or projection methods. Note that each formulation inside one residual element must be unique variables in the FMU. 
+Ordered list of residual equations (constraints). Each `<Residual>` contains one or more `<<Formulation>>` child elements. When a single `<Formulation>` is present, it defines the residual equation directly. When multiple `<Formulation>` elements are present within the same `<Residual>`, they represent the same constraint differentiated to successive orders. This grouping tells the the importer that the equations are structurally related, which can e.g. be used to perform index reduction with dummy derivatives or projection methods. Note that each formulation inside one residual element must be unique variables in the FMU.
 
 The functional dependency is defined as: +
 latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, t, \mathbf{p})}]
@@ -194,7 +194,7 @@ If <<dependenciesKind>> is present, <<dependencies>> must be present and must ha
 If <<dependenciesKind>> is not present, it must be assumed that the unknown latexmath:[{\mathbf{v}_{\mathit{unknown}}}] depends on the knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] without a particular structure.
 Otherwise, the corresponding known latexmath:[{\mathbf{v}_{\mathit{known},i}}] enters the equation as:
 
-`= dependent`: no particular structure, latexmath:[{{\mathbf{f}(..,\ \mathbf{v}}_{\mathit{known},i}},..)]
+`= dependent`: no particular structure, latexmath:[{{\mathbf{f}(\ldots,\ \mathbf{v}}_{\mathit{known},i}},\ldots)]
 
 The following <<dependenciesKind>> is only allowed for floating point latexmath:[{\mathbf{v}_{\mathit{unknown}}}]:
 
@@ -221,11 +221,11 @@ Each `<<Formulation>>` element within a `<<Residual>>` has the following attribu
 |Description
 
 |`valueReference`
-|The value reference of the residual variable latexmath:[{v_{\mathit{unknown}}}], which must be present in the `ModelVariables` element of the `modelDescription.xml`. 
+|The value reference of the residual variable latexmath:[{v_{\mathit{unknown}}}], which must be present in the `ModelVariables` element of the `modelDescription.xml`.
 
 |`index`
 |[[index-formulation]]
-Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation must be differentiated in order to solve for a particular derivative. 
+Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation must be differentiated in order to solve for a particular derivative.
 
 |`dependencies`
 |Optional attribute defining the algebraic dependencies as a list of value references of the knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] that this formulation directly depends on.
