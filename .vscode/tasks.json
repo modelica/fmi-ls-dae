@@ -29,7 +29,7 @@
     {
       "label": "build-doc-html",
       "type": "shell",
-      "command": "asciidoctor --base-dir \"${workspaceFolder}/docs\" --destination-dir \"${workspaceFolder}/build\" --backend=html5 --failure-level WARN --verbose docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
+      "command": "asciidoctor --base-dir \"${workspaceFolder}/docs\" --destination-dir \"${workspaceFolder}/build\" --failure-level WARN --backend=html5 --verbose docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
       "group": {
         "kind": "build",
         "isDefault": false
@@ -47,7 +47,7 @@
     {
       "label": "build-doc-docker-html",
       "type": "shell",
-      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor --base-dir /documents/docs --destination-dir /documents/build --failure-level WARN --verbose docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
+      "command": "docker run --rm --user $(id -u):$(id -g) -e HOME=/tmp -v ${workspaceFolder}:/documents asciidoctor/docker-asciidoctor asciidoctor --base-dir /documents/docs --destination-dir /documents/build --failure-level WARN --verbose --backend=html5 docs/index.adoc && cp -r \"${workspaceFolder}/docs/images\" \"${workspaceFolder}/build/\" && cp -r \"${workspaceFolder}/docs/theme\" \"${workspaceFolder}/build/\"",
       "group": {
         "kind": "build",
         "isDefault": false
