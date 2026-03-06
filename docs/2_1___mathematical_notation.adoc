@@ -1,6 +1,15 @@
 [mathematical-notation]
 === Mathematical Notation
 
+.Additional symbols for specific variable types.
+[#table-variable-types]
+[cols="1,8",options="header"]
+|====
+|Variable
+|Description
+|[[algebraic,algebraic variables]]latexmath:[\mathbf{z}_c]
+|A vector of floating point continuous-time variables representing the continuous-time <<algebraic,algebraic variables>>.  
+|====
 include::2_1_1_dae_representation.adoc[]
 
 include::2_1_2_indices.adoc[]

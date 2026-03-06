@@ -34,4 +34,6 @@ include::2____common_concepts.adoc[]
 
 include::3____use_cases.adoc[]
 
-include::4____literature.adoc[]
+include::4___layeredManifest.adoc[]
+
+include::5____literature.adoc[]
