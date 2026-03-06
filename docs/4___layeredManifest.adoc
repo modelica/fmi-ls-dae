@@ -258,11 +258,11 @@ Otherwise the formulation depends on the knowns defined by the given value refer
 
 Consider the following index 2 DAE system:
 
-latexmath:[C_1\frac{dx_1}{dt} + y = 0]
+latexmath:[r_1 = C_1\frac{dx_1}{dt} + y = 0]
 
-latexmath:[C_2\frac{dx_2}{dt} - y + 1 = 0]
+latexmath:[r_2 = C_2\frac{dx_2}{dt} - y + 1 = 0]
 
-latexmath:[x_1 - x_2 = 0]
+latexmath:[r_3 = x_1 - x_2 = 0]
 
 Assume it is exported as a DAE FMU with the following variables:
 
@@ -363,4 +363,4 @@ latexmath:[\dot{r}_3 = \frac{dx_1}{dt} - \frac{dx_2}{dt} = 0]
 </ModelStructure>
 ```
 
-The API for partial derivative, `GetDirectionalDerivative` and/or `GetAdjointDerivative` could be with this structure to apply the dummy derivatives algorithm, or the index 2 constraint can serve as a projection constraint when integrating the index 1 formulation.
+The API for partial derivative, `GetDirectionalDerivative` and/or `GetAdjointDerivative` could be used with this structure to apply the dummy derivatives algorithm, or the index 2 constraint can serve as a projection constraint when integrating the index 1 formulation.
