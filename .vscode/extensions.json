@@ -1,7 +1,6 @@
 {
     "recommendations": [
         "asciidoctor.asciidoctor-vscode",
-        "dnut.rewrap-revived",
         "tomoki1207.pdf",
         "streetsidesoftware.code-spell-checker",
         "redhat.vscode-xml"
