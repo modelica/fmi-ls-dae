@@ -33,7 +33,7 @@ See <<hairer2006numerical,[hairer2006numerical]>>.
 [example-structural-singularity]
 ====== Example of Structural Singularity
 
-<<cellier2006continuous,[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]>> provides a simple electric circuit model that is an higher-index DAE.
+<<cellier2006continuous,[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]>> provides a simple electric circuit model that is a higher-index DAE.
 
 [[ParallelCapacitor]]
 .Modelica model of an electric circuit with two capacitors in parallel.
@@ -54,7 +54,7 @@ i_0 &= i_1 + i_2
 \end{split}
 ++++
 
-When both capacitive voltages latexmath:[v_1] and latexmath:[v_2] are chosen as state variables equation latexmath:[v_2 = v_1] has no unknowns left, so it is a _constraint equation_.
+When both capacitive voltages latexmath:[v_1] and latexmath:[v_2] are chosen as state variables, equation latexmath:[v_2 = v_1] has no unknowns left, so it is a _constraint equation_.
 
 There are different ways to solve this.
 The modeler could change the causality or exporting tools can try to reduce the perturbation index symbolically footnote:[e.g. by using Pantelides algorithm, see <<cellier1993automated>>] to end up with a consistent initialization for the system.
