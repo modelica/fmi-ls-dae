@@ -1,0 +1,65 @@
+name: Bug Report
+description: Report a demonstrable problem caused by the specification or repository content.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A bug is a _demonstrable problem_ that is caused by the content in the repository.
+        Good bug reports are extremely helpful — thank you!
+
+        **Before submitting:**
+        1. **Search existing issues** — check if the problem has already been reported.
+        2. **Check if it is fixed** — try to reproduce it using the latest `main` or development branch.
+        3. **Isolate the problem** — create a reduced test case or example.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: A clear and concise description of the problem and the environment in which it occurs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Include the steps required to reproduce the problem.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: input
+    id: testcase
+    attributes:
+      label: Reduced Test Case
+      description: Link to a minimal example that demonstrates the problem (if applicable).
+      placeholder: "https://..."
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: >
+        Any other information relevant to the issue, such as the lines in the specification
+        you have identified as causing the problem and potential solutions.

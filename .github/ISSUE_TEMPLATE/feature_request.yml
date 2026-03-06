@@ -1,0 +1,51 @@
+name: Feature Request
+description: Suggest a new feature or change to the FMI-LS-DAE specification.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests are welcome. Before submitting, take a moment to find out
+        whether your idea fits with the scope and aims of the project. It's up to
+        **you** to make a strong case to convince the project's developers of the
+        merits of this feature. Please provide as much detail and context as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the feature you are proposing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: >
+        Why is this feature needed? What problem does it solve or what use case does it enable?
+        Make a strong case for why this fits the scope and aims of the project.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: >
+        If you have a concrete idea of how this could be implemented in the specification,
+        describe it here. Include any relevant examples or references.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: >
+        Are there alternative approaches or workarounds you have considered?
+        Why is your proposed solution preferred?
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, references, or information relevant to this request.
