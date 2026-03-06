@@ -30,7 +30,6 @@ jobs:
     - name: Create build directory
       run: |
         mkdir -p build/schema
-        mkdir -p build/images
 
     - name: Build HTML
       uses: avattathil/asciidoctor-action@v2
