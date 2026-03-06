@@ -479,7 +479,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 34c0e50,</span>
+<span id="revnumber">version 2add139,</span>
 <span id="revdate">2026-03-06</span>
 </div>
 <div id="toc" class="toc2">
@@ -549,8 +549,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </p>
 </div>
 <div class="paragraph">
-<p>This layered standard on top of FMI 3.0 defines how to exchange dynamic models
-in differential algebraic equation form.</p>
+<p>This layered standard on top of FMI 3.0 defines how to exchange dynamic models in differential algebraic equation form.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -559,11 +558,8 @@ in differential algebraic equation form.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Although the document refers to version 3.0 of the FMI standard,
-      everything described in this document also applies to all subsequent minor
-      versions. For further information on compatibility, see section
-      <a href="https://fmi-standard.org/docs/3.0/#VersioningLayered">Versioning and
-      Layered Standards</a> in the FMI 3.0 specification.
+Although the document refers to version 3.0 of the FMI standard, everything described in this document also applies to all subsequent minor versions.
+For further information on compatibility, see section <a href="https://fmi-standard.org/docs/3.0/#VersioningLayered">Versioning and Layered Standards</a> in the FMI 3.0 specification.
 </td>
 </tr>
 </table>
@@ -572,10 +568,9 @@ Although the document refers to version 3.0 of the FMI standard,
 <p>Copyright &#169; 2025 The Modelica Association Project FMI.</p>
 </div>
 <div class="paragraph">
-<p>This document is licensed under the Attribution-ShareAlike 4.0 International
-license. The code is released under the 2-Clause BSD License. The licenses text
-can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file that accompanies this
-distribution.</p>
+<p>This document is licensed under the Attribution-ShareAlike 4.0 International license.
+The code is released under the 2-Clause BSD License.
+The licenses text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file that accompanies this distribution.</p>
 </div>
 <div class="paragraph">
 <p></p>
@@ -588,10 +583,7 @@ distribution.</p>
 <div class="sect2">
 <h3 id="intent-of-this-document">1.1. Intent of this Document</h3>
 <div class="paragraph">
-<p>A differential-algebraic system of equations (DAE) is a system of equations that
-either contains differential equations and algebraic equations, or is equivalent
-to such a system
-<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>.</p>
+<p>A differential-algebraic system of equations (DAE) is a system of equations that either contains differential equations and algebraic equations, or is equivalent to such a system <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -610,15 +602,13 @@ to such a system
 <div class="ulist">
 <ul>
 <li>
-<p>This may improve accuracy and avoid problems with different local and
-global error tolerances.</p>
+<p>This may improve accuracy and avoid problems with different local and global error tolerances.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Preserve the sparseness of DAE systems which is lost for the corresponding
-reduced ODE systems.</p>
+<p>Preserve the sparseness of DAE systems which is lost for the corresponding reduced ODE systems.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -632,8 +622,7 @@ reduced ODE systems.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Connecting reduced ODE FMUs may lead globally to a non-solvable
-(singular) system but not for unreduced DAE FMUs.</p>
+<p>Connecting reduced ODE FMUs may lead globally to a non-solvable (singular) system but not for unreduced DAE FMUs.</p>
 </li>
 </ul>
 </div>
@@ -675,8 +664,7 @@ reduced ODE systems.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>where \(z(t)\) represents state and additional variables
-and \(t\) is time.</p>
+<p>where \(z(t)\) represents state and additional variables and \(t\) is time.</p>
 </div>
 <div class="paragraph">
 <p>A similar and sometimes more useful representation:</p>
@@ -687,12 +675,10 @@ and \(t\) is time.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>with dynamic variables \(x(t)\), algebraic variables \(y(t)\)
-and time \(t\).</p>
+<p>with dynamic variables \(x(t)\), algebraic variables \(y(t)\) and time \(t\).</p>
 </div>
 <div class="paragraph">
-<p>Note that \(x(t)\) is not necessarily the state
-variables, more on this in <a href="#perturbation-index">section 2.1.1</a>.</p>
+<p>Note that \(x(t)\) is not necessarily the state variables, more on this in <a href="#perturbation-index">section 2.1.1</a>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -709,12 +695,10 @@ variables, more on this in <a href="#perturbation-index">section 2.1.1</a>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>with \(g\) solvable for \(y\),
-\(det \left( \frac{\partial}{\partial y}g\right) \neq 0\).</p>
+<p>with \(g\) solvable for \(y\), \(det \left( \frac{\partial}{\partial y}g\right) \neq 0\).</p>
 </div>
 <div class="paragraph">
-<p>Here \(f\) is called the <em>differential equations</em> and \(g\)
-the <em>algebraic equations</em>.</p>
+<p>Here \(f\) is called the <em>differential equations</em> and \(g\) the <em>algebraic equations</em>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -728,8 +712,7 @@ the <em>algebraic equations</em>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>can always be rewritten as a semi-explicit DAE by introducing a new algebraic
-variable \(x^{\prime}\)</p>
+<p>can always be rewritten as a semi-explicit DAE by introducing a new algebraic variable \(x^{\prime}\)</p>
 </div>
 <div class="stemblock">
 <div class="content">
@@ -757,10 +740,7 @@ variable \(x^{\prime}\)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>with \(g^1\) solvable for \(y\),
-\(det \left( \frac{\partial}{\partial y}g^1\right) \neq 0\)
-and
-\(\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k &gt; 1\).</p>
+<p>with \(g^1\) solvable for \(y\), \(det \left( \frac{\partial}{\partial y}g^1\right) \neq 0\) and \(\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k &gt; 1\).</p>
 </div>
 </div>
 <div class="sect4">
@@ -813,8 +793,7 @@ g(x(t), y(t), t)
 <div class="sect3">
 <h4 id="indices">Indices</h4>
 <div class="paragraph">
-<p>There are multiple, sometimes closely related, definitions of indices for DAE
-systems.
+<p>There are multiple, sometimes closely related, definitions of indices for DAE systems.
 Usually these indices are a measure of how far from an ODE the DAE is.</p>
 </div>
 <div class="sect4">
@@ -828,9 +807,7 @@ Usually these indices are a measure of how far from an ODE the DAE is.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>has to be differentiated with respect to time \(t\) to be able to
-determine \(\dot{x}(t)\) as a function of \(t\) and
-\(x\) is called the <em>differential index</em>.</p>
+<p>has to be differentiated with respect to time \(t\) to be able to determine \(\dot{x}(t)\) as a function of \(t\) and \(x\) is called the <em>differential index</em>.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
@@ -839,12 +816,10 @@ determine \(\dot{x}(t)\) as a function of \(t\) and
 <div class="sect4">
 <h5 id="perturbation-index">Perturbation Index</h5>
 <div class="paragraph">
-<p>The <em>perturbation index</em> is a measure of the constraints among equations. An
-index-0 DAE contains neither algebraic loops nor structural singularities. An
-index-1 DAE contains algebraic loops, but no structural singularities. A DAE
-with a perturbation index greater than 1, a so-called <em>higher-index DAE</em>,
-contains structural singularities
-<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>.</p>
+<p>The <em>perturbation index</em> is a measure of the constraints among equations.
+An index-0 DAE contains neither algebraic loops nor structural singularities.
+An index-1 DAE contains algebraic loops, but no structural singularities.
+A DAE with a perturbation index greater than 1, a so-called <em>higher-index DAE</em>, contains structural singularities <sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
@@ -852,9 +827,7 @@ contains structural singularities
 <div class="sect5">
 <h6 id="example-of-structural-singularity">Example of Structural Singularity</h6>
 <div class="paragraph">
-<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural
-Singularity Elimination]</a> provides a simple electric circuit model that is an
-higher-index DAE.</p>
+<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]</a> provides a simple electric circuit model that is an higher-index DAE.</p>
 </div>
 <div id="ParallelCapacitor" class="imageblock">
 <div class="content">
@@ -863,8 +836,7 @@ higher-index DAE.</p>
 <div class="title">Figure 1. Modelica model of an electric circuit with two capacitors in parallel.</div>
 </div>
 <div class="paragraph">
-<p>The circuit has two capacitors in parallel and can be represented with
-equations:</p>
+<p>The circuit has two capacitors in parallel and can be represented with equations:</p>
 </div>
 <div class="stemblock">
 <div class="content">
@@ -880,15 +852,11 @@ i_0 &amp;= i_1 + i_2
 </div>
 </div>
 <div class="paragraph">
-<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as
-state variables equation \(v_2 = v_1\)
-has no unknowns left, so it is a <em>constraint equation</em>.</p>
+<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as state variables equation \(v_2 = v_1\) has no unknowns left, so it is a <em>constraint equation</em>.</p>
 </div>
 <div class="paragraph">
-<p>There are different ways to solve this. The modeler could change the causality
-or exporting tools can try to reduce the perturbation index symbolically
-<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>
-to end up with a consistent initialization for the system.</p>
+<p>There are different ways to solve this.
+The modeler could change the causality or exporting tools can try to reduce the perturbation index symbolically <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> to end up with a consistent initialization for the system.</p>
 </div>
 </div>
 </div>
@@ -928,8 +896,7 @@ z_0 \\
 </div>
 <div class="paragraph">
 <p>at time \(t_0\).
-For this specific example a start condition \(x_0\) is sufficient to
-calculate consistent start values.
+For this specific example a start condition \(x_0\) is sufficient to calculate consistent start values.
 The independent variable (usually time) \(t\) is omitted for simplicity.</p>
 </div>
 <div class="sect4">
@@ -1034,27 +1001,22 @@ z       &amp;= -\frac{x}{5}
 <div class="sect2">
 <h3 id="generic-dae-use-case">3.1. Generic DAE Use Case</h3>
 <div class="paragraph">
-<p>There are a number of possible reasons to export a model as a system of
-differential-algebraic equations (DAE) instead of a system of ordinary
-differential equations (ODE):</p>
+<p>There are a number of possible reasons to export a model as a system of differential-algebraic equations (DAE) instead of a system of ordinary differential equations (ODE):</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The exporting tool doesn&#8217;t support methods to transform a DAE into ODE
-representation.</p>
+<p>The exporting tool doesn&#8217;t support methods to transform a DAE into ODE representation.</p>
 </li>
 <li>
-<p>The time needed to perform symbolic transformation to ODE representation takes
-a significant amount of time for large systems.</p>
+<p>The time needed to perform symbolic transformation to ODE representation takes a significant amount of time for large systems.</p>
 </li>
 <li>
 <p>Large system models are usually characterized by a high degree of sparsity.
 Some DAE solvers can utilize sparsity to reduce simulation time.</p>
 </li>
 <li>
-<p>More efficient simulation of models with large algebraic loops for DAE
-representation.</p>
+<p>More efficient simulation of models with large algebraic loops for DAE representation.</p>
 </li>
 </ul>
 </div>
@@ -1064,10 +1026,7 @@ representation.</p>
 <div class="sect3">
 <h4 id="modelica-example-cauerlowpassanalog">3.1.1. Modelica Example CauerLowPassAnalog</h4>
 <div class="paragraph">
-<p>The Modelica model
-<a href="#CauerLowPassAnalog">Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</a>
-from the Modelica Standard Library
-<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+<p>The Modelica model <a href="#CauerLowPassAnalog">Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</a> from the Modelica Standard Library <sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
 </div>
 <div id="CauerLowPassAnalog" class="imageblock">
 <div class="content">
@@ -1079,8 +1038,7 @@ from the Modelica Standard Library
 <p>has structural singularities.</p>
 </div>
 <div class="paragraph">
-<p>To produce a complete and consistent set of initial conditions for the DAE
-exporting tools usually use a symbolic index reduction algorithm.</p>
+<p>To produce a complete and consistent set of initial conditions for the DAE exporting tools usually use a symbolic index reduction algorithm.</p>
 </div>
 <div class="paragraph">
 <p>The model has nine state candidates</p>
@@ -1110,14 +1068,11 @@ exporting tools usually use a symbolic index reduction algorithm.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Modelica tools that want to export an ODE ModelExchange FMU need to reduce the
-perturbation index to index 1 to end up with an ODE representation of the DAE
-system.</p>
+<p>Modelica tools that want to export an ODE ModelExchange FMU need to reduce the perturbation index to index 1 to end up with an ODE representation of the DAE system.</p>
 </div>
 <div class="paragraph">
 <p>One option to achieve this is the so called dummy derivative method.
-From the set of state candidates five state variables are chosen (e.g.
-<code>C1.v</code>,<code>C3.v</code>,<code>C5.v</code>,<code>L1.i</code>,<code>L2.i</code>) and the constraint equations</p>
+From the set of state candidates five state variables are chosen (e.g. <code>C1.v</code>,<code>C3.v</code>,<code>C5.v</code>,<code>L1.i</code>,<code>L2.i</code>) and the constraint equations</p>
 </div>
 <div class="stemblock">
 <div class="content">
@@ -1143,25 +1098,18 @@ L2.v &amp;= C3.v - C5.v
 </div>
 </div>
 <div class="paragraph">
-<p>which results in four additional dummy states (<code>$DER.L1.v</code>, <code>$DER.L2.v</code>,
-<code>$DER.C2.v</code>, <code>$DER.C4.v</code>). Here Modelica keyword <code>stateSelect</code> influences how
-variables are picked.</p>
+<p>which results in four additional dummy states (<code>$DER.L1.v</code>, <code>$DER.L2.v</code>, <code>$DER.C2.v</code>, <code>$DER.C4.v</code>).
+Here Modelica keyword <code>stateSelect</code> influences how variables are picked.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="scaling-power-grids-example">3.1.2. Scaling Power Grids Example</h4>
 <div class="paragraph">
-<p>For simulation models representing power grids on nation or larger scale
-traditional ODE solvers may struggle with convergence and performance. Also the
-time needed to perform symbolic transformation from DAE to ODE is growing with
-the number of equations.</p>
+<p>For simulation models representing power grids on nation or larger scale traditional ODE solvers may struggle with convergence and performance.
+Also the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.</p>
 </div>
 <div class="paragraph">
-<p>See for example Modelica models
-<code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10</code>
-to <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280</code>
-from ScalableTestSuite
-<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
+<p>See for example Modelica models <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10</code> to <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280</code> from ScalableTestSuite <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1169,8 +1117,7 @@ from ScalableTestSuite
 </div>
 </div>
 <div class="paragraph">
-<p>The simulation was performed using <code>OpenModelica v1.27-dev-92</code> with the
-following settings:</p>
+<p>The simulation was performed using <code>OpenModelica v1.27-dev-92</code> with the following settings:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1183,9 +1130,7 @@ following settings:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Since OpenModelica does not support FMI 3.0 or FMI-LS-DAE at the time of
-writing, the export and simulation times were measured using OpenModelica&#8217;s
-default C export and simulation.</p>
+<p>Since OpenModelica does not support FMI 3.0 or FMI-LS-DAE at the time of writing, the export and simulation times were measured using OpenModelica&#8217;s default C export and simulation.</p>
 </div>
 </div>
 </div>
