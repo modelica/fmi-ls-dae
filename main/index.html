@@ -479,7 +479,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 2add139,</span>
+<span id="revnumber">version a74d43c,</span>
 <span id="revdate">2026-03-06</span>
 </div>
 <div id="toc" class="toc2">
@@ -570,7 +570,7 @@ For further information on compatibility, see section <a href="https://fmi-stand
 <div class="paragraph">
 <p>This document is licensed under the Attribution-ShareAlike 4.0 International license.
 The code is released under the 2-Clause BSD License.
-The licenses text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file that accompanies this distribution.</p>
+The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file that accompanies this distribution.</p>
 </div>
 <div class="paragraph">
 <p></p>
@@ -678,7 +678,7 @@ The licenses text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file
 <p>with dynamic variables \(x(t)\), algebraic variables \(y(t)\) and time \(t\).</p>
 </div>
 <div class="paragraph">
-<p>Note that \(x(t)\) is not necessarily the state variables, more on this in <a href="#perturbation-index">section 2.1.1</a>.</p>
+<p>Note that \(x(t)\) is not necessarily the state variable, more on this in <a href="#perturbation-index">section 2.1.1</a>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -827,7 +827,7 @@ A DAE with a perturbation index greater than 1, a so-called <em>higher-index DAE
 <div class="sect5">
 <h6 id="example-of-structural-singularity">Example of Structural Singularity</h6>
 <div class="paragraph">
-<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]</a> provides a simple electric circuit model that is an higher-index DAE.</p>
+<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]</a> provides a simple electric circuit model that is a higher-index DAE.</p>
 </div>
 <div id="ParallelCapacitor" class="imageblock">
 <div class="content">
@@ -852,7 +852,7 @@ i_0 &amp;= i_1 + i_2
 </div>
 </div>
 <div class="paragraph">
-<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as state variables equation \(v_2 = v_1\) has no unknowns left, so it is a <em>constraint equation</em>.</p>
+<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as state variables, equation \(v_2 = v_1\) has no unknowns left, so it is a <em>constraint equation</em>.</p>
 </div>
 <div class="paragraph">
 <p>There are different ways to solve this.
@@ -1038,7 +1038,7 @@ Some DAE solvers can utilize sparsity to reduce simulation time.</p>
 <p>has structural singularities.</p>
 </div>
 <div class="paragraph">
-<p>To produce a complete and consistent set of initial conditions for the DAE exporting tools usually use a symbolic index reduction algorithm.</p>
+<p>To produce a complete and consistent set of initial conditions for the DAE, exporting tools usually use a symbolic index reduction algorithm.</p>
 </div>
 <div class="paragraph">
 <p>The model has nine state candidates</p>
@@ -1072,7 +1072,7 @@ Some DAE solvers can utilize sparsity to reduce simulation time.</p>
 </div>
 <div class="paragraph">
 <p>One option to achieve this is the so called dummy derivative method.
-From the set of state candidates five state variables are chosen (e.g. <code>C1.v</code>,<code>C3.v</code>,<code>C5.v</code>,<code>L1.i</code>,<code>L2.i</code>) and the constraint equations</p>
+From the set of state candidates, five state variables are chosen (e.g. <code>C1.v</code>, <code>C3.v</code>, <code>C5.v</code>, <code>L1.i</code>, <code>L2.i</code>) and the constraint equations</p>
 </div>
 <div class="stemblock">
 <div class="content">
@@ -1099,14 +1099,14 @@ L2.v &amp;= C3.v - C5.v
 </div>
 <div class="paragraph">
 <p>which results in four additional dummy states (<code>$DER.L1.v</code>, <code>$DER.L2.v</code>, <code>$DER.C2.v</code>, <code>$DER.C4.v</code>).
-Here Modelica keyword <code>stateSelect</code> influences how variables are picked.</p>
+Here the Modelica keyword <code>stateSelect</code> influences how variables are picked.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="scaling-power-grids-example">3.1.2. Scaling Power Grids Example</h4>
 <div class="paragraph">
-<p>For simulation models representing power grids on nation or larger scale traditional ODE solvers may struggle with convergence and performance.
-Also the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.</p>
+<p>For simulation models representing power grids on a national or larger scale, traditional ODE solvers may struggle with convergence and performance.
+Also, the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.</p>
 </div>
 <div class="paragraph">
 <p>See for example Modelica models <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10</code> to <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280</code> from ScalableTestSuite <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>.</p>
