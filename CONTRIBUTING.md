@@ -103,7 +103,7 @@ asciidoctor \
   docs/index.adoc
 ```
 
-The generated `docs/index.html` can be viewed with any modern web browser.
+The generated `build/index.html` can be viewed with any modern web browser.
 
 ## Validating the Files
 
