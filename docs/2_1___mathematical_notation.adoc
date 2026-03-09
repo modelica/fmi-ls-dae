@@ -8,7 +8,7 @@
 |Variable
 |Description
 |[[algebraic,algebraic variables]]latexmath:[\mathbf{z}_c]
-|A vector of real continuous-time variables representing the continuous-time <<algebraic,algebraic variables>>.  
+|A vector of real continuous-time variables representing the continuous-time <<algebraic,algebraic variables>>.
 |====
 include::2_1_1_dae_representation.adoc[]
 
