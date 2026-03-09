@@ -55,7 +55,7 @@ The XML attributes of `<fmiLayeredStandardManifest>` are:
 |====
 
 === Algebraic variables [[AlgebraicVariables, `<AlgebraicVariables>`]]
-The element `<AlgebraicVariables>` defines the ordered list of the algebraic variables.
+The element `<AlgebraicVariables>` defines the list of the algebraic variables.
 
 .AlgebraicVariables elements.
 [[table-algebraicvariables-details]]
@@ -65,7 +65,7 @@ The element `<AlgebraicVariables>` defines the ordered list of the algebraic var
 |Description
 
 |`AlgebraicVariable`
-|The ordered list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml.
+|The list of all algebraic variables present in the `ModelVariables` element of the modelDescription.xml.
 |====
 
 Each `<<AlgebraicVariable>>` has only one attribute defining the value reference.
@@ -86,7 +86,7 @@ Each `<<AlgebraicVariable>>` has only one attribute defining the value reference
 The structure of the model for the DAE-formulation is defined in element `<ModelStructure>`.
 It defines the <<model-dependencies,dependencies>> between variables. The `<ModelStructure>` element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables.
 
-An FMU that follows this layered standard must expose all residuals in order in <<Residual>>.
+An FMU that follows this layered standard must expose all residuals with the <<Residual>>.
 
 It should be noted that the ModelStructure below is not a straight extension of the ModelStructure from the core standard, since it e.g. does not specify how the elements `ClockedState` or `EventIndicator` are affected by the DAE-formulation. That is also why some elements in <<table-model-structure-elements>> are defined in a similar way to the core standard, with the exception that references to concepts in co-simulation, clocks, and events are excluded. Moreover, notes and examples that are already present in the core standard are omitted here.
 
