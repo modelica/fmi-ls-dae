@@ -23,10 +23,30 @@ See <<hairer2006numerical,[hairer2006numerical]>>.
 [perturbation-index]
 ===== Perturbation Index
 
-The _perturbation index_ is a measure of the constraints among equations.
-An index-0 DAE contains neither algebraic loops nor structural singularities.
-An index-1 DAE contains algebraic loops, but no structural singularities.
-A DAE with a perturbation index greater than 1, a so-called _higher-index DAE_, contains structural singularities footnote:[From <<cellier2006continuous,[cellier2006continuous]>>, p. 285.].
+The _perturbation index_ measures the sensitivity of the solution of a DAE to perturbations of its right-hand side.
+The DAE
+
+[latexmath]
+++++
+F(\dot{x}(t), x(t), t) = 0
+++++
+
+has perturbation index latexmath:[p] along a solution latexmath:[x(t)] if latexmath:[p] is the smallest non-negative integer such that the solution latexmath:[\tilde{x}(t)] of the perturbed system
+
+[latexmath]
+++++
+F(\dot{\tilde{x}}(t), \tilde{x}(t), t) = \delta(t)
+++++
+
+satisfies
+
+[latexmath]
+++++
+\|x(t) - \tilde{x}(t)\| \leq C \left( \|x(t_0) - \tilde{x}(t_0) \| + \max_{t_0 \le \xi \le t}\|\delta(\xi)\| + \max_{t_0 \le \xi \le t}\|\dot{\delta}(\xi)\| + \cdots + \max_{t_0 \le \xi \le t}\|\delta^{(p-1)}(\xi)\| \right)
+++++
+
+for some constant latexmath:[C] and a sufficiently small and smooth perturbation latexmath:[\delta(t)].
+A DAE with perturbation index greater than 1 is called a _higher-index DAE_.
 
 See <<hairer2006numerical,[hairer2006numerical]>>.
 
