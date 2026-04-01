@@ -59,7 +59,7 @@ jobs:
         cp -r docs/theme/ build/theme
 
     - name: Archive layered standard DAE
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: FMI-LS-DAE
         path: build/*
