@@ -83,3 +83,6 @@
   "Simulation of Large-Scale Models in Modelica: State of the Art and Future Perspectives".
   Proceedings of the 11th International Modelica Conference, pp. 459-468, 2015.
   https://dx.doi.org/10.3384/ecp15118459
+
+* [[[PW13]]]
+  Preston-Werner, T. (2013): **Semantic Versioning 2.0.0**.  https://semver.org/spec/v2.0.0.html
