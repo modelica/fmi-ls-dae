@@ -167,18 +167,18 @@ NOTE: TODO
 
 ---
 
-==== Getting Partial Derivatives
+=== Getting Partial Derivatives
 
 The partial derivative API functions https://fmi-standard.org/docs/3.0.2/#fmi3GetDirectionalDerivative[fmi3GetDirectionalDerivative] and https://fmi-standard.org/docs/3.0.2/#fmi3GetAdjointDerivative[fmi3GetAdjointDerivative] are used as defined in the core FMI standard, with the following extensions for DAE FMUs:
 
 * Algebraic variables (variables listed in `<<AlgebraicVariables>>`) may appear as knowns for any unknown.
 * When the unknown is a <<Formulation>> in a <<Residual>>(i.e., a residual variable), continuous state derivatives may additionally appear as knowns.
 
-==== Hello World DAE Example
+=== Hello World DAE Example
 
 Below outlines how to map the different forms of the Hello World DAE Example to the manifest file detailed here.
 
-===== Hello World DAE - Fully-Implicit DAE
+==== Hello World DAE - Fully-Implicit DAE
 
 The fully-implicit representation
 
@@ -259,7 +259,7 @@ An example of the `<<AlgebraicVariables>>` and `<<ModelStructure>>` elements wou
 ```
 NOTE: The derivatives of `x_1`, `x_2`, and `x_3` (`\dot{x_1}`, `\dot{x_2}`, `\dot{x_3}`) are still noted with the `derivative` attribute under the `ModelVariables` element, which gives the importer all the information they need to solve the equations.
 
-===== Hello World DAE - Semi-Explicit DAE
+==== Hello World DAE - Semi-Explicit DAE
 
 The semi-explicit representation
 
@@ -334,7 +334,7 @@ However this time the the derivative of `x` is given in explicit form in the `Mo
 </ModelStructure>
 ```
 
-===== Hello World DAE - Explicit ODE
+==== Hello World DAE - Explicit ODE
 
 This simple system could also be transformed into an explicit ODE formulation
 
@@ -378,7 +378,7 @@ This would correspond to the regular ODE ModelStructure:
 </ModelStructure>
 ```
 
-==== Example 2 (differentiated formulations)
+=== Example 2 (differentiated formulations)
 
 Consider the following index 2 DAE system:
 
