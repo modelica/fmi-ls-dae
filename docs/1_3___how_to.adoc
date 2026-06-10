@@ -1,1 +1,15 @@
 === How to read this Document
+
+The standard document is in HTML allowing heavy use of in-document links: all state names, function names, many function arguments, XML elements and attributes are links to definitions or descriptions.
+
+In key parts of this document, non-normative examples are used to help understand the standard.
+
+Conventions used in this document:
+
+* Non-normative text is given like this:
++
+NOTE: Especially examples are defined in this style.
+
+* The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://tools.ietf.org/html/rfc2119[RFC 2119] (regardless of formatting and capitalization).
+
+* State machine states are formatted as *bold* link, e.g. <<InitializationMode>>.
