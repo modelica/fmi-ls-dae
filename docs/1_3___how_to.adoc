@@ -12,4 +12,4 @@ NOTE: Especially examples are defined in this style.
 
 * The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://tools.ietf.org/html/rfc2119[RFC 2119] (regardless of formatting and capitalization).
 
-* State machine states are formatted as *bold* link, e.g. <<InitializationMode>>.
+* State machine states are formatted as *bold* link, e.g. *https://fmi-standard.org/docs/3.0.2/#InitializationMode[InitializationMode]*.
