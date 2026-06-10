@@ -132,7 +132,7 @@ Each `<<Formulation>>` element within a `<<Residual>>` has the following attribu
 
 |`index`
 |[[index-formulation]]
-Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation must be differentiated in order to solve for a particular derivative.
+Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation needs to be differentiated in order to solve for a particular derivative.
 
 |`dependencies`
 |[[model-dependencies]]
@@ -432,7 +432,7 @@ The importer is responsible to figure out how to solve the system:
 ```
 
 **Case 2:**
-The FMU additionally indicates that latexmath:[r_3] is a constraint of index 2, i.e., it must be differentiated twice to obtain an index 1 system.
+The FMU additionally indicates that latexmath:[r_3] is a constraint of index 2, i.e., it needs to be be differentiated twice to obtain an index 1 system.
 This gives the importer structural information to know to apply a solver able to handle index 2 problems:
 
 ```xml
