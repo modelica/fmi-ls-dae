@@ -94,8 +94,8 @@ algebraic variables.
 An FMU that follows this layered standard must expose all residuals with the <<Residual>>.
 
 * **Invariants**
-The <<ModelStructure>> element is extended with an additional element - <<Invariants>> - . 
-The dependency on differential states,inputs, and parameters can be optionally included. <<MN2018>>
+The <<ModelStructure>> element is extended with an additional element - <<Invariants>> - .
+The dependency on differential states,inputs, and parameters can be optionally included  <<MN2018>>.
 
 NOTE: The <<ModelStructure>> defined here extends the one from the core FMI standard.
 All elements defined there (`Output`, `ContinuousStateDerivative`, `ClockedState`, `InitialUnknown`, `EventIndicator`) retain their existing semantics, with the addition that each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>.

@@ -45,8 +45,7 @@ The total mechanical energy stem:[I(x, v)] (the Hamiltonian) of this closed syst
 I(x, v) = \frac{1}{2}mv^2 + \frac{1}{2}kx^2 = \text{constant}
 ++++
 
-In the phase space of stem:[(x, v)], the analytical solution traces out a perfect, closed ellipse, forever staying on this 
-fixed physical "energy manifold."
+In the phase space of stem:[(x, v)], the analytical solution traces out a perfect, closed ellipse, forever staying on this fixed physical "energy manifold."
 
 Now, let's simulate this system using the explicit Euler method with a time step stem:[h]:
 
@@ -63,8 +62,7 @@ If we substitute this numerical update step back into our energy invariant funct
 
 [stem]
 ++++
-I(x_{n+1}, v_{n+1}) = \frac{1}{2}m\left(v_n - h\frac{k}{m}x_n
-\right)^2 + \frac{1}{2}k\left(x_n + hv_n\right)^2
+I(x_{n+1}, v_{n+1}) = \frac{1}{2}m\left(v_n - h\frac{k}{m}x_n \right)^2 + \frac{1}{2}k\left(x_n + hv_n\right)^2
 ++++
 
 Expanding this expression reveals:
@@ -96,7 +94,7 @@ After sufficient differentiation, we often obtain a pure ODE stem:[\dot{y}=F(y)]
 g(y(t))=g(y(0))
 ++++
 
-Since the consistent initial condition satisfies stem:[g(y(0))=0], the reduced ODE should preserve stem:[g(y(t))=0]. 
+Since the consistent initial condition satisfies stem:[g(y(0))=0], the reduced ODE should preserve stem:[g(y(t))=0].
 Thus, the algebraic constraints of the original DAE become invariants of the reduced ODE.
 
 Consider the planar pendulum, an index-3 model constrained by the length of the rod. The full *index-3 DAE* in Cartesian coordinates is:
@@ -112,7 +110,7 @@ Consider the planar pendulum, an index-3 model constrained by the length of the 
 \end{aligned}
 ++++
 
-Index reduction eliminates stem:[\lambda] and produces an ODE in stem:[(x, y, u, v)], but *removes the original constraints*. 
+Index reduction eliminates stem:[\lambda] and produces an ODE in stem:[(x, y, u, v)], but *removes the original constraints*.
 The resulting ODE no longer enforces:
 
 * *Position invariant:* stem:[g_1=x^2 + y^2 - L^2]
@@ -120,7 +118,7 @@ The resulting ODE no longer enforces:
 
 == Numerical Drift and the Need for Invariant Preservation
 
-If the invariants are ignored, numerical drifts in the integration of the ODE alone causes, for example, the pendulum to *stretch or shrink* over time. 
+If the invariants are ignored, numerical drifts in the integration of the ODE alone causes, for example, the pendulum to *stretch or shrink* over time.
 To prevent numerical drifts, *both constraints must be enforced* via projection after each integration step (or every few steps).
 
 
@@ -151,9 +149,9 @@ This equation determines stem:[\lambda] and ensures that the solution remains on
 In this method, at regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute stem:[I(x_n, v_n)] and monitor its change from the initial value stem:[I(x_0, v_0)].
 A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
 
-For critical simulations, the *projection methods* is a popular method where the correction is done during the integration. 
+For critical simulations, the *projection methods* is a popular method where the correction is done during the integration.
 With standard numerical solvers (multi-step or single step), after a few steps or even after any step, the solution is "projected" back onto the correct invariant manifold.
-For instance, the state stem:[(x_n, v_n)] is minimally adjusted to a new state stem:[(\tilde{x}_n, \tilde{v}_n)] such that stem:[I(\tilde{x}_n, \tilde{v}_n) = I(x_0, v_0)]. 
+For instance, the state stem:[(x_n, v_n)] is minimally adjusted to a new state stem:[(\tilde{x}_n, \tilde{v}_n)] such that stem:[I(\tilde{x}_n, \tilde{v}_n) = I(x_0, v_0)].
 Some off-the shelf open-source numerical solvers support this feature.
 
 For multiple invariants, the correction is obtained by solving a small constrained least-squares problem involving the Jacobian of all constraints.
@@ -169,5 +167,4 @@ This is the *orthogonal projection* onto the intersection of all constraint mani
 
 == ODE with invariants in FMI
 The stem:[I(x)] invariants of the ODE or semi-explicit DAE are exposed as FMU local variables.
-The FMU can aslo optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n]. 
-
+The FMU can aslo optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n].

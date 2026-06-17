@@ -94,7 +94,7 @@
   SIAM.
 
 * [[[Hairer1]]]
-  Hairer, E., Wanner, G. (1996). 
+  Hairer, E., Wanner, G. (1996).
   "Solving Ordinary Differential Equations II: Stiff and Differential-Algebraic Problems"
   Springer.
 
