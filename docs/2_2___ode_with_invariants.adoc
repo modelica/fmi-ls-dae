@@ -69,9 +69,7 @@ Expanding this expression reveals:
 
 [stem]
 ++++
-I(x_{n+1}, v_{n+1}) = I(x_n, v_n) + h^2 \left( \frac{1}{2}\frac{k^2}{m} x_n^2 + \frac{1}{2}k v_n^2 
-\right) 
-\neq I(x_n, v_n)
+I(x_{n+1}, v_{n+1}) = I(x_n, v_n) + h^2 \left( \frac{1}{2}\frac{k^2}{m} x_n^2 + \frac{1}{2}k v_n^2 \right) \neq I(x_n, v_n)
 ++++
 
 The energy is not conserved. Because the error term on the right is strictly positive (stem:[h^2 > 0], stem:[k > 0], stem:[m > 0]), the total calculated energy artificially increases at every single time step. Instead of tracing a stable, closed ellipse, the numerical solution spirals outward indefinitely. The solver has no built-in knowledge of the system's physics and lacks a mechanism to constrain its steps to the true energy manifold.

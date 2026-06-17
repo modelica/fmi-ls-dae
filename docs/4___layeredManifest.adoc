@@ -88,8 +88,7 @@ The structure of the model for the DAE-formulation is defined in element <<Model
 It defines the <<model-dependencies,dependencies>> between variables.
 
 * **Residual**
-The <<ModelStructure>> element is extended with an additional element - <<Residual>> - and the optional dependencies can now include 
-algebraic variables.
+The <<ModelStructure>> element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables.
 
 An FMU that follows this layered standard must expose all residuals with the <<Residual>>.
 
