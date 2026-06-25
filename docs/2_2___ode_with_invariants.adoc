@@ -163,7 +163,7 @@ This equation determines stem:[\lambda] and ensures that the solution remains on
 ** _Geometric Projection_ (Discrete Correction)
 +
 In this method, at regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state.
-For example, we compute stem:[I(x_n, v_n)] and monitor its change from the initial value stem:[I(x_0, v_0)].
+For example, in the Mass-Spring Oscillator, we compute stem:[I(x_n, v_n)] and monitor its change from the initial value stem:[I(x_0, v_0)].
 A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
 +
 For critical simulations, the *projection methods* is a popular method where the correction is done during the integration.
@@ -185,5 +185,5 @@ This is the *orthogonal projection* onto the intersection of all constraint mani
 
 ==== ODE with invariants in FMI
 
-The stem:[I(x)] invariants of the ODE or semi-explicit DAE are exposed as FMU local variables.
+The stem:[I(x)] invariants of the ODE or semi-explicit DAE are exposed as local variables in the FMU.
 The FMU can also optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n].

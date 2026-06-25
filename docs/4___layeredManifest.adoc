@@ -92,9 +92,9 @@ The <<ModelStructure>> element is extended with an additional element - <<Residu
 
 An FMU that follows this layered standard must expose all residuals with the <<Residual>>.
 
-* **Invariants**
-The <<ModelStructure>> element is extended with an additional element - <<Invariants>> - .
-The dependency on differential states,inputs, and parameters can be optionally included  <<MN2018>>.
+* **Invariant**
+The <<ModelStructure>> element is extended with an additional element - <<Invariant>> - .
+The dependency on differential states,inputs, algebraic variables, and parameters can be optionally included  <<MN2018>>.
 
 NOTE: The <<ModelStructure>> defined here extends the one from the core FMI standard.
 All elements defined there (`Output`, `ContinuousStateDerivative`, `ClockedState`, `InitialUnknown`, `EventIndicator`) retain their existing semantics, with the addition that each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>.
@@ -120,8 +120,8 @@ Note that each formulation inside one residual element must reference unique var
 The functional dependency is defined as: +
 latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, t, \mathbf{p})}]
 
-|`Invariants`
-|[[Invariants,`<Invariants>`]]
+|`Invariant`
+|[[Invariant,`<Invariant>`]]
 Ordered list of invariant equations.
 Each `<Invariant>` indicate the FMU variable that computes an invariant of the FMU.
 The invariant can ne scalar or vectorial.
