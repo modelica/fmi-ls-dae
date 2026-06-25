@@ -479,8 +479,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 42e631a,</span>
-<span id="revdate">2026-06-10</span>
+<span id="revnumber">version ab615ba,</span>
+<span id="revdate">2026-06-25</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -494,33 +494,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#common-concepts">2. Common Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#mathematical-notation">Mathematical Notation</a>
+<li><a href="#mathematical-notation">2.1. Mathematical Notation</a>
 <ul class="sectlevel3">
-<li><a href="#dae-representation">DAE representation</a>
+<li><a href="#dae-representation">2.1.1. DAE representation</a>
 <ul class="sectlevel4">
-<li><a href="#fully-implicit-dae">Fully-Implicit DAE</a></li>
-<li><a href="#semi-explicit-index-1-hessenberg-index-1-dae">Semi-Explicit Index 1 / Hessenberg index 1 DAE</a></li>
-<li><a href="#relationship-between-fully-implicit-and-semi-explicit-dae">Relationship between fully-implicit and semi-explicit DAE</a></li>
-<li><a href="#semi-explicit-dae">Semi-Explicit DAE</a></li>
-<li><a href="#mass-matrix-dae">Mass matrix DAE</a></li>
-<li><a href="#linear-time-invariant-dae">Linear time-invariant DAE</a></li>
+<li><a href="#implicit-dae">2.1.1.1. Fully-Implicit DAE</a></li>
+<li><a href="#semi-explicit-index-1-dae">2.1.1.2. Semi-Explicit Index 1 / Hessenberg index 1 DAE</a></li>
+<li><a href="#relationship-fully-implicit-semi-explicit">2.1.1.3. Relationship between fully-implicit and semi-explicit DAE</a></li>
+<li><a href="#semi-explicit-dae">2.1.1.4. Semi-Explicit DAE</a></li>
+<li><a href="#mass-matrix-dae">2.1.1.5. Mass matrix DAE</a></li>
+<li><a href="#linear-time-invariant-dae">2.1.1.6. Linear time-invariant DAE</a></li>
 </ul>
 </li>
-<li><a href="#indices">Indices</a>
+<li><a href="#indices">2.1.2. Indices</a>
 <ul class="sectlevel4">
-<li><a href="#differential-index">Differential Index</a></li>
-<li><a href="#perturbation-index">Perturbation Index</a>
+<li><a href="#differential-index">2.1.2.1. Differential Index</a></li>
+<li><a href="#perturbation-index">2.1.2.2. Perturbation Index</a>
 <ul class="sectlevel5">
-<li><a href="#example-of-structural-singularity">Example of Structural Singularity</a></li>
+<li><a href="#example-structural-singularity">2.1.2.2.1. Example of Structural Singularity</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#hello-world-dae-example">Hello World DAE Example</a>
+<li><a href="#dae-example">2.1.3. Hello World DAE Example</a>
 <ul class="sectlevel4">
-<li><a href="#hello-world-dae-fully-implicit-dae">Hello World DAE - Fully-Implicit DAE</a></li>
-<li><a href="#hello-world-dae-semi-explicit-dae">Hello World DAE - Semi-Explicit DAE</a></li>
-<li><a href="#hello-world-dae-explicit-ode">Hello World DAE - Explicit ODE</a></li>
+<li><a href="#hello-world-dae-fully-implicit-dae">2.1.3.1. Hello World DAE - Fully-Implicit DAE</a></li>
+<li><a href="#hello-world-dae-semi-explicit-dae">2.1.3.2. Hello World DAE - Semi-Explicit DAE</a></li>
+<li><a href="#hello-world-dae-explicit-ode">2.1.3.3. Hello World DAE - Explicit ODE</a></li>
 </ul>
 </li>
 </ul>
@@ -547,7 +547,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#annotations">4.3. Annotations</a></li>
 <li><a href="#getting-partial-derivatives">4.4. Getting Partial Derivatives</a></li>
-<li><a href="#hello-world-dae-example-2">4.5. Hello World DAE Example</a>
+<li><a href="#hello-world-dae-example">4.5. Hello World DAE Example</a>
 <ul class="sectlevel3">
 <li><a href="#hello-world-dae-fully-implicit-dae-2">4.5.1. Hello World DAE - Fully-Implicit DAE</a></li>
 <li><a href="#hello-world-dae-semi-explicit-dae-2">4.5.2. Hello World DAE - Semi-Explicit DAE</a></li>
@@ -664,7 +664,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <h2 id="common-concepts">2. Common Concepts</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="mathematical-notation">Mathematical Notation</h3>
+<h3 id="mathematical-notation">2.1. Mathematical Notation</h3>
 <table id="table-variable-types" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Additional symbols for specific variable types.</caption>
 <colgroup>
@@ -685,7 +685,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="dae-representation">DAE representation</h4>
+<h4 id="dae-representation">2.1.1. DAE representation</h4>
 <div class="paragraph">
 <p>There are different forms of DAEs.</p>
 </div>
@@ -693,7 +693,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <p>For simplicity discontinuous states are currently disregarded.</p>
 </div>
 <div class="sect4">
-<h5 id="fully-implicit-dae">Fully-Implicit DAE</h5>
+<h5 id="implicit-dae">2.1.1.1. Fully-Implicit DAE</h5>
 <div class="paragraph">
 <p>The generic <em>fully-implicit DAE</em>, or <em>implicit DAE</em>, formulation:</p>
 </div>
@@ -721,7 +721,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </div>
 </div>
 <div class="sect4">
-<h5 id="semi-explicit-index-1-hessenberg-index-1-dae">Semi-Explicit Index 1 / Hessenberg index 1 DAE</h5>
+<h5 id="semi-explicit-index-1-dae">2.1.1.2. Semi-Explicit Index 1 / Hessenberg index 1 DAE</h5>
 <div class="paragraph">
 <p>The <em>semi-explicit index 1</em>, also called <em>Hessenberg index 1</em>, DAE representation</p>
 </div>
@@ -741,7 +741,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </div>
 </div>
 <div class="sect4">
-<h5 id="relationship-between-fully-implicit-and-semi-explicit-dae">Relationship between fully-implicit and semi-explicit DAE</h5>
+<h5 id="relationship-fully-implicit-semi-explicit">2.1.1.3. Relationship between fully-implicit and semi-explicit DAE</h5>
 <div class="paragraph">
 <p>A fully implicit DAE</p>
 </div>
@@ -763,7 +763,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </div>
 </div>
 <div class="sect4">
-<h5 id="semi-explicit-dae">Semi-Explicit DAE</h5>
+<h5 id="semi-explicit-dae">2.1.1.4. Semi-Explicit DAE</h5>
 <div class="paragraph">
 <p>The <em>semi-explicit DAE</em> representation</p>
 </div>
@@ -783,7 +783,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </div>
 </div>
 <div class="sect4">
-<h5 id="mass-matrix-dae">Mass matrix DAE</h5>
+<h5 id="mass-matrix-dae">2.1.1.5. Mass matrix DAE</h5>
 <div class="stemblock">
 <div class="content">
 \[M \dot{x}(t) = f(x(t), t)\]
@@ -818,7 +818,7 @@ g(x(t), y(t), t)
 </div>
 </div>
 <div class="sect4">
-<h5 id="linear-time-invariant-dae">Linear time-invariant DAE</h5>
+<h5 id="linear-time-invariant-dae">2.1.1.6. Linear time-invariant DAE</h5>
 <div class="stemblock">
 <div class="content">
 \[E \dot{x}(t) = Ax(t)\]
@@ -830,13 +830,13 @@ g(x(t), y(t), t)
 </div>
 </div>
 <div class="sect3">
-<h4 id="indices">Indices</h4>
+<h4 id="indices">2.1.2. Indices</h4>
 <div class="paragraph">
 <p>There are multiple, sometimes closely related, definitions of indices for DAE systems.
 Usually these indices are a measure of how far from an ODE the DAE is.</p>
 </div>
 <div class="sect4">
-<h5 id="differential-index">Differential Index</h5>
+<h5 id="differential-index">2.1.2.1. Differential Index</h5>
 <div class="paragraph">
 <p>The minimum number of times a DAE</p>
 </div>
@@ -853,7 +853,7 @@ Usually these indices are a measure of how far from an ODE the DAE is.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="perturbation-index">Perturbation Index</h5>
+<h5 id="perturbation-index">2.1.2.2. Perturbation Index</h5>
 <div class="paragraph">
 <p>The <em>perturbation index</em> measures the sensitivity of the solution of a DAE to perturbations of its right-hand side.
 The DAE</p>
@@ -887,7 +887,7 @@ A DAE with perturbation index greater than 1 is called a <em>higher-index DAE</e
 <p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
 </div>
 <div class="sect5">
-<h6 id="example-of-structural-singularity">Example of Structural Singularity</h6>
+<h6 id="example-structural-singularity">2.1.2.2.1. Example of Structural Singularity</h6>
 <div class="paragraph">
 <p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]</a> provides a simple electric circuit model that is a higher-index DAE.</p>
 </div>
@@ -924,7 +924,7 @@ The modeler could change the causality or exporting tools can try to reduce the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="hello-world-dae-example">Hello World DAE Example</h4>
+<h4 id="dae-example">2.1.3. Hello World DAE Example</h4>
 <div class="paragraph">
 <p>A simple initial-value problem</p>
 </div>
@@ -962,7 +962,7 @@ For this specific example a start condition \(x_0\) is sufficient to calculate c
 The independent variable (usually time) \(t\) is omitted for simplicity.</p>
 </div>
 <div class="sect4">
-<h5 id="hello-world-dae-fully-implicit-dae">Hello World DAE - Fully-Implicit DAE</h5>
+<h5 id="hello-world-dae-fully-implicit-dae">2.1.3.1. Hello World DAE - Fully-Implicit DAE</h5>
 <div class="paragraph">
 <p>The fully-implicit representation</p>
 </div>
@@ -992,7 +992,7 @@ x_2 - 3 x_3 - 2 x_1
 </div>
 </div>
 <div class="sect4">
-<h5 id="hello-world-dae-semi-explicit-dae">Hello World DAE - Semi-Explicit DAE</h5>
+<h5 id="hello-world-dae-semi-explicit-dae">2.1.3.2. Hello World DAE - Semi-Explicit DAE</h5>
 <div class="paragraph">
 <p>The semi-explicit representation</p>
 </div>
@@ -1027,7 +1027,7 @@ y_1 - 3 y_2 - 2 x
 </div>
 </div>
 <div class="sect4">
-<h5 id="hello-world-dae-explicit-ode">Hello World DAE - Explicit ODE</h5>
+<h5 id="hello-world-dae-explicit-ode">2.1.3.3. Hello World DAE - Explicit ODE</h5>
 <div class="paragraph">
 <p>This simple system could also be transformed into an explicit ODE formulation</p>
 </div>
@@ -1496,7 +1496,7 @@ TODO
 </div>
 </div>
 <div class="sect2">
-<h3 id="hello-world-dae-example-2">4.5. Hello World DAE Example</h3>
+<h3 id="hello-world-dae-example">4.5. Hello World DAE Example</h3>
 <div class="paragraph">
 <p>Below outlines how to map the different forms of the Hello World DAE Example to the manifest file detailed here.</p>
 </div>
