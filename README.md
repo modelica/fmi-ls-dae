@@ -3,6 +3,7 @@
 [![Build Layered Standard DAE][badge-build-ls-dae]][build-ls-dae]
 [![Validate XML manifests][badge-validate-xml]][validate-xml]
 [![Static Badge][badge-docs]][spec]
+[![Download Reference FMUs][badge-fmus]][fmus-download]
 
 This repository contains an early prototype draft for the FMI Layered Standard
 for DAE (FMI-LS-DAE) based on the [Function Mock-up Interface][FMI] (FMI).
@@ -46,3 +47,5 @@ For development there is a private sandbox
 [sandbox]: https://github.com/modelica/fmi-ls-dae-sandbox
 [spec]: https://modelica.github.io/fmi-ls-dae/main/
 [validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml
+[badge-fmus]: https://img.shields.io/badge/download-Reference%20FMUs-blue?logo=github
+[fmus-download]: https://nightly.link/modelica/fmi-ls-dae/workflows/build-fmus.yml/main/FMI-LS-DAE-FMUs.zip

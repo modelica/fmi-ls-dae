@@ -1,7 +1,7 @@
 #pragma once
 
-#if FMI_VERSION != 1 && FMI_VERSION != 2 && FMI_VERSION != 3
-#error FMI_VERSION must be one of 1, 2 or 3
+#if !defined(FMI_VERSION) || FMI_VERSION != 3
+#error Only FMI 3.0 is supported (FMI_VERSION must be 3)
 #endif
 
 #define UNUSED(x) (void)(x)
@@ -11,39 +11,6 @@
 #include <stdint.h>
 
 #include "config.h"
-
-#if FMI_VERSION == 1
-
-#define not_modelError (Instantiated| Initialized | Terminated)
-
-typedef enum {
-    Instantiated = 1<<0,
-    Initialized  = 1<<1,
-    Terminated   = 1<<2,
-    modelError   = 1<<3
-} ModelState;
-
-#elif FMI_VERSION == 2
-
-typedef enum {
-    StartAndEnd        = 1<<0,
-    Instantiated       = 1<<1,
-    InitializationMode = 1<<2,
-
-    // ME states
-    EventMode          = 1<<3,
-    ContinuousTimeMode = 1<<4,
-
-    // CS states
-    StepComplete       = 1<<5,
-    StepInProgress     = 1<<6,
-    StepFailed         = 1<<7,
-    StepCanceled       = 1<<8,
-
-    Terminated         = 1<<9,
-} ModelState;
-
-#else
 
 typedef enum {
     StartAndEnd            = 1 << 0,
@@ -60,8 +27,6 @@ typedef enum {
     Terminated             = 1 << 11,
 } ModelState;
 
-#endif
-
 typedef enum {
     ModelExchange,
     CoSimulation,
@@ -77,11 +42,7 @@ typedef enum {
     Pending
 } Status;
 
-#if FMI_VERSION < 3
-typedef void (*loggerType) (void *componentEnvironment, const char *instanceName, int status, const char *category, const char *message, ...);
-#else
 typedef void (*loggerType) (void *componentEnvironment, int status, const char *category, const char *message);
-#endif
 
 typedef void (*lockPreemptionType)   (void);
 typedef void (*unlockPreemptionType) (void);

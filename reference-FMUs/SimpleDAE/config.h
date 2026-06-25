@@ -2,7 +2,7 @@
 #define config_h
 
 // define class name and unique id
-#define MODEL_IDENTIFIER DAE
+#define MODEL_IDENTIFIER SimpleDAE
 #define INSTANTIATION_TOKEN "{BD403596-3166-4232-ABC2-DAE}"
 
 #define MODEL_EXCHANGE

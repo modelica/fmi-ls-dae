@@ -1,5 +1,7 @@
+build/
 *.fmu
 *.dll
 *.lib
 *.a
 *.so
+*.o

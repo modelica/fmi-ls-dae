@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+	targetNamespace="http://fmi-standard.org/fmi-ls-manifest"
 	elementFormDefault="qualified"
-	attributeFormDefault="qualified">
-	<xs:import namespace="http://fmi-standard.org/fmi-ls-manifest"
-		schemaLocation="fmi3LayeredStandardManifest.xsd" />
+	attributeFormDefault="unqualified">
 	<xs:annotation>
 		<xs:documentation>
 			Copyright(c) 2025 Modelica Association Project FMI.
@@ -39,17 +38,147 @@
 		</xs:documentation>
 	</xs:annotation>
 
-	<xs:element name="fmi-dae">
+	<!-- Manifest attributes (mirrors fmi3LayeredStandardManifest.xsd) -->
+	<xs:attribute name="fmi-ls-name"        type="xs:normalizedString"/>
+	<xs:attribute name="fmi-ls-version"     type="xs:normalizedString"/>
+	<xs:attribute name="fmi-ls-description" type="xs:normalizedString"/>
+
+	<!-- Space-separated list of value references -->
+	<xs:simpleType name="TValueReferenceList">
+		<xs:list itemType="xs:unsignedInt"/>
+	</xs:simpleType>
+
+	<!-- Single algebraic variable declaration -->
+	<xs:complexType name="TAlgebraicVariable">
+		<xs:attribute name="valueReference" type="xs:unsignedInt" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Value reference of the algebraic variable in ModelVariables of
+					the modelDescription.xml.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!-- Container listing all algebraic variables -->
+	<xs:complexType name="TAlgebraicVariables">
+		<xs:sequence>
+			<xs:element name="AlgebraicVariable" type="fmi-ls:TAlgebraicVariable"
+				maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- One formulation (equation) within a Residual -->
+	<xs:complexType name="TFormulation">
+		<xs:attribute name="valueReference" type="xs:unsignedInt" use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Value reference of the residual variable in ModelVariables of
+					the modelDescription.xml.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="index" type="xs:unsignedInt">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Optional DAE index: number of times this equation must be
+					differentiated to obtain an index-1 system.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dependencies" type="fmi-ls:TValueReferenceList">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Space-separated list of value references this formulation depends on.
+					If absent, dependence on all knowns is assumed.
+					If present but empty, the formulation depends on no knowns.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dependenciesKind" type="xs:string">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Space-separated list of dependency kinds, one per entry in
+					'dependencies'. See dependenciesKind in the core FMI standard.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!-- Residual equation: one or more formulations (differentiated forms of the same constraint) -->
+	<xs:complexType name="TResidual">
+		<xs:sequence>
+			<xs:element name="Formulation" type="fmi-ls:TFormulation"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Multiple Formulation elements within one Residual represent
+						the same constraint differentiated to successive orders.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Structure element shared by Output, ContinuousStateDerivative, etc. -->
+	<xs:complexType name="TModelStructureElement">
+		<xs:attribute name="valueReference"   type="xs:unsignedInt" use="required"/>
+		<xs:attribute name="dependencies"     type="fmi-ls:TValueReferenceList"/>
+		<xs:attribute name="dependenciesKind" type="xs:string"/>
+	</xs:complexType>
+
+	<!--
+		DAE model structure.  Overrides the ModelStructure in modelDescription.xml
+		when present.  All standard elements retain their core FMI semantics;
+		algebraic variables may additionally appear as dependencies.
+		The Residual element is new.
+	-->
+	<xs:complexType name="TDaeModelStructure">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Output"                    type="fmi-ls:TModelStructureElement"/>
+			<xs:element name="ContinuousStateDerivative" type="fmi-ls:TModelStructureElement"/>
+			<xs:element name="ClockedState"              type="fmi-ls:TModelStructureElement"/>
+			<xs:element name="InitialUnknown"            type="fmi-ls:TModelStructureElement"/>
+			<xs:element name="EventIndicator"            type="fmi-ls:TModelStructureElement"/>
+			<xs:element name="Residual"                  type="fmi-ls:TResidual"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<!-- Root element of the FMI-LS-DAE manifest file -->
+	<xs:element name="fmiLayeredStandardManifest">
 		<xs:complexType>
-			<xs:attribute ref="fmi-ls:fmi-ls-name" use="required" fixed="org.fmi-standard.fmi-ls-dae" />
-			<xs:attribute ref="fmi-ls:fmi-ls-version" use="required" />
+			<xs:sequence>
+				<xs:element name="AlgebraicVariables" type="fmi-ls:TAlgebraicVariables"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							List of algebraic variables exposed by this DAE FMU.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ModelStructure" type="fmi-ls:TDaeModelStructure"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Overrides the ModelStructure in modelDescription.xml with
+							DAE-aware dependency information and residual declarations.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute ref="fmi-ls:fmi-ls-name" use="required"
+				fixed="org.fmi-standard.fmi-ls-dae"/>
+			<xs:attribute ref="fmi-ls:fmi-ls-version" use="required"/>
 			<xs:attribute ref="fmi-ls:fmi-ls-description" use="required"
-				fixed="Layered standard for DAE support in FMI." />
+				fixed="Layered standard for DAE support in FMI."/>
 			<xs:attribute name="isDaeFmu" type="xs:boolean" default="false">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">If true, this FMU represents a DAE FMU.</xs:documentation>
+					<xs:documentation xml:lang="en">
+						If true, this FMU exposes a DAE formulation via this layered standard.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+
 </xs:schema>

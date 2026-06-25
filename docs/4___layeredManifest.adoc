@@ -5,9 +5,10 @@ This layered standard requires the use of a layered standard manifest file and i
 
 [Add figure here] shows the root element `fmiLayeredStandardManifest`.
 
-Two additional elements - <<AlgebraicVariables>> and <<ModelStructure>> - are included in the layered standard manifest file to describe the DAE formulation.
+Two additional elements - <<AlgebraicVariables>> and <<ModelStructure>> - are included as direct children of the root element in the layered standard manifest file to describe the DAE formulation.
+They are stored in the manifest rather than in the FMU's `modelDescription.xml`, as the FMI standard does not permit layered standards to extend that file.
 
-.`fmiModelDescription` element details.
+.`fmiLayeredStandardManifest` child elements.
 [[table-schema-fmiModelDescription]]
 [cols="1,3",options="header"]
 |====
@@ -29,7 +30,7 @@ The <<AlgebraicVariables,algebraic variables>> can now also be included as depen
 
 The XML attributes of `<fmiLayeredStandardManifest>` are:
 
-.`<fmiLayeredStandardManifest>`` attribute details.
+.`<fmiLayeredStandardManifest>` attribute details.
 [[table-schema-fmi-ls-dae-attributes]]
 [cols="1,1,1,2",options="header"]
 |====
@@ -45,12 +46,12 @@ The XML attributes of `<fmiLayeredStandardManifest>` are:
 
 |`fmi-ls-version`
 |`\http://fmi-standard.org/fmi-ls-manifest`
-|`0.0.1`
+|`0.1`
 |Version of the layered standard. This layered standard uses semantic versioning, as defined in <<PW13>>.
 
 |`fmi-ls-description`
 |`\http://fmi-standard.org/fmi-ls-manifest`
-|`Layered standard for DAE support in FMI`
+|`Layered standard for DAE support in FMI.`
 |String with a brief description of the layered standard that is suitable for display to users.
 |====
 

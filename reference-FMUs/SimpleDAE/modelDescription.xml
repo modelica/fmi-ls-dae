@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fmiModelDescription
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/modelica/fmi-standard/v3.0.2/schema/fmi3ModelDescription.xsd"
   fmiVersion="3.0"
   modelName="Simple DAE"
   description="This model implements a simple DAE"
@@ -7,7 +9,7 @@
   instantiationToken="{BD403596-3166-4232-ABC2-DAE}">
 
   <ModelExchange
-    modelIdentifier="DAE"
+    modelIdentifier="SimpleDAE"
     canGetAndSetFMUState="true"
     canSerializeFMUState="true"
     providesDirectionalDerivatives="true"
@@ -24,72 +26,55 @@
     <Float64
       name="time"
       valueReference="0"
-      causality="independent"
-      unit="s">
-    </Float64>
+      causality="independent"/>
     <Float64
       name="x1"
       valueReference="1"
       initial="exact"
-      start="0.5">
-    </Float64>
+      start="0.5"/>
     <Float64
       name="der(x1)"
       valueReference="2"
-      derivative="1">
-
-    </Float64>
+      derivative="1"/>
     <Float64
       name="x2"
       valueReference="3"
       initial="exact"
-      start="0.5">
-    </Float64>
+      start="0.5"/>
     <Float64
       name="der(x2)"
       valueReference="4"
-      derivative="3">
-    </Float64>
+      derivative="3"/>
     <Float64
       name="z1"
       valueReference="5"
       initial="approx"
-      start="0.0">
-    </Float64>
+      start="0.0"/>
     <Float64
       name="z2"
       valueReference="6"
       initial="approx"
-      start="0.0">
-    </Float64>
+      start="0.0"/>
     <Float64
       name="u1"
       valueReference="7"
       causality="input"
       intermediateUpdate="true"
-      declaredType="Modelica.Blocks.Interfaces.RealInput"
-      start="0.0">
-    </Float64>
+      start="0.0"/>
     <Float64
       name="u2"
       valueReference="8"
       causality="input"
       intermediateUpdate="true"
-      declaredType="Modelica.Blocks.Interfaces.RealInput"
-      start="0.0">
-    </Float64>
+      start="0.0"/>
     <Float64
       name="y1"
       valueReference="9"
-      causality="output"
-      declaredType="Modelica.Blocks.Interfaces.RealOutput">
-    </Float64>
+      causality="output"/>
     <Float64
       name="y2"
       valueReference="10"
-      causality="output"
-      declaredType="Modelica.Blocks.Interfaces.RealOutput">
-    </Float64>
+      causality="output"/>
     <Float64
       name="__residual0"
       valueReference="11"
@@ -105,30 +90,45 @@
   </ModelVariables>
 
   <ModelStructure>
+    <!-- y1 = u1*x1*z1 + sin(u2)
+         In ODE mode z1 is resolved from states/inputs, so direct deps are:
+         x1(vr=1), u1(vr=7), u2(vr=8) -->
     <Output valueReference="9"
       dependencies="1 7 8"
       dependenciesKind="dependent dependent dependent"/>
+    <!-- y2 = u2*x2*z2 + sin(u1*u2)
+         In ODE mode z2 transitively depends on x1 as well, so direct deps are:
+         x1(vr=1), x2(vr=3), u1(vr=7), u2(vr=8) -->
     <Output valueReference="10"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
+    <!-- der(x1) = sin(x1) + sin(z1*z2*u1)
+         In ODE mode z1,z2 are resolved; transitive deps are:
+         x1(vr=1), x2(vr=3), u1(vr=7), u2(vr=8) -->
     <ContinuousStateDerivative valueReference="2"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
+    <!-- der(x2) = sin(x1*x2) + sin(z1*z2*u2) + u1^2
+         In ODE mode z1,z2 are resolved; transitive deps are:
+         x1(vr=1), x2(vr=3), u1(vr=7), u2(vr=8) -->
     <ContinuousStateDerivative valueReference="4"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
+    <!-- der(x1) at initialization — same dependencies as in ContinuousTimeMode -->
     <InitialUnknown valueReference="2"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
+    <!-- der(x2) at initialization — same dependencies as in ContinuousTimeMode -->
     <InitialUnknown valueReference="4"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
+    <!-- y1 at initialization — same dependencies as Output -->
     <InitialUnknown valueReference="9"
       dependencies="1 7 8"
       dependenciesKind="dependent dependent dependent"/>
+    <!-- y2 at initialization — same dependencies as Output -->
     <InitialUnknown valueReference="10"
       dependencies="1 3 7 8"
       dependenciesKind="dependent dependent dependent dependent"/>
   </ModelStructure>
-
 </fmiModelDescription>

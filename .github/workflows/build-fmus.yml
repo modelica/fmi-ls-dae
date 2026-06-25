@@ -1,0 +1,116 @@
+name: Build and test reference FMUs
+
+on:
+  push:
+    tags:
+      - '*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - name: x86_64-windows
+            image: windows-2025
+            arch: x86_64
+          - name: aarch64-windows
+            image: windows-11-arm
+            arch: aarch64
+          - name: x86_64-linux
+            image: ubuntu-24.04
+            arch: x86_64
+          - name: aarch64-linux
+            image: ubuntu-24.04-arm
+            arch: aarch64
+          - name: x86_64-darwin
+            image: macos-26-intel
+            arch: x86_64
+          - name: aarch64-darwin
+            image: macos-26
+            arch: aarch64
+    runs-on: ${{ matrix.image }}
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Configure CMake
+      run: cmake -B build/cmake -DFMI_ARCHITECTURE=${{ matrix.arch }} reference-FMUs
+
+    - name: Build
+      run: cmake --build build/cmake --config Release
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: ${{ matrix.name }}
+        path: build/cmake/fmus
+        if-no-files-found: error
+
+  merge-fmus:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@v7
+
+    - uses: actions/download-artifact@v8
+      with:
+        name: aarch64-windows
+        path: dist-aarch64-windows
+    - uses: actions/download-artifact@v8
+      with:
+        name: x86_64-windows
+        path: dist-x86_64-windows
+    - uses: actions/download-artifact@v8
+      with:
+        name: x86_64-linux
+        path: dist-x86_64-linux
+    - uses: actions/download-artifact@v8
+      with:
+        name: aarch64-linux
+        path: dist-aarch64-linux
+    - uses: actions/download-artifact@v8
+      with:
+        name: x86_64-darwin
+        path: dist-x86_64-darwin
+    - uses: actions/download-artifact@v8
+      with:
+        name: aarch64-darwin
+        path: dist-aarch64-darwin
+
+    - name: Merge platform FMUs
+      run: python3 .ci/reference-FMUs/merge_fmus.py
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: FMI-LS-DAE-FMUs
+        path: dist-merged/*.fmu
+        if-no-files-found: error
+
+  test-ode-fmus:
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu-24.04
+          - image: macos-26
+          - image: windows-2025
+    runs-on: ${{ matrix.image }}
+    needs: [merge-fmus]
+    steps:
+    - uses: actions/checkout@v7
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - uses: actions/download-artifact@v8
+      with:
+        name: FMI-LS-DAE-FMUs
+        path: fmus
+
+    - name: Install dependencies
+      run: pip install fmpy pytest
+
+    - name: Simulate and verify SimpleDAE in ODE mode
+      run: pytest .ci/reference-FMUs/test_simple_dae.py -v
+      env:
+        SIMPLE_DAE_FMU: fmus/SimpleDAE.fmu
