@@ -1,17 +1,22 @@
-== ODE with Invariants or Constraints
 :stem: latexmath
 
-When a mathematical model is derived for a physical system, the fundamental conservation laws (such as energy or momentum) or geometric properties are directly embedded into the differential equations. These conservation laws define the system's *invariants* (quantities that remain constant over time). Examples include total energy in a closed system, total mass in a chemical reaction, or angular momentum in a gravitational field.
+=== ODE with Invariants or Constraints
 
-The analytical solution to the differential equation respects these invariants perfectly. However, when numerical solvers (like Euler's method, Runge-Kutta, or BDF methods) are used to simulate the differential equations, _numerical drift_ is introduced.
+When a mathematical model is derived for a physical system, the fundamental conservation laws (such as energy or momentum) or geometric properties are directly embedded into the differential equations.
+These conservation laws define the system's *invariants* (quantities that remain constant over time).
+Examples include total energy in a closed system, total mass in a chemical reaction, or angular momentum in a gravitational field.
+
+The analytical solution to the differential equation respects these invariants perfectly.
+However, when numerical solvers (like Euler's method, Runge-Kutta, or BDF methods) are used to simulate the differential equations, _numerical drift_ is introduced.
 
 Numerical solvers solve the ODE/DAEs by approximating the continuous-time variable with a series of discrete steps.
-At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error While high-order methods can make this error very small for the *state variables* themselves, they are generally *not designed to preserve arbitrary invariants of the system*.
+At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error.
+While high-order methods can make this error very small for the *state variables* themselves, they are generally *not designed to preserve arbitrary invariants of the system*.
 
 This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = stem:[E_0]), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant.
 The solver is effectively solving a _nearby_ differential equation, one whose true solution does not possess the same conserved quantities.
 
-=== Example: The Mass-Spring Oscillator
+==== Example: The Mass-Spring Oscillator
 
 Consider a physical system consisting of a mass stem:[m] attached to a spring with a spring constant stem:[k].
 When the mass is displaced by a distance stem:[x] from its equilibrium position, the spring exerts a restoring force given by Hooke's law:
@@ -72,20 +77,29 @@ Expanding this expression reveals:
 I(x_{n+1}, v_{n+1}) = I(x_n, v_n) + h^2 \left( \frac{1}{2}\frac{k^2}{m} x_n^2 + \frac{1}{2}k v_n^2 \right) \neq I(x_n, v_n)
 ++++
 
-The energy is not conserved. Because the error term on the right is strictly positive (stem:[h^2 > 0], stem:[k > 0], stem:[m > 0]), the total calculated energy artificially increases at every single time step. Instead of tracing a stable, closed ellipse, the numerical solution spirals outward indefinitely. The solver has no built-in knowledge of the system's physics and lacks a mechanism to constrain its steps to the true energy manifold.
+The energy is not conserved.
+Because the error term on the right is strictly positive (stem:[h^2 > 0], stem:[k > 0], stem:[m > 0]), the total calculated energy artificially increases at every single time step.
+Instead of tracing a stable, closed ellipse, the numerical solution spirals outward indefinitely.
+The solver has no built-in knowledge of the system's physics and lacks a mechanism to constrain its steps to the true energy manifold.
 
-As a consequences of numerical drifts, the simulation can produce results that violate fundamental physical laws. A satellite's orbit might slowly decay or escape when it should be stable. In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall,rendering the simulation useless.
-Also, small drifts can accumulate, leading to a complete breakdown of the solution over long time horizons. The numerical solution may blow up or behave chaotically even when the true solution is well-behaved.
+As a consequences of numerical drifts, the simulation can produce results that violate fundamental physical laws.
+A satellite's orbit might slowly decay or escape when it should be stable.
+In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall, rendering the simulation useless.
+Also, small drifts can accumulate, leading to a complete breakdown of the solution over long time horizons.
+The numerical solution may blow up or behave chaotically even when the true solution is well-behaved.
 
-The constraints are not always related to conservation laws; if the index of a DAE is reduced to zero to obtain an ODE, some equations may be omitted. In order to ensure that these equations are taken into account and used to avoid drift, these equations should be exploited.
+The constraints are not always related to conservation laws; if the index of a DAE is reduced to zero to obtain an ODE, some equations may be omitted.
+In order to ensure that these equations are taken into account and used to avoid drift, these equations should be exploited.
 
-== DAE Index Reduction and ODE with Invariants
+=== DAE Index Reduction and ODE with Invariants
 
 The connection between an ODE solved with invariants and a DAE is fundamental, particularly when dealing with index reduction.
-Many physical systems, such as multibody dynamics, are naturally modeled as high-index DAEs. Reducing the DAE index to zero (transforming it into an ODE) simplifies the solution process but removes the original algebraic constraints from the solved equations.
+Many physical systems, such as multibody dynamics, are naturally modeled as high-index DAEs.
+Reducing the DAE index to zero (transforming it into an ODE) simplifies the solution process but removes the original algebraic constraints from the solved equations.
 These constraints, which define the system's geometric invariants (e.g., the set of physically allowed positions), are then subject to numerical drift.
 
-After sufficient differentiation, we often obtain a pure ODE stem:[\dot{y}=F(y)] for which the original algebraic constraint stem:[g(y)=0] is no longer part of the differential equations. Instead, it becomes an invariant:
+After sufficient differentiation, we often obtain a pure ODE stem:[\dot{y}=F(y)] for which the original algebraic constraint stem:[g(y)=0] is no longer part of the differential equations.
+Instead, it becomes an invariant:
 
 [stem]
 ++++
@@ -95,7 +109,8 @@ g(y(t))=g(y(0))
 Since the consistent initial condition satisfies stem:[g(y(0))=0], the reduced ODE should preserve stem:[g(y(t))=0].
 Thus, the algebraic constraints of the original DAE become invariants of the reduced ODE.
 
-Consider the planar pendulum, an index-3 model constrained by the length of the rod. The full *index-3 DAE* in Cartesian coordinates is:
+Consider the planar pendulum, an index-3 model constrained by the length of the rod.
+The full *index-3 DAE* in Cartesian coordinates is:
 
 [stem]
 ++++
@@ -114,18 +129,20 @@ The resulting ODE no longer enforces:
 * *Position invariant:* stem:[g_1=x^2 + y^2 - L^2]
 * *Velocity invariant:* stem:[g_2=x u + y v ]
 
-== Numerical Drift and the Need for Invariant Preservation
+=== Numerical Drift and the Need for Invariant Preservation
 
 If the invariants are ignored, numerical drifts in the integration of the ODE alone causes, for example, the pendulum to *stretch or shrink* over time.
 To prevent numerical drifts, *both constraints must be enforced* via projection after each integration step (or every few steps).
 
 
-== The Solution: Invariant and Manifold Checking
+=== The Solution: Invariant and Manifold Checking
 
-This is where invariant and manifold checking (and correction) becomes essential. Manifold Checking and Correction Methods to preserve physical fidelity, simulations must actively monitor and correct for drift using one of two strategies:
+This is where invariant and manifold checking (and correction) becomes essential.
+Manifold Checking and Correction Methods to preserve physical fidelity, simulations must actively monitor and correct for drift using one of two strategies:
 
 ** State Augmentation (Continuous Correction)
-In this approch the invariants are incorporated in the ODE using a Lagrange multiplier. If numerical errors cause stem:[g(y) \neq 0], the trajectory slowly leaves the constraint manifold.
+In this approch the invariants are incorporated in the ODE using a Lagrange multiplier.
+If numerical errors cause stem:[g(y) \neq 0], the trajectory slowly leaves the constraint manifold.
 An invariant-preserving formulation augments the ODE with a correction term:
 
 [stem]
@@ -144,7 +161,8 @@ This equation determines stem:[\lambda] and ensures that the solution remains on
 
 ** Geometric Projection (Discrete Correction)
 
-In this method, at regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state. For example, we compute stem:[I(x_n, v_n)] and monitor its change from the initial value stem:[I(x_0, v_0)].
+In this method, at regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state.
+For example, we compute stem:[I(x_n, v_n)] and monitor its change from the initial value stem:[I(x_0, v_0)].
 A significant deviation is a direct measure of the simulation's accumulated error with respect to the physics of the problem.
 
 For critical simulations, the *projection methods* is a popular method where the correction is done during the integration.
@@ -161,8 +179,10 @@ For stem:[m] constraints stem:[H(x) \in \mathbb{R}^m], the correction is:
 \tilde{x}_n = x_n - G^T (G G^T)^{-1} H(x_n), \quad G = \frac{\partial H}{\partial x}(x_n) \in \mathbb{R}^{m \times n}
 ++++
 
-This is the *orthogonal projection* onto the intersection of all constraint manifolds. <<Brenan>>, <<Hairer1>>, <<Hairer2>>
+This is the *orthogonal projection* onto the intersection of all constraint manifolds.
+<<Brenan>>, <<Hairer1>>, <<Hairer2>>
 
-== ODE with invariants in FMI
+=== ODE with invariants in FMI
+
 The stem:[I(x)] invariants of the ODE or semi-explicit DAE are exposed as FMU local variables.
 The FMU can aslo optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n].
