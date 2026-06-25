@@ -186,4 +186,4 @@ This is the *orthogonal projection* onto the intersection of all constraint mani
 ==== ODE with invariants in FMI
 
 The stem:[I(x)] invariants of the ODE or semi-explicit DAE are exposed as FMU local variables.
-The FMU can aslo optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n].
+The FMU can also optionally expose the stem:[\delta(x)=\tilde{x}_n - x_n].
