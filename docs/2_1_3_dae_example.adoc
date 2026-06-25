@@ -1,6 +1,6 @@
 :stem: latexmath
 
-[dae-example]
+[#dae-example]
 ==== Hello World DAE Example
 
 A simple initial-value problem

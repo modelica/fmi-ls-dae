@@ -2,14 +2,14 @@
 
 // Sources: https://www.fs.isy.liu.se/Edu/Courses/Simulation/OH/
 
-[dae-representation]
+[#dae-representation]
 ==== DAE representation
 
 There are different forms of DAEs.
 
 For simplicity discontinuous states are currently disregarded.
 
-[implicit-dae]
+[#implicit-dae]
 ===== Fully-Implicit DAE
 
 The generic _fully-implicit DAE_, or _implicit DAE_, formulation:
@@ -32,7 +32,7 @@ with dynamic variables latexmath:[x(t)], algebraic variables latexmath:[y(t)] an
 
 Note that latexmath:[x(t)] is not necessarily the state variable, more on this in <<Perturbation Index, section 2.1.1>>.
 
-[semi-explicit-index-1-dae]
+[#semi-explicit-index-1-dae]
 ===== Semi-Explicit Index 1 / Hessenberg index 1 DAE
 
 The _semi-explicit index 1_, also called _Hessenberg index 1_, DAE representation
@@ -49,7 +49,7 @@ with latexmath:[g] solvable for latexmath:[y], latexmath:[det \left( \frac{\part
 
 Here latexmath:[f] is called the _differential equations_ and latexmath:[g] the _algebraic equations_.
 
-[relationship-fully-implicit-semi-explicit]
+[#relationship-fully-implicit-semi-explicit]
 ===== Relationship between fully-implicit and semi-explicit DAE
 
 A fully implicit DAE
@@ -69,7 +69,7 @@ can always be rewritten as a semi-explicit DAE by introducing a new algebraic va
 \end{split}
 ++++
 
-[semi-explicit-dae]
+[#semi-explicit-dae]
 ===== Semi-Explicit DAE
 
 The _semi-explicit DAE_ representation
@@ -87,7 +87,7 @@ The _semi-explicit DAE_ representation
 
 with latexmath:[g^1] solvable for latexmath:[y], latexmath:[det \left( \frac{\partial}{\partial y}g^1\right) \neq 0] and latexmath:[\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k > 1].
 
-[mass-matrix-dae]
+[#mass-matrix-dae]
 ===== Mass matrix DAE
 
 [latexmath]
@@ -119,7 +119,7 @@ g(x(t), y(t), t)
 
 See <<cui2020mass>>.
 
-[linear-time-invariant-dae]
+[#linear-time-invariant-dae]
 ===== Linear time-invariant DAE
 
 [latexmath]

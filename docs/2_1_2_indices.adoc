@@ -1,12 +1,12 @@
 :stem: latexmath
 
-[indices]
+[#indices]
 ==== Indices
 
 There are multiple, sometimes closely related, definitions of indices for DAE systems.
 Usually these indices are a measure of how far from an ODE the DAE is.
 
-[differential-index]
+[#differential-index]
 ===== Differential Index
 
 The minimum number of times a DAE
@@ -20,7 +20,7 @@ has to be differentiated with respect to time latexmath:[t] to be able to determ
 
 See <<hairer2006numerical,[hairer2006numerical]>>.
 
-[perturbation-index]
+[#perturbation-index]
 ===== Perturbation Index
 
 The _perturbation index_ measures the sensitivity of the solution of a DAE to perturbations of its right-hand side.
@@ -50,7 +50,7 @@ A DAE with perturbation index greater than 1 is called a _higher-index DAE_.
 
 See <<hairer2006numerical,[hairer2006numerical]>>.
 
-[example-structural-singularity]
+[#example-structural-singularity]
 ====== Example of Structural Singularity
 
 <<cellier2006continuous,[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]>> provides a simple electric circuit model that is a higher-index DAE.
