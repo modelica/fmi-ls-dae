@@ -1,4 +1,5 @@
 :stem: latexmath
+
 == Layered Standard Manifest File [[layered-standard-manifest-file]]
 
 This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`.
@@ -52,6 +53,13 @@ The XML attributes of `<fmiLayeredStandardManifest>` are:
 |`\http://fmi-standard.org/fmi-ls-manifest`
 |`Layered standard for DAE support in FMI`
 |String with a brief description of the layered standard that is suitable for display to users.
+
+|`enableDAEModeVariable`
+|unqualified
+|`<free to choose>`
+|[[enableDAEModeVariable, `enableDAEModeVariable`]]
+The https://fmi-standard.org/docs/3.0.2/#table-variableBase-attributes[name] of the https://fmi-standard.org/docs/3.0.2/#structuralParameter[structural parameter] in the `modelDescription.xml` that enables DAE mode.
+See <<enable-dae-mode-variable>> for the full semantics and the calling sequences used to change the mode.
 |====
 
 === Algebraic variables [[AlgebraicVariables, `<AlgebraicVariables>`]]

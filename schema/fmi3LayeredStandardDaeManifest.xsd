@@ -45,9 +45,11 @@
 			<xs:attribute ref="fmi-ls:fmi-ls-version" use="required" />
 			<xs:attribute ref="fmi-ls:fmi-ls-description" use="required"
 				fixed="Layered standard for DAE support in FMI." />
-			<xs:attribute name="isDaeFmu" type="xs:boolean" default="false">
+			<xs:attribute name="enableDAEModeVariable" type="xs:normalizedString" use="required">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">If true, this FMU represents a DAE FMU.</xs:documentation>
+					<xs:documentation xml:lang="en">
+						Specify name of `enableDAEModeVariable` structural parameter in modelDescription.xml
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
