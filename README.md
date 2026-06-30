@@ -43,15 +43,15 @@ Code released under the [2-Clause BSD License].
 For development there is a private sandbox
 [modelica/fmi-ls-dae-sandbox][sandbox] to store non-public information.
 
-[2-Clause BSD License]: https://opensource.org/licenses/BSD-2-Clause
-[badge-build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml/badge.svg?branch=main
 [badge-docs]: https://img.shields.io/badge/Specification-FMI--LS--DAE-blue?logo=github
-[badge-validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml/badge.svg?branch=main
-[build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml
-[contributing-file]: CONTRIBUTING.md
-[FMI]: https://fmi-standard.org/
-[sandbox]: https://github.com/modelica/fmi-ls-dae-sandbox
 [spec]: https://modelica.github.io/fmi-ls-dae/main/
-[validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml
 [badge-fmus]: https://img.shields.io/badge/download-Reference%20FMUs-blue?logo=github
 [fmus-download]: https://nightly.link/modelica/fmi-ls-dae/workflows/build-fmus.yml/main/FMI-LS-DAE-FMUs.zip
+[badge-build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml/badge.svg?branch=main
+[build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml
+[badge-validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml/badge.svg?branch=main
+[validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml
+[FMI]: https://fmi-standard.org/
+[contributing-file]: CONTRIBUTING.md
+[2-Clause BSD License]: https://opensource.org/licenses/BSD-2-Clause
+[sandbox]: https://github.com/modelica/fmi-ls-dae-sandbox
