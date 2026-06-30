@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this layered standard, please cite it as below."
+type: software
+title: "FMI Layered Standard for DAE (FMI-LS-DAE)"
+repository-code: "https://github.com/modelica/fmi-ls-dae"
+license: BSD-2-Clause
+
+preferred-citation:
+  type: article
+  title: "Towards an FMI Layered Standard for DAE: Applications for Simulation and Optimization"
+  authors:
+    - family-names: Nahodovic
+      given-names: Elmir
+    - family-names: Heuermann
+      given-names: Andreas
+    - family-names: Andersson
+      given-names: Joel A. E.
+    - family-names: Verulkar
+      given-names: Adwait
+    - family-names: Sivaramakrishnan
+      given-names: Srikanth
+    - family-names: Najafi
+      given-names: Masoud
+    - family-names: Langenkamp
+      given-names: Linus
+    - family-names: Bertsch
+      given-names: Christian
+    - family-names: Henningsson
+      given-names: Erik
+    - family-names: Olsson
+      given-names: Hans
+    - family-names: Bachmann
+      given-names: Bernhard
+  year: 2026
+  month: 6
+  url: "https://arxiv.org/abs/2606.22544"
+  doi: "10.48550/arXiv.2606.22544"
+  notes: "Preprint"
