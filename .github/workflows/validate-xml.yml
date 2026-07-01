@@ -19,13 +19,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Validate XSD manifest
-        uses: phpcsstandards/xmllint-validate@v1
+        uses: phpcsstandards/xmllint-validate@v2
         with:
           pattern: schema/fmi3LayeredStandardDaeManifest.xsd
           xsd-url: https://www.w3.org/2012/04/XMLSchema.xsd
 
       - name: Validate XML examples
-        uses: phpcsstandards/xmllint-validate@v1
+        uses: phpcsstandards/xmllint-validate@v2
         with:
           pattern: 'examples/**/*.xml'
           xsd-file: 'schema/fmi3LayeredStandardDaeManifest.xsd'
