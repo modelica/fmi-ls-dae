@@ -87,6 +87,11 @@
       causality="local"
       variability="continuous"
       description="residual equation"/>
+
+   <Boolean name="ODE_DAE_Switch" valueReference="13" description="switch between ODE and DAE" 
+       variability="tunable" 
+       causality="structuralParameter" start="false" />
+    
   </ModelVariables>
 
   <ModelStructure>
