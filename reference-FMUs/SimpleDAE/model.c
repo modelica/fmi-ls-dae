@@ -20,8 +20,15 @@ void setStartValues(ModelInstance *comp) {
 }
 
 Status calculateValues(ModelInstance *comp) {
-    M(der_x1) = sin(M(x1)) + sin(M(z1) * M(z2) * M(u1));
-    M(der_x2) = sin(M(x1) * M(x2)) + sin(M(z1) * M(z2) * M(u2)) + M(u1) * M(u1);
+    if (M(ode_dae)) {//DAE
+        M(der_x1) = sin(M(x1)) + sin(M(z1) * M(z2) * M(u1));
+        M(der_x2) = sin(M(x1) * M(x2)) + sin(M(z1) * M(z2) * M(u2)) + M(u1) * M(u1);
+    }else{//ODE
+        M(z1)=0;//=h1(u1,u2, x1,x2) to be found analytically or numerically  
+        M(z2)=0; //=h2(u1,u2, x1,x2) to be found analytically or numerically
+        M(der_x1) = sin(M(x1)) + sin(M(z1) * M(z2) * M(u1));
+        M(der_x2) = sin(M(x1) * M(x2)) + sin(M(z1) * M(z2) * M(u2)) + M(u1) * M(u1);
+    }
     M(res1)   = M(z1) * M(u1) *M(u1) + tanh(3 * M(z1)) + M(u2) * M(x1) * M(x1) * M(x1);
     M(res2)   = exp(M(z1) * M(z2) * M(u1)) / 3 - sin(M(z2) * M(x2));
     M(y1)     = M(u1) * M(x1) * M(z1) + sin(M(u2));
@@ -29,6 +36,32 @@ Status calculateValues(ModelInstance *comp) {
     return OK;
 }
 
+Status getBoolean(ModelInstance* comp, ValueReference vr, bool values[], size_t nValues, size_t* index) {
+    
+    ASSERT_NVALUES(1);
+    switch (vr) {
+    case vr_ode_dae:    values[(*index)++] = M(ode_dae);   return OK;
+    default:
+        logError(comp, "GetBoolean is not allowed for value reference %u.", vr);
+        return Error;
+    }
+}
+
+Status setBoolean(ModelInstance* comp, ValueReference vr, const bool values[], size_t nValues, size_t* index) {
+    if (comp->state != ConfigurationMode && comp->state != ReconfigurationMode) {
+        logError(comp, "Structural variables can only be set in Configuration Mode or Reconfiguration Mode.");
+        return Error;
+    }
+
+    ASSERT_NVALUES(1);
+   
+   switch (vr) {
+    case vr_ode_dae: M(ode_dae) = values[(*index)++]; return OK;
+    default:
+        logError(comp, "SetBoolean is not allowed for value reference %u.", vr);
+        return Error;
+    }
+}
 Status getFloat64(ModelInstance* comp, ValueReference vr, double values[], size_t nValues, size_t* index) {
 
     ASSERT_NVALUES(1);
@@ -106,6 +139,14 @@ Status getPartialDerivative(ModelInstance *comp, ValueReference unknown, ValueRe
     UNUSED(unknown);
     UNUSED(known);
     UNUSED(partialDerivative);
+
+    if (M(ode_dae)) {
+
+    }
+    else {
+
+    }
+    
     /*if (unknown == vr_der_x1 && known == vr_x1) {
         *partialDerivative = 0;
     } else if (unknown == vr_der_x1 && known == vr_x2) {
