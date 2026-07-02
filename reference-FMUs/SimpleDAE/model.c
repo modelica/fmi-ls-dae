@@ -23,8 +23,8 @@ Status calculateValues(ModelInstance *comp) {
     if (M(ode_dae)) {//DAE
         M(der_x1) = sin(M(x1)) + sin(M(z1) * M(z2) * M(u1));
         M(der_x2) = sin(M(x1) * M(x2)) + sin(M(z1) * M(z2) * M(u2)) + M(u1) * M(u1);
-    }else{//ODE
-        M(z1)=0;//=h1(u1,u2, x1,x2) to be found analytically or numerically  
+    } else {//ODE
+        M(z1)=0;//=h1(u1,u2, x1,x2) to be found analytically or numerically
         M(z2)=0; //=h2(u1,u2, x1,x2) to be found analytically or numerically
         M(der_x1) = sin(M(x1)) + sin(M(z1) * M(z2) * M(u1));
         M(der_x2) = sin(M(x1) * M(x2)) + sin(M(z1) * M(z2) * M(u2)) + M(u1) * M(u1);
@@ -37,7 +37,7 @@ Status calculateValues(ModelInstance *comp) {
 }
 
 Status getBoolean(ModelInstance* comp, ValueReference vr, bool values[], size_t nValues, size_t* index) {
-    
+
     ASSERT_NVALUES(1);
     switch (vr) {
     case vr_ode_dae:    values[(*index)++] = M(ode_dae);   return OK;
@@ -54,7 +54,7 @@ Status setBoolean(ModelInstance* comp, ValueReference vr, const bool values[], s
     }
 
     ASSERT_NVALUES(1);
-   
+
    switch (vr) {
     case vr_ode_dae: M(ode_dae) = values[(*index)++]; return OK;
     default:
@@ -146,7 +146,7 @@ Status getPartialDerivative(ModelInstance *comp, ValueReference unknown, ValueRe
     else {
 
     }
-    
+
     /*if (unknown == vr_der_x1 && known == vr_x1) {
         *partialDerivative = 0;
     } else if (unknown == vr_der_x1 && known == vr_x2) {
