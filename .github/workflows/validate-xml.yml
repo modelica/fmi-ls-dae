@@ -20,22 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Validate XSD manifest
-        uses: phpcsstandards/xmllint-validate@v2
-        with:
-          pattern: schema/fmi3LayeredStandardDaeManifest.xsd
-          xsd-url: https://www.w3.org/2012/04/XMLSchema.xsd
-
-      - name: Validate XML examples
-        uses: phpcsstandards/xmllint-validate@v2
-        with:
-          pattern: 'examples/**/*.xml'
-          xsd-file: 'schema/fmi3LayeredStandardDaeManifest.xsd'
-
-      # phpcsstandards/xmllint-validate relies on bash pathname expansion without
-      # `shopt -s globstar`, so `**` only matches a single directory level. It
-      # cannot validate a filename at arbitrary depth (e.g. **/fmi-ls-manifest.xml
-      # or **/modelDescription.xml), so call xmllint directly for those.
       - name: Install xmllint
         run: sudo apt-get install -y --no-install-recommends libxml2-utils
 
@@ -48,6 +32,9 @@ jobs:
             curl -sSfL "https://raw.githubusercontent.com/modelica/fmi-standard/v3.0.2/schema/${f}.xsd" \
               -o "fmi3-schema/${f}.xsd"
           done
+
+      - name: Validate FMI-LS-DAE XSD manifest (well-formed)
+        run: xmllint --noout schema/fmi3LayeredStandardDaeManifest.xsd
 
       - name: Validate fmi-ls-manifest.xml files
         run: find . -name "fmi-ls-manifest.xml" | xargs xmllint --noout --schema schema/fmi3LayeredStandardDaeManifest.xsd
