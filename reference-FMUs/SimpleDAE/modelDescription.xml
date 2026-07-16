@@ -93,7 +93,7 @@
       causality="structuralParameter"
       variability="tunable"
       start="false"
-      description="switch between ODE and DAE" />
+      description="Set to true to enable DAE mode as defined by FMI-LS-DAE." />
   </ModelVariables>
 
   <ModelStructure>
