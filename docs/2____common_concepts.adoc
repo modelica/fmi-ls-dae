@@ -1,3 +1,5 @@
 == Common Concepts
 
 include::2_1___mathematical_notation.adoc[]
+
+include::2_2___ode_with_invariants.adoc[]

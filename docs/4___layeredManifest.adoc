@@ -84,12 +84,17 @@ Each <<AlgebraicVariable>> has only one attribute defining the value reference.
 |====
 
 === Model Structure [[ModelStructure,`<ModelStructure>`]]
-
 The structure of the model for the DAE-formulation is defined in element <<ModelStructure>>.
 It defines the <<model-dependencies,dependencies>> between variables.
+
+* **Residual**
 The <<ModelStructure>> element is extended with an additional element - <<Residual>> - and the optional dependencies can now include algebraic variables.
 
 An FMU that follows this layered standard must expose all residuals with the <<Residual>>.
+
+* **Invariant**
+The <<ModelStructure>> element is extended with an additional element - <<Invariant>> - .
+The dependency on differential states,inputs, algebraic variables, and parameters can be optionally included  <<MN2018>>.
 
 NOTE: The <<ModelStructure>> defined here extends the one from the core FMI standard.
 All elements defined there (`Output`, `ContinuousStateDerivative`, `ClockedState`, `InitialUnknown`, `EventIndicator`) retain their existing semantics, with the addition that each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>.
@@ -114,6 +119,16 @@ Note that each formulation inside one residual element must reference unique var
 
 The functional dependency is defined as: +
 latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{z}_c, \mathbf{u}_c, t, \mathbf{p})}]
+
+|`Invariant`
+|[[Invariant,`<Invariant>`]]
+Ordered list of invariant equations.
+Each `<Invariant>` indicate the FMU variable that computes an invariant of the FMU.
+The invariant can ne scalar or vectorial.
+The invariant are independent of `<Residual>` and the same invariant can also be mentionned in the `<Residual>` section.
+
+The functional dependency is defined as: +
+latexmath:[{0 := \mathbf{f}_{\mathit{inv}}(\mathbf{x}_c, \mathbf{u}_c, t, \mathbf{p})}]
 |====
 
 ==== Formulation [[Formulation, `<Formulation>`]]
