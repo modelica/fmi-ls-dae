@@ -479,8 +479,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 27a196f,</span>
-<span id="revdate">2026-07-01</span>
+<span id="revnumber">version 040aec6,</span>
+<span id="revdate">2026-07-16</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -612,7 +612,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <div class="ulist">
 <ul>
 <li>
-<p>This may improve accuracy due to better drift handling.</p>
+<p>This could improve accuracy due to better drift handling.</p>
 </li>
 </ul>
 </div>
@@ -622,7 +622,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <div class="ulist">
 <ul>
 <li>
-<p>This may improve accuracy and avoid problems with different local and global error tolerances.</p>
+<p>This could improve accuracy and avoid problems with different local and global error tolerances.</p>
 </li>
 </ul>
 </div>
@@ -632,7 +632,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <div class="ulist">
 <ul>
 <li>
-<p>This may improve the performance by usage of the sparseness.</p>
+<p>This could improve the performance by usage of the sparseness.</p>
 </li>
 </ul>
 </div>
@@ -642,7 +642,7 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 <div class="ulist">
 <ul>
 <li>
-<p>Connecting reduced ODE FMUs may lead globally to a non-solvable (singular) system but not for unreduced DAE FMUs.</p>
+<p>Connecting reduced ODE FMUs could lead globally to a non-solvable (singular) system but not for unreduced DAE FMUs.</p>
 </li>
 </ul>
 </div>
@@ -652,7 +652,40 @@ The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file 
 </div>
 <div class="sect2">
 <h3 id="how-to-read-this-document">1.2. How to read this Document</h3>
-
+<div class="paragraph">
+<p>The standard document is in HTML allowing heavy use of in-document links: all state names, function names, many function arguments, XML elements and attributes are links to definitions or descriptions.</p>
+</div>
+<div class="paragraph">
+<p>In key parts of this document, non-normative examples are used to help understand the standard.</p>
+</div>
+<div class="paragraph">
+<p>Conventions used in this document:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Non-normative text is given like this:</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Especially examples are defined in this style.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/rfc2119">RFC 2119</a> (regardless of formatting and capitalization).</p>
+</li>
+<li>
+<p>State machine states are formatted as <strong>bold</strong> link, e.g. <strong><a href="https://fmi-standard.org/docs/3.0.2/#InitializationMode">InitializationMode</a></strong>.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect2">
 <h3 id="overview">1.3. Overview</h3>
@@ -1167,7 +1200,7 @@ Here the Modelica keyword <code>stateSelect</code> influences how variables are 
 <div class="sect3">
 <h4 id="scaling-power-grids-example">3.1.2. Scaling Power Grids Example</h4>
 <div class="paragraph">
-<p>For simulation models representing power grids on a national or larger scale, traditional ODE solvers may struggle with convergence and performance.
+<p>For simulation models representing power grids on a national or larger scale, traditional ODE solvers could struggle with convergence and performance.
 Also, the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.</p>
 </div>
 <div class="paragraph">
@@ -1230,7 +1263,7 @@ Also, the time needed to perform symbolic transformation from DAE to ODE is grow
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines the structure of the DAE formulation for the model.
-Especially, the ordered lists of <a href="https://fmi-standard.org/docs/3.0.2/#output">outputs</a>, continuous-time <a href="https://fmi-standard.org/docs/3.0.2/#state">state</a>, and the initial unknowns (the unknowns during <a href="https://fmi-standard.org/docs/3.0.2/#InitializationMode">InitializationMode</a>) are <strong>re</strong>-defined and overwrite the corresponding <a href="https://fmi-standard.org/docs/3.0.2/#ModelStructure">ModelStructure</a> present in the <code>modelDescription.xml</code>, with the addition of the  <a href="#Residual">residuals</a> element.
+Especially, the ordered lists of <a href="https://fmi-standard.org/docs/3.0.2/#output">outputs</a>, continuous-time <a href="https://fmi-standard.org/docs/3.0.2/#state">state</a>, and the initial unknowns (the unknowns during <strong><a href="https://fmi-standard.org/docs/3.0.2/#InitializationMode">InitializationMode</a></strong>) are <strong>re</strong>-defined and overwrite the corresponding <a href="https://fmi-standard.org/docs/3.0.2/#ModelStructure">ModelStructure</a> present in the <code>modelDescription.xml</code>, with the addition of the  <a href="#Residual">residuals</a> element.
 The <a href="#AlgebraicVariables">algebraic variables</a> can now also be included as dependencies.</p></td>
 </tr>
 <tr>
@@ -1413,7 +1446,7 @@ Note that each formulation inside one residual element must reference unique var
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>index</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div id="index-formulation" class="paragraph">
-<p>Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation must be differentiated in order to solve for a particular derivative.</p>
+<p>Optional attribute indicating the DAE index of the original constraint, i.e., how many times this particular equation needs to be differentiated in order to solve for a particular derivative.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -1422,7 +1455,7 @@ Note that each formulation inside one residual element must reference unique var
 <p>Optional attribute defining the algebraic dependencies as a list of value references of the knowns \({\mathbf{v}_{\mathit{known}}}\) that this formulation directly depends on.</p>
 </div>
 <div class="paragraph">
-<p>Knowns \({\mathbf{v}_{\mathit{known}}}\) in <a href="https://fmi-standard.org/docs/3.0.2/#table-math-model-exchange">ContinuousTimeMode</a> (ME) for <code><a href="#Formulation"><code>&lt;Formulation&gt;</code></a></code> elements are:<br></p>
+<p>Knowns \({\mathbf{v}_{\mathit{known}}}\) in <strong><a href="https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode">ContinuousTimeMode</a></strong> (ME) for <code><a href="#Formulation"><code>&lt;Formulation&gt;</code></a></code> elements are:<br></p>
 </div>
 <div class="ulist">
 <ul>
@@ -1487,10 +1520,10 @@ TODO
 <div class="ulist">
 <ul>
 <li>
-<p>Algebraic variables (variables listed in <code><a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a></code>) may appear as knowns for any unknown.</p>
+<p>Algebraic variables (variables listed in <code><a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a></code>) could appear as knowns for any unknown.</p>
 </li>
 <li>
-<p>When the unknown is a <a href="#Formulation"><code>&lt;Formulation&gt;</code></a> in a <a href="#Residual"><code>&lt;Residual&gt;</code></a>(i.e., a residual variable), continuous state derivatives may additionally appear as knowns.</p>
+<p>When the unknown is a <a href="#Formulation"><code>&lt;Formulation&gt;</code></a> in a <a href="#Residual"><code>&lt;Residual&gt;</code></a>(i.e., a residual variable), continuous state derivatives could additionally appear as knowns.</p>
 </li>
 </ul>
 </div>
@@ -1921,7 +1954,7 @@ The importer is responsible to figure out how to solve the system:</p>
 </div>
 <div class="paragraph">
 <p><strong>Case 2:</strong>
-The FMU additionally indicates that \(r_3\) is a constraint of index 2, i.e., it must be differentiated twice to obtain an index 1 system.
+The FMU additionally indicates that \(r_3\) is a constraint of index 2, i.e., it needs to be be differentiated twice to obtain an index 1 system.
 This gives the importer structural information to know to apply a solver able to handle index 2 problems:</p>
 </div>
 <div class="listingblock">
