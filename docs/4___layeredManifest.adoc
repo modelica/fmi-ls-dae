@@ -171,8 +171,8 @@ NOTE: TODO
 
 The partial derivative API functions https://fmi-standard.org/docs/3.0.2/#fmi3GetDirectionalDerivative[fmi3GetDirectionalDerivative] and https://fmi-standard.org/docs/3.0.2/#fmi3GetAdjointDerivative[fmi3GetAdjointDerivative] are used as defined in the core FMI standard, with the following extensions for DAE FMUs:
 
-* Algebraic variables (variables listed in `<<AlgebraicVariables>>`) may appear as knowns for any unknown.
-* When the unknown is a <<Formulation>> in a <<Residual>>(i.e., a residual variable), continuous state derivatives may additionally appear as knowns.
+* Algebraic variables (variables listed in `<<AlgebraicVariables>>`) could appear as knowns for any unknown.
+* When the unknown is a <<Formulation>> in a <<Residual>>(i.e., a residual variable), continuous state derivatives could additionally appear as knowns.
 
 === Hello World DAE Example
 
