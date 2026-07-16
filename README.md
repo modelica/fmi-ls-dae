@@ -1,8 +1,8 @@
 # FMI Layered Standard for DAE (FMI-LS-DAE)
 
+[![FMI-LS-DAE Specification][badge-docs]][spec]
 [![Build Layered Standard DAE][badge-build-ls-dae]][build-ls-dae]
 [![Validate XML manifests][badge-validate-xml]][validate-xml]
-[![Static Badge][badge-docs]][spec]
 
 This repository contains an early prototype draft for the FMI Layered Standard
 for DAE (FMI-LS-DAE) based on the [Function Mock-up Interface][FMI] (FMI).
@@ -13,13 +13,19 @@ ModelExchange.
 
 ## FMI-LS-DAE Standard
 
-This [FMI 3.0 Layered Standard][spec] for DAE export is currently maintained on
-[GitHub][githubspec] and is published here.
+This [FMI 3.0 Layered Standard][spec] for DAE export is currently maintained in this repository and published at [modelica.github.io/fmi-ls-dae/main][spec].
 
 ## Repository Structure
 
 * `docs` -- Sources of the specification document
 * `schema` -- XSD schema for this FMI Layered Standard
+
+## Citation
+
+If you use this work, please cite the accompanying pre-print:
+
+> Nahodovic et al., "Towards an FMI Layered Standard for DAE: Applications for Simulation and Optimization", arXiv:2606.22544, 2026.
+> <https://doi.org/10.48550/arXiv.2606.22544>
 
 ## How to Contribute
 
@@ -35,14 +41,13 @@ Code released under the [2-Clause BSD License].
 For development there is a private sandbox
 [modelica/fmi-ls-dae-sandbox][sandbox] to store non-public information.
 
-[2-Clause BSD License]: https://opensource.org/licenses/BSD-2-Clause
-[badge-build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml/badge.svg?branch=main
-[badge-docs]: https://img.shields.io/badge/docs-FMI--LS--DAE-blue?logo=github
-[badge-validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml/badge.svg?branch=main
-[build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml
-[contributing-file]: CONTRIBUTING.md
-[FMI]: https://fmi-standard.org/
-[githubspec]: docs/index.adoc
-[sandbox]: https://github.com/modelica/fmi-ls-dae-sandbox
+[badge-docs]: https://img.shields.io/badge/Specification-FMI--LS--DAE-blue?logo=github
 [spec]: https://modelica.github.io/fmi-ls-dae/main/
+[badge-build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml/badge.svg?branch=main
+[build-ls-dae]: https://github.com/modelica/fmi-ls-dae/actions/workflows/build-ls-dae.yml
+[badge-validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml/badge.svg?branch=main
 [validate-xml]: https://github.com/modelica/fmi-ls-dae/actions/workflows/validate-xml.yml
+[FMI]: https://fmi-standard.org/
+[contributing-file]: CONTRIBUTING.md
+[2-Clause BSD License]: https://opensource.org/licenses/BSD-2-Clause
+[sandbox]: https://github.com/modelica/fmi-ls-dae-sandbox
