@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<fmiLayeredStandardManifest
+<fmi-ls-dae
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://fmi-standard.org/fmi-ls-manifest ../../schema/fmi3LayeredStandardDaeManifest.xsd"
   xmlns="http://fmi-standard.org/fmi-ls-manifest"
@@ -7,7 +7,7 @@
   fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
   fmi-ls:fmi-ls-version="0.1"
   fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
-  enableDAEModeVariable ="ODE_DAE_Switch"
+  enableDAEModeVariable="ODE_DAE_Switch"
 >
 
   <AlgebraicVariables>
@@ -57,4 +57,4 @@
       dependenciesKind="dependent dependent dependent dependent" />
   </ModelStructure>
 
-</fmiLayeredStandardManifest>
+</fmi-ls-dae>

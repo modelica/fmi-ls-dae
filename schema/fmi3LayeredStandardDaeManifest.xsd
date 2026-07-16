@@ -6,7 +6,7 @@
 	attributeFormDefault="unqualified">
 	<xs:annotation>
 		<xs:documentation>
-			Copyright(c) 2025 Modelica Association Project FMI.
+			Copyright(c) 2025 - 2026 Modelica Association Project FMI.
 			All rights reserved.
 
 			This file is licensed by the copyright holders under the 2-Clause BSD License
@@ -38,10 +38,52 @@
 		</xs:documentation>
 	</xs:annotation>
 
-	<!-- Manifest attributes (mirrors fmi3LayeredStandardManifest.xsd) -->
-	<xs:attribute name="fmi-ls-name"        type="xs:normalizedString"/>
-	<xs:attribute name="fmi-ls-version"     type="xs:normalizedString"/>
-	<xs:attribute name="fmi-ls-description" type="xs:normalizedString"/>
+	<!-- Declares the fmi-ls-name / fmi-ls-version / fmi-ls-description attributes
+	     referenced below. Same targetNamespace, hence include rather than import. -->
+	<xs:include schemaLocation="fmi3LayeredStandardManifest.xsd"/>
+
+	<!--
+		Root element of the FMI-LS-DAE manifest file. This layered standard provides
+		its own root element, so the generic fmiLayeredStandardManifest of the core
+		standard is not used.
+	-->
+	<xs:element name="fmi-ls-dae">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AlgebraicVariables" type="fmi-ls:TAlgebraicVariables"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							List of algebraic variables exposed by this DAE FMU.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ModelStructure" type="fmi-ls:TDaeModelStructure"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Overrides the ModelStructure in modelDescription.xml with
+							DAE-aware dependency information and residual declarations.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute ref="fmi-ls:fmi-ls-name" use="required"
+				fixed="org.fmi-standard.fmi-ls-dae"/>
+			<xs:attribute ref="fmi-ls:fmi-ls-version" use="required"/>
+			<xs:attribute ref="fmi-ls:fmi-ls-description" use="required"
+				fixed="Layered standard for DAE support in FMI."/>
+			<xs:attribute name="enableDAEModeVariable" type="xs:normalizedString" use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Name of the structural parameter in the modelDescription.xml that
+						enables DAE mode. The referenced variable must be a Boolean with
+						causality="structuralParameter" and variability="tunable" or "fixed".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 
 	<!-- Space-separated list of value references -->
 	<xs:simpleType name="TValueReferenceList">
@@ -143,42 +185,4 @@
 			<xs:element name="Residual"                  type="fmi-ls:TResidual"/>
 		</xs:choice>
 	</xs:complexType>
-
-	<!-- Root element of the FMI-LS-DAE manifest file -->
-	<xs:element name="fmiLayeredStandardManifest">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="AlgebraicVariables" type="fmi-ls:TAlgebraicVariables"
-					minOccurs="0">
-					<xs:annotation>
-						<xs:documentation xml:lang="en">
-							List of algebraic variables exposed by this DAE FMU.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ModelStructure" type="fmi-ls:TDaeModelStructure"
-					minOccurs="0">
-					<xs:annotation>
-						<xs:documentation xml:lang="en">
-							Overrides the ModelStructure in modelDescription.xml with
-							DAE-aware dependency information and residual declarations.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-			<xs:attribute ref="fmi-ls:fmi-ls-name" use="required"
-				fixed="org.fmi-standard.fmi-ls-dae"/>
-			<xs:attribute ref="fmi-ls:fmi-ls-version" use="required"/>
-			<xs:attribute ref="fmi-ls:fmi-ls-description" use="required"
-				fixed="Layered standard for DAE support in FMI."/>
-			<xs:attribute name="isDaeFmu" type="xs:boolean" default="false">
-				<xs:annotation>
-					<xs:documentation xml:lang="en">
-						If true, this FMU exposes a DAE formulation via this layered standard.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-
 </xs:schema>

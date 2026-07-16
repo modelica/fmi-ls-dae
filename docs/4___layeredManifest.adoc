@@ -3,12 +3,12 @@
 
 This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`.
 
-[Add figure here] shows the root element `fmiLayeredStandardManifest`.
+[Add figure here] shows the root element `fmi-ls-dae`.
 
 Two additional elements - <<AlgebraicVariables>> and <<ModelStructure>> - are included as direct children of the root element in the layered standard manifest file to describe the DAE formulation.
 They are stored in the manifest rather than in the FMU's `modelDescription.xml`, as the FMI standard does not permit layered standards to extend that file.
 
-.`fmiLayeredStandardManifest` child elements.
+.`fmi-ls-dae` child elements.
 [[table-schema-fmiModelDescription]]
 [cols="1,3",options="header"]
 |====
@@ -28,9 +28,9 @@ The <<AlgebraicVariables,algebraic variables>> can now also be included as depen
 
 |====
 
-The XML attributes of `<fmiLayeredStandardManifest>` are:
+The XML attributes of `<fmi-ls-dae>` are:
 
-.`<fmiLayeredStandardManifest>` attribute details.
+.`<fmi-ls-dae>` attribute details.
 [[table-schema-fmi-ls-dae-attributes]]
 [cols="1,1,1,2",options="header"]
 |====
