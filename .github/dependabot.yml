@@ -6,3 +6,7 @@ updates:
     directory: /
     schedule:
       interval: quarterly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
