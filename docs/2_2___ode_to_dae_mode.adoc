@@ -25,9 +25,9 @@ The `enableDAEModeVariable` parameter is declared in the `modelDescription.xml` 
          description="Set to true to enable DAE mode as defined by FMI-LS-DAE."/>
 ----
 
-and must be referenced by name within the FMI-LS-DAE manifest file via attribute <<enableDAEModeVariable>>, see <<layered-standard-manifest-file>>.
+and must be referenced by value reference within the FMI-LS-DAE manifest file via attribute <<enableDAEModeVariable>>, see <<layered-standard-manifest-file>>.
 
-The `name` and `valueReference` is assigned freely by the FMU exporter; the importer locates the parameter by its `name` declared in attribute <<enableDAEModeVariable>> of `fmi-ls-manifest.xml`.
+The `name` and `valueReference` is assigned freely by the FMU exporter; the importer locates the parameter by its `valueReference` declared in attribute <<enableDAEModeVariable>> of `fmi-ls-manifest.xml`.
 The `description` attribute is optional.
 The `variability` must be either `tunable` or `fixed`:
 
