@@ -8,7 +8,7 @@
   fmi-ls:fmi-ls-version="0.1"
   fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
 >
-  <fmi-ls:EnableDAE valueReference="13" />
+  <EnableDAE valueReference="13" />
 
   <AlgebraicVariables>
     <AlgebraicVariable valueReference="5" /> <!-- z1 -->
