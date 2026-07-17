@@ -79,7 +79,7 @@ Here the Modelica keyword `stateSelect` influences how variables are picked.
 
 ==== Scaling Power Grids Example
 
-For simulation models representing power grids on a national or larger scale, traditional ODE solvers may struggle with convergence and performance.
+For simulation models representing power grids on a national or larger scale, traditional ODE solvers could struggle with convergence and performance.
 Also, the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.
 
 See for example Modelica models `ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10` to `ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280` from ScalableTestSuite footnote:[https://github.com/casella/ScalableTestSuite, see also <<casella2015simulation,[casella2015simulation]>>].
