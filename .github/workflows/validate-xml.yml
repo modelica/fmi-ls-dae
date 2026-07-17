@@ -37,7 +37,7 @@ jobs:
         run: xmllint --noout schema/fmi3LayeredStandardDaeManifest.xsd
 
       - name: Validate FMI-LS-DAE manifest files
-        run: find . -name "fmi-ls-dae*.xml" | xargs xmllint --noout --schema schema/fmi3LayeredStandardDaeManifest.xsd
+        run: find . -name "fmi-ls-manifest*.xml" | xargs xmllint --noout --schema schema/fmi3LayeredStandardDaeManifest.xsd
 
       - name: Validate modelDescription.xml files
         run: find reference-FMUs -name "modelDescription.xml" | xargs xmllint --noout --schema fmi3-schema/fmi3ModelDescription.xsd
