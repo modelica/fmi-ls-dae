@@ -7,13 +7,14 @@
   fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
   fmi-ls:fmi-ls-version="0.1"
   fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
-  enableDAEModeVariable="ODE_DAE_Switch"
 >
+  <fmi-ls:EnableDAE valueReference="13" />
 
   <AlgebraicVariables>
     <AlgebraicVariable valueReference="5" /> <!-- z1 -->
     <AlgebraicVariable valueReference="6" /> <!-- z2 -->
   </AlgebraicVariables>
+
   <ModelStructure>
     <!-- der(x1) = sin(x1) + sin(z1*z2*u1)
            DAE-mode deps: x1(vr=1), z1(vr=5), z2(vr=6), u1(vr=7) -->
