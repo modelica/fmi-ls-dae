@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmi-ls-dae
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://fmi-standard.org/fmi-ls-manifest ../../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xmlns="http://fmi-standard.org/fmi-ls-manifest"
+  xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+  fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
+  fmi-ls:fmi-ls-version="0.1"
+  fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
+>
+  <EnableDAE valueReference="20" />
+
+  <AlgebraicVariables>
+    <AlgebraicVariable valueReference="5" /> <!-- z1 -->
+  </AlgebraicVariables>
+
+  <ModelStructure>
+    <!-- der(x1) = f(x1, z1, z2, u1)
+         DAE-mode deps: x1(vr=1), z1(vr=5), z2(vr=6), u1(vr=7) -->
+    <ContinuousStateDerivative
+      valueReference="2"
+      dependencies="1 5 6 7"
+      dependenciesKind="dependent dependent dependent dependent" />
+
+    <!-- __residual0 = g(x1, z1, u1, u2)
+         DAE-mode deps: x1(vr=1), z1(vr=5), u1(vr=7), u2(vr=8) -->
+    <Residual>
+      <Formulation
+        valueReference="11"
+        dependencies="1 5 7 8"
+        dependenciesKind="dependent dependent dependent dependent" />
+    </Residual>
+
+    <!-- y1 = h(x1, z1, u1, u2)
+         DAE-mode deps: x1(vr=1), z1(vr=5), u1(vr=7), u2(vr=8) -->
+    <Output
+      valueReference="9"
+      dependencies="1 5 7 8"
+      dependenciesKind="dependent dependent dependent dependent" />
+  </ModelStructure>
+
+</fmi-ls-dae>

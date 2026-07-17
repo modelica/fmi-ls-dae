@@ -4,16 +4,19 @@
 
 This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: `/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml`.
 
-[Add figure here] shows the root element `fmiLayeredStandardManifest`.
+[Add figure here] shows the root element `fmi-ls-dae`.
 
-Two additional elements - <<AlgebraicVariables>> and <<ModelStructure>> - are included in the layered standard manifest file to describe the DAE formulation.
+Three additional elements - <<EnableDAE>>, <<AlgebraicVariables>>, and <<ModelStructure>> - are included as direct children of the root element in the layered standard manifest file to describe the DAE formulation.
 
-.`fmiModelDescription` element details.
+.`fmi-ls-dae` child elements.
 [[table-schema-fmiModelDescription]]
 [cols="1,3",options="header"]
 |====
 |Element
 |Description
+
+|<<EnableDAE>>
+|Required element referencing the https://fmi-standard.org/docs/3.0.2/#structuralParameter[structural parameter] in `modelDescription.xml` that enables DAE mode.
 
 |<<AlgebraicVariables>>
 |List of all <<AlgebraicVariable, algebraic variables>> exposed for the DAE formulation.
@@ -28,9 +31,9 @@ The <<AlgebraicVariables,algebraic variables>> can now also be included as depen
 
 |====
 
-The XML attributes of `<fmiLayeredStandardManifest>` are:
+The XML attributes of `<fmi-ls-dae>` are:
 
-.`<fmiLayeredStandardManifest>`` attribute details.
+.`<fmi-ls-dae>` attribute details.
 [[table-schema-fmi-ls-dae-attributes]]
 [cols="1,1,1,2",options="header"]
 |====
@@ -46,20 +49,31 @@ The XML attributes of `<fmiLayeredStandardManifest>` are:
 
 |`fmi-ls-version`
 |`\http://fmi-standard.org/fmi-ls-manifest`
-|`0.0.1`
+|`0.1.0`
 |Version of the layered standard. This layered standard uses semantic versioning, as defined in <<PW13>>.
 
 |`fmi-ls-description`
 |`\http://fmi-standard.org/fmi-ls-manifest`
-|`Layered standard for DAE support in FMI`
+|`Layered standard for DAE support in FMI.`
 |String with a brief description of the layered standard that is suitable for display to users.
 
-|`enableDAEModeVariable`
-|unqualified
-|`<free to choose>`
-|[[enableDAEModeVariable, `enableDAEModeVariable`]]
-The https://fmi-standard.org/docs/3.0.2/#table-variableBase-attributes[name] of the https://fmi-standard.org/docs/3.0.2/#structuralParameter[structural parameter] in the `modelDescription.xml` that enables DAE mode.
+|====
+
+=== Enabling DAE mode [[EnableDAE, `<EnableDAE>`]]
+
+The element <<EnableDAE>> references the https://fmi-standard.org/docs/3.0.2/#structuralParameter[structural parameter] in the `modelDescription.xml` that enables DAE mode.
 See <<enable-dae-mode-variable>> for the full semantics and the calling sequences used to change the mode.
+
+.Attributes to <<EnableDAE>> element.
+[[table-enable-dae-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`valueReference`
+|[[enableDAEModeVariable, `valueReference`]]
+The https://fmi-standard.org/docs/3.0.2/#table-variableBase-attributes[value reference] of the structural parameter present in the `ModelVariables` of the `modelDescription.xml` that enables DAE mode.
 |====
 
 === Algebraic variables [[AlgebraicVariables, `<AlgebraicVariables>`]]
