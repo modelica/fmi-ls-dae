@@ -51,7 +51,7 @@ cmake -B build
 cmake --build build --config Release
 ```
 
-The FMU is written to `build/cmake/fmus/SimpleDAE.fmu`.
+The FMU is written to `build/fmus/SimpleDAE.fmu`.
 
 By default CMake detects the host architecture. To cross-compile, pass `-DFMI_ARCHITECTURE=<arch>` where `<arch>` is one of `x86_64` or `aarch64`.
 

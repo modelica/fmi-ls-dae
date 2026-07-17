@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fmi-ls-dae
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://fmi-standard.org/fmi-ls-manifest ../../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xsi:schemaLocation="http://fmi-standard.org/fmi-ls-manifest https://raw.githubusercontent.com/modelica/fmi-ls-dae/main/schema/fmi3LayeredStandardDaeManifest.xsd"
   xmlns="http://fmi-standard.org/fmi-ls-manifest"
   xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
   fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"

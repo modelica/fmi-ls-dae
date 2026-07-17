@@ -72,6 +72,10 @@ add_library(${MODEL_NAME} SHARED
   ${MODEL_NAME}/buildDescription.xml
 )
 
+if (UNIX AND NOT APPLE)
+  target_link_libraries(${MODEL_NAME} PRIVATE m)
+endif ()
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/fmus)
 
 target_compile_definitions(${MODEL_NAME} PRIVATE
@@ -99,6 +103,10 @@ target_include_directories(${MODEL_NAME} PRIVATE
 )
 
 set(FMU_BUILD_DIR temp/${MODEL_NAME})
+file(MAKE_DIRECTORY
+  "${FMU_BUILD_DIR}/sources"
+  "${FMU_BUILD_DIR}/extra/org.fmi-standard.fmi-ls-dae"
+)
 
 set_target_properties(${MODEL_NAME} PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY         "${FMU_BUILD_DIR}/binaries/${FMI_PLATFORM}"
@@ -131,7 +139,7 @@ foreach (SOURCE_FILE config.h model.c)
 endforeach ()
 
 # shared headers
-foreach (SOURCE_FILE model.h)
+foreach (SOURCE_FILE model.h fmi3Functions.h fmi3FunctionTypes.h fmi3PlatformTypes.h)
   add_custom_command(TARGET ${MODEL_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
       "${CMAKE_CURRENT_SOURCE_DIR}/include/${SOURCE_FILE}"

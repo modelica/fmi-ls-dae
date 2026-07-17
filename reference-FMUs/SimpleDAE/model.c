@@ -134,36 +134,6 @@ Status getDerivatives(ModelInstance *comp, double dx[], size_t nx) {
     return OK;
 }
 
-Status getPartialDerivative(ModelInstance *comp, ValueReference unknown, ValueReference known, double *partialDerivative) {
-    UNUSED(comp);
-    UNUSED(unknown);
-    UNUSED(known);
-    UNUSED(partialDerivative);
-
-    if (M(ode_dae)) {
-
-    }
-    else {
-
-    }
-
-    /*if (unknown == vr_der_x1 && known == vr_x1) {
-        *partialDerivative = 0;
-    } else if (unknown == vr_der_x1 && known == vr_x2) {
-        *partialDerivative = 1;
-    } else if (unknown == vr_der_x2 && known == vr_x1) {
-        *partialDerivative = -2 * M(x1) * M(x2) * M(mu) - 1;
-    } else if (unknown == vr_der_x2 && known == vr_x2) {
-        *partialDerivative = M(mu) * (1 - M(x1) * M(x1));
-    } else if (unknown == vr_der_x2 && known == vr_mu && comp->state == InitializationMode) {
-        *partialDerivative = (1 - M(x1) * M(x1)) * M(x2);
-    } else {
-        *partialDerivative = 0;
-    }
-    */
-    return OK;
-}
-
 Status eventUpdate(ModelInstance *comp) {
 
     comp->valuesOfContinuousStatesChanged   = false;

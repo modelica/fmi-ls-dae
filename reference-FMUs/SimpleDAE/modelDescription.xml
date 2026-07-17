@@ -12,8 +12,8 @@
     modelIdentifier="SimpleDAE"
     canGetAndSetFMUState="true"
     canSerializeFMUState="true"
-    providesDirectionalDerivatives="true"
-    providesAdjointDerivatives="true" />
+    providesDirectionalDerivatives="false"
+    providesAdjointDerivatives="false" />
 
   <LogCategories>
     <Category name="logEvents" description="Log events" />
