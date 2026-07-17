@@ -479,8 +479,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 040aec6,</span>
-<span id="revdate">2026-07-16</span>
+<span id="revnumber">version 87795a3,</span>
+<span id="revdate">2026-07-17</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Contents</div>
@@ -521,6 +521,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#hello-world-dae-fully-implicit-dae">2.1.3.1. Hello World DAE - Fully-Implicit DAE</a></li>
 <li><a href="#hello-world-dae-semi-explicit-dae">2.1.3.2. Hello World DAE - Semi-Explicit DAE</a></li>
 <li><a href="#hello-world-dae-explicit-ode">2.1.3.3. Hello World DAE - Explicit ODE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#ode-to-dae-mode">2.2. Changing between ODE and DAE Mode</a>
+<ul class="sectlevel3">
+<li><a href="#enable-dae-mode-variable">2.2.1. The <code>enableDAEModeVariable</code> Structural Parameter</a></li>
+<li><a href="#entering-dae-mode">2.2.2. Entering DAE Mode</a>
+<ul class="sectlevel4">
+<li><a href="#at-instantiation-configuration-mode">2.2.2.1. At Instantiation (Configuration Mode)</a></li>
+<li><a href="#during-simulation-reconfiguration-mode">2.2.2.2. During Simulation (Reconfiguration Mode)</a></li>
 </ul>
 </li>
 </ul>
@@ -1088,6 +1099,146 @@ z       &amp;= -\frac{x}{5}
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="ode-to-dae-mode">2.2. Changing between ODE and DAE Mode</h3>
+<div class="paragraph">
+<p>An FMU that implements this layered standard is simultaneously a valid ODE FMU and a DAE FMU.
+To remain backward-compatible with importers that do not support this layered standard, the FMU <strong>defaults to ODE mode</strong> on instantiation.
+An importer that is aware of this layered standard must explicitly switch the FMU into DAE mode before use.</p>
+</div>
+<div class="sect3">
+<h4 id="enable-dae-mode-variable">2.2.1. The <code>enableDAEModeVariable</code> Structural Parameter</h4>
+<div class="paragraph">
+<p>Switching between ODE and DAE behavior is controlled by a <a href="https://fmi-standard.org/docs/3.0.2/#structuralParameter">structural parameter</a> called <code>enableDAEModeVariable</code>.</p>
+</div>
+<div class="paragraph">
+<p>A structural parameter (<code>causality = structuralParameter</code>) may only be set during <a href="https://fmi-standard.org/docs/3.0.2/#ConfigurationMode">Configuration Mode</a> or <a href="https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode">Reconfiguration Mode</a>.
+This constraint ensures that the importer can re-examine the model structure from the manifest and reinitialize its solver before any computation takes place.</p>
+</div>
+<div class="paragraph">
+<p>The <code>enableDAEModeVariable</code> parameter is declared in the <code>modelDescription.xml</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;Boolean name="&lt;free to choose&gt;"
+         valueReference="&lt;free to choose&gt;"
+         causality="structuralParameter"
+         variability="tunable|fixed"
+         start="false"
+         description="Set to true to enable DAE mode as defined by FMI-LS-DAE."/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and must be referenced by value reference within the FMI-LS-DAE manifest file via attribute <a href="#enableDAEModeVariable"><code>enableDAEModeVariable</code></a>, see <a href="#layered-standard-manifest-file">Section 4</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>name</code> and <code>valueReference</code> is assigned freely by the FMU exporter; the importer locates the parameter by its <code>valueReference</code> declared in attribute <a href="#enableDAEModeVariable"><code>enableDAEModeVariable</code></a> of <code>fmi-ls-manifest.xml</code>.
+The <code>description</code> attribute is optional.
+The <code>variability</code> must be either <code>tunable</code> or <code>fixed</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>fixed</code> — the mode can only be set in <a href="https://fmi-standard.org/docs/3.0.2/#ConfigurationMode">Configuration Mode</a> (before <code>fmi3EnterInitializationMode</code>).
+Use this when the FMU does not support switching modes at runtime.</p>
+</li>
+<li>
+<p><code>tunable</code> — the mode can additionally be changed in <a href="https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode">Reconfiguration Mode</a> during simulation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The structural parameter <code>enableDAEModeVariable</code> must not be referenced in <code>&lt;Dimension&gt;</code> elements.</p>
+</div>
+<table id="table-dae-mode-parameter" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. <code>enableDAEModeVariable</code> structural parameter values.</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code> (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The FMU behaves as a standard ODE Model Exchange FMU.
+All DAE-specific information in the layered standard manifest is ignored by the importer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The FMU behaves as a DAE FMU.
+The importer must read the <a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a>, <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a>, and <a href="#Residual"><code>&lt;Residual&gt;</code></a> elements from the layered standard manifest and use them to drive the simulation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="entering-dae-mode">2.2.2. Entering DAE Mode</h4>
+<div class="paragraph">
+<p>Because <code>enableDAEModeVariable</code> is a structural parameter, the importer must change it inside a configuration or reconfiguration scope.</p>
+</div>
+<div class="sect4">
+<h5 id="at-instantiation-configuration-mode">2.2.2.1. At Instantiation (Configuration Mode)</h5>
+<div class="paragraph">
+<p>The typical flow for an importer that uses the FMU in DAE mode from the start is:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>fmi3InstantiateModelExchange(&#8230;&#8203;)</code> to create the FMU instance.</p>
+</li>
+<li>
+<p>Call <code>fmi3EnterConfigurationMode(instance)</code> to enter <a href="https://fmi-standard.org/docs/3.0.2/#ConfigurationMode">Configuration Mode</a>.</p>
+</li>
+<li>
+<p>Call <code>fmi3SetBoolean(instance, {vr}, 1, {true}, 1)</code> to enable DAE mode, where <code>vr</code> is the <code>valueReference</code> of <code>enableDAEModeVariable</code>.</p>
+</li>
+<li>
+<p>Call <code>fmi3ExitConfigurationMode(instance)</code> to return to the <a href="https://fmi-standard.org/docs/3.0.2/#InstantiatedState">Instantiated</a> state.</p>
+</li>
+<li>
+<p>Continue with the normal FMI initialization sequence (<code>fmi3EnterInitializationMode</code>, etc.).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="during-simulation-reconfiguration-mode">2.2.2.2. During Simulation (Reconfiguration Mode)</h5>
+<div class="paragraph">
+<p>When <code>variability="tunable"</code>, an importer may also switch between ODE and DAE mode at runtime by entering <a href="https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode">Reconfiguration Mode</a> from <a href="https://fmi-standard.org/docs/3.0.2/#EventMode">Event Mode</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>fmi3EnterConfigurationMode(instance)</code> from Event Mode to enter Reconfiguration Mode.</p>
+</li>
+<li>
+<p>Call <code>fmi3SetBoolean(instance, {vr}, 1, {newValue}, 1)</code> with the new mode value.</p>
+</li>
+<li>
+<p>Call <code>fmi3ExitConfigurationMode(instance)</code> to return to Event Mode.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After switching modes, the importer is responsible for reinitializing its solver, and ensuring a consistent state before resuming the simulation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1244,7 +1395,7 @@ Also, the time needed to perform symbolic transformation from DAE to ODE is grow
 <p>Two additional elements - <a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a> and <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> - are included in the layered standard manifest file to describe the DAE formulation.</p>
 </div>
 <table id="table-schema-fmiModelDescription" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. <code>fmiModelDescription</code> element details.</caption>
+<caption class="title">Table 3. <code>fmiModelDescription</code> element details.</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 75%;">
@@ -1276,7 +1427,7 @@ The <a href="#AlgebraicVariables">algebraic variables</a> can now also be includ
 <p>The XML attributes of <code>&lt;fmiLayeredStandardManifest&gt;</code> are:</p>
 </div>
 <table id="table-schema-fmi-ls-dae-attributes" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. <code>&lt;fmiLayeredStandardManifest&gt;`</code> attribute details.</caption>
+<caption class="title">Table 4. <code>&lt;fmiLayeredStandardManifest&gt;`</code> attribute details.</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1310,6 +1461,14 @@ The <a href="#AlgebraicVariables">algebraic variables</a> can now also be includ
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Layered standard for DAE support in FMI</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String with a brief description of the layered standard that is suitable for display to users.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>enableDAEModeVariable</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unqualified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;free to choose&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="enableDAEModeVariable"></a>
+The <a href="https://fmi-standard.org/docs/3.0.2/#table-variableBase-attributes">name</a> of the <a href="https://fmi-standard.org/docs/3.0.2/#structuralParameter">structural parameter</a> in the <code>modelDescription.xml</code> that enables DAE mode.
+See <a href="#enable-dae-mode-variable">Section 2.2.1</a> for the full semantics and the calling sequences used to change the mode.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="sect2">
@@ -1318,7 +1477,7 @@ The <a href="#AlgebraicVariables">algebraic variables</a> can now also be includ
 <p>The element <a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a> defines the list of the algebraic variables.</p>
 </div>
 <table id="table-algebraic-variables-details" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. AlgebraicVariables elements.</caption>
+<caption class="title">Table 5. AlgebraicVariables elements.</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 83.3334%;">
@@ -1342,7 +1501,7 @@ The <a href="#AlgebraicVariables">algebraic variables</a> can now also be includ
 <p>Each <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> has only one attribute defining the value reference.</p>
 </div>
 <table id="table-alg-details" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Attributes to <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> element.</caption>
+<caption class="title">Table 6. Attributes to <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> element.</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 83.3334%;">
@@ -1390,7 +1549,7 @@ All elements defined there (<code>Output</code>, <code>ContinuousStateDerivative
 <p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with one additional element, <a href="#Residual"><code>&lt;Residual&gt;</code></a>, described below.</p>
 </div>
 <table id="table-model-structure-dae-element" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Additional ModelStructure element.</caption>
+<caption class="title">Table 7. Additional ModelStructure element.</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 83.3334%;">
@@ -1425,7 +1584,7 @@ Note that each formulation inside one residual element must reference unique var
 <p>Each <code><a href="#Formulation"><code>&lt;Formulation&gt;</code></a></code> element within a <code><a href="#Residual"><code>&lt;Residual&gt;</code></a></code> has the following attributes:</p>
 </div>
 <table id="table-formulation-details" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Attributes to <code><a href="#Formulation"><code>&lt;Formulation&gt;</code></a></code> element.</caption>
+<caption class="title">Table 8. Attributes to <code><a href="#Formulation"><code>&lt;Formulation&gt;</code></a></code> element.</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 83.3334%;">
