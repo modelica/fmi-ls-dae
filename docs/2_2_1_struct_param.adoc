@@ -1,0 +1,47 @@
+[#enable-dae-mode-variable]
+==== The `enableDAEModeVariable` Structural Parameter
+
+Switching between ODE and DAE behavior is controlled by a https://fmi-standard.org/docs/3.0.2/#structuralParameter[structural parameter] called `enableDAEModeVariable`.
+
+A structural parameter (`causality = structuralParameter`) may only be set during https://fmi-standard.org/docs/3.0.2/#ConfigurationMode[Configuration Mode] or https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode[Reconfiguration Mode].
+This constraint ensures that the importer can re-examine the model structure from the manifest and reinitialize its solver before any computation takes place.
+
+The `enableDAEModeVariable` parameter is declared in the `modelDescription.xml` as follows:
+
+[source,xml]
+----
+<Boolean name="<free to choose>"
+         valueReference="<free to choose>"
+         causality="structuralParameter"
+         variability="tunable|fixed"
+         start="false"
+         description="Set to true to enable DAE mode as defined by FMI-LS-DAE."/>
+----
+
+and must be referenced by value reference within the FMI-LS-DAE manifest file via the <<EnableDAE>> element, see <<layered-standard-manifest-file>>.
+
+The `name` and `valueReference` is assigned freely by the FMU exporter; the importer locates the parameter by its `valueReference` declared in the <<EnableDAE>> element of `fmi-ls-manifest.xml`.
+The `description` attribute is optional.
+The `variability` must be either `tunable` or `fixed`:
+
+* `fixed` — the mode can only be set in https://fmi-standard.org/docs/3.0.2/#ConfigurationMode[Configuration Mode] (before `fmi3EnterInitializationMode`).
+  Use this when the FMU does not support switching modes at runtime.
+* `tunable` — the mode can additionally be changed in https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode[Reconfiguration Mode] during simulation.
+
+The structural parameter `enableDAEModeVariable` must not be referenced in `<Dimension>` elements.
+
+.`enableDAEModeVariable` structural parameter values.
+[[table-dae-mode-parameter]]
+[cols="1,4",options="header"]
+|====
+|Value
+|Meaning
+
+|`false` (default)
+|The FMU behaves as a standard ODE Model Exchange FMU.
+All DAE-specific information in the layered standard manifest is ignored by the importer.
+
+|`true`
+|The FMU behaves as a DAE FMU.
+The importer must read the <<AlgebraicVariables>>, <<ModelStructure>>, and <<Residual>> elements from the layered standard manifest and use them to drive the simulation.
+|====

@@ -1,38 +1,20 @@
 [#initialization]
 ==== Initialization in ODE and DAE Mode
 
-As mentioned in the previous section, an FMU that implements this layered
-standard is simultaneously a valid ODE FMU and a DAE FMU, so
-initialization can proceed either as an ODE or as a DAE, depending on the
-current configuration.
+As mentioned in the previous section, an FMU that implements this layered standard is simultaneously a valid ODE FMU and a DAE FMU, so initialization can proceed either as an ODE or as a DAE, depending on the current configuration.
 
-For ODE mode, initialization proceeds in the same way as for FMUs without
-DAE capabilities, and the modelDescription.xml describes the
-https://fmi-standard.org/docs/3.0.2/#ModelStructure[initial unknowns]
-for the FMU.
-In this mode, the FMU is responsible for satisfaction of any required
-constraint residuals, or computation of any index-1 variable values
-internally.
+For ODE mode, initialization proceeds in the same way as for FMUs without DAE capabilities, and the modelDescription.xml describes the https://fmi-standard.org/docs/3.0.2/#ModelStructure[initial unknowns] for the FMU.
+In this mode, the FMU is responsible for satisfaction of any required constraint residuals, or computation of any index-1 variable values internally.
 
-If the FMU is switched to DAE mode for initialization, the information
-is provided in the fmi-ls-manifest.xml file for the initial unknowns of
-the FMU.
-In this mode, the importer is responsible for satisfying the constraint
-residuals provided in the fmi-ls-manifest.xml file.
+If the FMU is switched to DAE mode for initialization, the information is provided in the <<layered-standard-manifest-file,fmi-ls-manifest.xml>> file for the initial unknowns of the FMU.
+In this mode, the importer is responsible for satisfying the constraint residuals provided in the <<layered-standard-manifest-file,fmi-ls-manifest.xml>> file.
 
-DAE mode may be required for initialization for many reasons. A couple
-of examples are as follows:
+DAE mode may be required for initialization for many reasons.
+A couple of examples are as follows:
 
-* When the constraints in an FMU depend on inputs that result from constraints
-in the model or constraints in another FMU.
-Attempting to satisty the contraints one FMU at a time would be expensive,
-as this would need to be done in an iterative loop across all FMUs or
-equations with related constraints.
+* When the constraints in an FMU depend on inputs that result from constraints in the model or constraints in another FMU.
+Attempting to satisfy the constraints one FMU at a time would be expensive, as this would need to be done in an iterative loop across all FMUs or equations with related constraints.
 
-* When the residual tolerance could initially be moderately relaxed for a
-specific model (as it would rapidly correct during integration),
-There is no way to communicate to the FMU that a more relaxed tolerance is
-required initially.
+* When the residual tolerance could initially be moderately relaxed for a specific model (as it would rapidly correct during integration), There is no way to communicate to the FMU that a more relaxed tolerance is required initially.
 
-In summary, the level of control provided through DAE initialization mode
-is necessary for efficient solution of coupled DAE FMUs.
+In summary, the level of control provided through DAE initialization mode is necessary for efficient solution of coupled DAE FMUs.

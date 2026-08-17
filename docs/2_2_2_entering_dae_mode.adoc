@@ -1,0 +1,23 @@
+==== Entering DAE Mode
+
+Because `enableDAEModeVariable` is a structural parameter, the importer must change it inside a configuration or reconfiguration scope.
+
+===== At Instantiation (Configuration Mode)
+
+The typical flow for an importer that uses the FMU in DAE mode from the start is:
+
+. Call `fmi3InstantiateModelExchange(...)` to create the FMU instance.
+. Call `fmi3EnterConfigurationMode(instance)` to enter https://fmi-standard.org/docs/3.0.2/#ConfigurationMode[Configuration Mode].
+. Call `fmi3SetBoolean(instance, {vr}, 1, {true}, 1)` to enable DAE mode, where `vr` is the `valueReference` of `enableDAEModeVariable`.
+. Call `fmi3ExitConfigurationMode(instance)` to return to the https://fmi-standard.org/docs/3.0.2/#InstantiatedState[Instantiated] state.
+. Continue with the normal FMI initialization sequence (`fmi3EnterInitializationMode`, etc.).
+
+===== During Simulation (Reconfiguration Mode)
+
+When `variability="tunable"`, an importer may also switch between ODE and DAE mode at runtime by entering https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode[Reconfiguration Mode] from https://fmi-standard.org/docs/3.0.2/#EventMode[Event Mode]:
+
+. Call `fmi3EnterConfigurationMode(instance)` from Event Mode to enter Reconfiguration Mode.
+. Call `fmi3SetBoolean(instance, {vr}, 1, {newValue}, 1)` with the new mode value.
+. Call `fmi3ExitConfigurationMode(instance)` to return to Event Mode.
+
+NOTE: After switching modes, the importer is responsible for reinitializing its solver, and ensuring a consistent state before resuming the simulation.
