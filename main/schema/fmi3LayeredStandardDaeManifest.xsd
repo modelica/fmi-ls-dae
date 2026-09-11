@@ -64,6 +64,7 @@
                             <xs:element name="InitialUnknown" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                             <xs:element name="EventIndicator" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                             <xs:element name="Residual" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="Invariant" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

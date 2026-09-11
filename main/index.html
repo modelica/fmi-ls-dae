@@ -479,7 +479,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
 <div class="details">
-<span id="revnumber">version 642e7b6,</span>
+<span id="revnumber">version e5b8ffa,</span>
 <span id="revdate">2026-09-11</span>
 </div>
 <div id="toc" class="toc2">
@@ -501,6 +501,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#entering-dae-mode">2.3.2. Entering DAE Mode</a></li>
 </ul>
 </li>
+<li><a href="#ode-with-invariants">2.4. ODE with Invariants</a></li>
 </ul>
 </li>
 <li><a href="#layered-standard-manifest-file">3. Layered Standard Manifest File</a>
@@ -535,6 +536,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#modelica-example-cauerlowpassanalog">4.2.1. Modelica Example CauerLowPassAnalog</a></li>
 <li><a href="#scaling-power-grids-example">4.2.2. Scaling Power Grids Example</a></li>
+</ul>
+</li>
+<li><a href="#invariants-background">4.3. Invariants and Numerical Drift</a>
+<ul class="sectlevel3">
+<li><a href="#numerical-drift">4.3.1. Numerical Drift</a></li>
+<li><a href="#mass-spring-oscillator">4.3.2. Example: The Mass-Spring Oscillator</a></li>
+<li><a href="#index-reduction-invariants">4.3.3. DAE Index Reduction and ODE with Invariants</a></li>
+<li><a href="#manifold-checking">4.3.4. Invariant and Manifold Checking</a></li>
 </ul>
 </li>
 </ul>
@@ -931,6 +940,43 @@ After switching modes, the importer is responsible for reinitializing its solver
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="ode-with-invariants">2.4. ODE with Invariants</h3>
+<div class="paragraph">
+<p>Many models possess quantities that remain constant along the exact solution, such as the total energy of a closed mechanical system, the total mass in a chemical reaction, or the distance between two bodies connected by a rigid rod.
+Such quantities are called <strong>invariants</strong> of the model.</p>
+</div>
+<div class="paragraph">
+<p>Invariants also arise from index reduction.
+Many physical systems, for example in multibody dynamics, are naturally modeled as high-index DAEs.
+Reducing the index removes algebraic constraints from the equations that are actually solved, and those constraints become invariants of the reduced system.</p>
+</div>
+<div class="paragraph">
+<p>Numerical integration does not preserve invariants exactly.
+Even when the initial values satisfy an invariant, the accumulated error of the integration makes the computed solution <strong>drift</strong> away from the manifold defined by that invariant.
+Exposing the invariants allows an importer to monitor this drift and to correct for it.
+See <a href="#invariants-background">Section 4.3</a> for a detailed discussion of numerical drift and of the correction methods an importer can apply.</p>
+</div>
+<div class="paragraph">
+<p>A model with invariants is described by the equations of <a href="#mathematical-formulation">Section 2.2</a>, together with</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{c} = \mathbf{f}_{\mathit{inv}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(\mathbf{f}_{\mathit{inv}}\) denotes the invariants of the model and \(\mathbf{c}\) is constant along the exact solution.</p>
+</div>
+<div class="paragraph">
+<p>The invariants of an ODE or of a semi-explicit DAE are exposed as variables of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> and are listed in the <a href="#Invariant"><code>&lt;Invariant&gt;</code></a> element of the extended <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a>, see <a href="#layered-standard-manifest-file">Section 3</a>.
+An invariant can be scalar or vectorial.
+Invariants are independent of the <a href="#Residual">residuals</a>, and the same variable may be referenced by both an <a href="#Invariant"><code>&lt;Invariant&gt;</code></a> and a <a href="#Residual"><code>&lt;Residual&gt;</code></a> element.</p>
+</div>
+<div class="paragraph">
+<p>The FMU can optionally also expose the correction \(\boldsymbol{\delta} = \tilde{\mathbf{x}}_c - \mathbf{x}_c\) between the integrated state \(\mathbf{x}_c\) and the state \(\tilde{\mathbf{x}}_c\) projected back onto the invariant manifold.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1111,10 +1157,11 @@ In the core Model Exchange standard there exists the API function <a href="https
 <div class="paragraph">
 <p>The structure of the model for the DAE-formulation is defined in element <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a>.
 It defines the <a href="#model-dependencies">dependencies</a> between variables.
-The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with an additional element - <a href="#Residual"><code>&lt;Residual&gt;</code></a> - and the optional dependencies can now include algebraic variables.</p>
+The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with two additional elements - <a href="#Residual"><code>&lt;Residual&gt;</code></a> and <a href="#Invariant"><code>&lt;Invariant&gt;</code></a> - and the optional dependencies can now include algebraic variables.</p>
 </div>
 <div class="paragraph">
-<p>An FMU that follows this layered standard must expose all residuals using the <a href="#Residual"><code>&lt;Residual&gt;</code></a> element.</p>
+<p>An FMU that follows this layered standard must expose all residuals using the <a href="#Residual"><code>&lt;Residual&gt;</code></a> element.
+Invariants of the model can optionally be exposed using the <a href="#Invariant"><code>&lt;Invariant&gt;</code></a> element.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> defined here extends the one from the core FMI standard.
@@ -1131,10 +1178,10 @@ All elements defined in the core standard (<a href="https://fmi-standard.org/doc
 </ul>
 </div>
 <div class="paragraph">
-<p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with one additional element, <a href="#Residual"><code>&lt;Residual&gt;</code></a>, described below.</p>
+<p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with two additional elements, <a href="#Residual"><code>&lt;Residual&gt;</code></a> and <a href="#Invariant"><code>&lt;Invariant&gt;</code></a>, described below.</p>
 </div>
 <table id="table-model-structure-dae-element" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Additional ModelStructure element.</caption>
+<caption class="title">Table 8. Additional ModelStructure elements.</caption>
 <colgroup>
 <col style="width: 16.6666%;">
 <col style="width: 83.3334%;">
@@ -1152,6 +1199,17 @@ All elements defined in the core standard (<a href="https://fmi-standard.org/doc
 <p>Ordered list of residual equations (constraints). Each residual element must reference a unique variable present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>. It is the importer&#8217;s responsiblity to find the values of the <a href="#AlgebraicVariables">algebraic variables</a> such that the residuals are 0.
 The functional dependency is defined as:<br>
 \({0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}\)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Invariant</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="Invariant" class="paragraph">
+<p>Ordered list of invariants of the model, see <a href="#ode-with-invariants">Section 2.4</a>.
+Each <code>&lt;Invariant&gt;</code> element references the variable that computes an invariant of the FMU, which must be present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>. The invariant can be scalar or vectorial.
+Invariants are independent of the <a href="#Residual">residuals</a>, and the same variable may also be referenced by a <a href="#Residual"><code>&lt;Residual&gt;</code></a> element.
+The dependencies on continuous states, inputs, algebraic variables, and parameters can optionally be included <a href="#MN2018">[MN2018]</a>.
+The functional dependency is defined as:<br>
+\({\mathit{const} := \mathbf{f}_{\mathit{inv}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}\)</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -2127,6 +2185,244 @@ Also, the time needed to perform symbolic transformation from DAE to ODE is grow
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="invariants-background">4.3. Invariants and Numerical Drift</h3>
+<div class="paragraph">
+<p>This section gives the background for <a href="#ode-with-invariants">Section 2.4</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="numerical-drift">4.3.1. Numerical Drift</h4>
+<div class="paragraph">
+<p>When a mathematical model is derived for a physical system, the fundamental conservation laws (such as energy or momentum) or geometric properties are directly embedded into the differential equations.
+These conservation laws define the system&#8217;s <strong>invariants</strong> (quantities that remain constant over time).
+Examples include total energy in a closed system, total mass in a chemical reaction, or angular momentum in a gravitational field.</p>
+</div>
+<div class="paragraph">
+<p>The analytical solution to the differential equation respects these invariants perfectly.
+However, when numerical solvers (like Euler&#8217;s method, Runge-Kutta, or BDF methods) are used to simulate the differential equations, <em>numerical drift</em> is introduced.</p>
+</div>
+<div class="paragraph">
+<p>Numerical solvers solve the ODEs/DAEs by approximating the continuous-time variable with a series of discrete steps.
+At each step, they calculate an update based on the current state, inevitably accumulating a small, local truncation error.
+While high-order methods can make this error very small for the <strong>state variables</strong> themselves, they are generally <strong>not designed to preserve arbitrary invariants of the system</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This means that even if the initial condition perfectly satisfies an invariant (e.g., total energy = \(E_0\)), after hundreds or thousands of time steps, the computed solution may slowly but surely "drift" away from the manifold defined by that invariant.
+The solver is effectively solving a <em>nearby</em> differential equation, one whose true solution does not possess the same conserved quantities.</p>
+</div>
+<div class="paragraph">
+<p>As a consequence of numerical drift, the simulation can produce results that violate fundamental physical laws.
+A satellite&#8217;s orbit might slowly decay or escape when it should be stable.
+In molecular dynamics, the temperature (related to kinetic energy) might artificially rise or fall, rendering the simulation useless.
+Also, small drifts can accumulate, leading to a complete breakdown of the solution over long time horizons.
+The numerical solution may blow up or behave chaotically even when the true solution is well-behaved.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="mass-spring-oscillator">4.3.2. Example: The Mass-Spring Oscillator</h4>
+<div class="paragraph">
+<p>Consider a physical system consisting of a mass \(m\) attached to a spring with a spring constant \(k\).
+When the mass is displaced by a distance \(x\) from its equilibrium position, the spring exerts a restoring force given by Hooke&#8217;s law:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F = -kx\]
+</div>
+</div>
+<div class="paragraph">
+<p>Applying Newton&#8217;s second law (\(m\ddot{x} = F\)) gives:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[m\ddot{x} = -kx \quad \Rightarrow \quad \ddot{x} + \frac{k}{m}x = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>To solve this numerically, we convert it into a system of two first-order ODEs by introducing velocity (\(v = \dot{x}\)):</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+\dot{x} &amp;= v, \\
+\dot{v} &amp;= -\frac{k}{m} x
+\end{aligned}\]
+</div>
+</div>
+<div class="paragraph">
+<p>The total mechanical energy \(I(x, v)\) (the Hamiltonian) of this closed system is the sum of kinetic and potential energy, which must remain strictly constant:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[I(x, v) = \frac{1}{2}mv^2 + \frac{1}{2}kx^2 = \text{constant}\]
+</div>
+</div>
+<div class="paragraph">
+<p>In the phase space of \((x, v)\), the analytical solution traces out a perfect, closed ellipse, forever staying on this fixed physical "energy manifold".</p>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s simulate this system using the explicit Euler method with a time step \(h\):</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+x_{n+1} &amp;= x_n + h \cdot v_n \\
+v_{n+1} &amp;= v_n + h \cdot \left(-\frac{k}{m} x_n \right)
+\end{aligned}\]
+</div>
+</div>
+<div class="paragraph">
+<p>If we substitute this numerical update step back into our energy invariant function \(I(x, v)\), we find:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[I(x_{n+1}, v_{n+1}) = \frac{1}{2}m\left(v_n - h\frac{k}{m}x_n \right)^2 + \frac{1}{2}k\left(x_n + hv_n\right)^2\]
+</div>
+</div>
+<div class="paragraph">
+<p>Expanding this expression reveals:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[I(x_{n+1}, v_{n+1}) = I(x_n, v_n) + h^2 \left( \frac{1}{2}\frac{k^2}{m} x_n^2 + \frac{1}{2}k v_n^2 \right) \neq I(x_n, v_n)\]
+</div>
+</div>
+<div class="paragraph">
+<p>The energy is not conserved.
+Because the error term on the right is strictly positive (\(h^2 &gt; 0\), \(k &gt; 0\), \(m &gt; 0\)), the total calculated energy artificially increases at every single time step.
+Instead of tracing a stable, closed ellipse, the numerical solution spirals outward indefinitely.
+The solver has no built-in knowledge of the system&#8217;s physics and lacks a mechanism to constrain its steps to the true energy manifold.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>MassSpringOscillator</code> reference FMU implements this example and exposes \(I(x, v)\) as an <a href="#Invariant"><code>&lt;Invariant&gt;</code></a>, see <a href="https://github.com/modelica/fmi-ls-dae/tree/main/reference-FMUs/MassSpringOscillator">reference-FMUs/MassSpringOscillator</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="index-reduction-invariants">4.3.3. DAE Index Reduction and ODE with Invariants</h4>
+<div class="paragraph">
+<p>The constraints are not always related to conservation laws.
+If the index of a DAE is reduced to zero to obtain an ODE, some equations may be omitted.
+In order to ensure that these equations are taken into account and used to avoid drift, these equations should be exploited.</p>
+</div>
+<div class="paragraph">
+<p>The connection between an ODE solved with invariants and a DAE is fundamental, particularly when dealing with index reduction.
+Many physical systems, such as multibody dynamics, are naturally modeled as high-index DAEs.
+Reducing the DAE index to zero (transforming it into an ODE) simplifies the solution process but removes the original algebraic constraints from the solved equations.
+These constraints, which define the system&#8217;s geometric invariants (e.g., the set of physically allowed positions), are then subject to numerical drift.</p>
+</div>
+<div class="paragraph">
+<p>After sufficient differentiation, we often obtain a pure ODE \(\dot{y}=F(y)\) for which the original algebraic constraint \(g(y)=0\) is no longer part of the differential equations.
+Instead, it becomes an invariant:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[g(y(t))=g(y(0))\]
+</div>
+</div>
+<div class="paragraph">
+<p>Since the consistent initial condition satisfies \(g(y(0))=0\), the reduced ODE should preserve \(g(y(t))=0\).
+Thus, the algebraic constraints of the original DAE become invariants of the reduced ODE.</p>
+</div>
+<div class="paragraph">
+<p>Consider the planar pendulum, an index-3 model constrained by the length of the rod.
+The full <strong>index-3 DAE</strong> in Cartesian coordinates is:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+\dot{x} &amp;= u, \\
+\dot{y} &amp;= v, \\
+\dot{u} &amp;= -\lambda x/m, \\
+\dot{v} &amp;= -\lambda y/m - g, \\
+0 &amp;= x^2 + y^2 - L^2
+\end{aligned}\]
+</div>
+</div>
+<div class="paragraph">
+<p>Index reduction eliminates \(\lambda\) and produces an ODE in \((x, y, u, v)\), but <strong>removes the original constraints</strong>.
+The resulting ODE no longer enforces:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Position invariant:</strong> \(g_1=x^2 + y^2 - L^2\)</p>
+</li>
+<li>
+<p><strong>Velocity invariant:</strong> \(g_2=x u + y v\)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the invariants are ignored, numerical drift in the integration of the ODE alone causes, for example, the pendulum to <strong>stretch or shrink</strong> over time.
+To prevent numerical drift, <strong>both constraints must be enforced</strong> via projection after each integration step (or every few steps).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="manifold-checking">4.3.4. Invariant and Manifold Checking</h4>
+<div class="paragraph">
+<p>This is where invariant and manifold checking (and correction) becomes essential.
+To preserve physical fidelity, simulations must actively monitor and correct for drift using one of two strategies.</p>
+</div>
+<div class="sect4">
+<h5 id="state-augmentation">4.3.4.1. State Augmentation (Continuous Correction)</h5>
+<div class="paragraph">
+<p>In this approach the invariants are incorporated in the ODE using a Lagrange multiplier.
+If numerical errors cause \(g(y) \neq 0\), the trajectory slowly leaves the constraint manifold.
+An invariant-preserving formulation augments the ODE with a correction term:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\dot{y}=F(y)+G(y)\lambda\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(\lambda\) is chosen so that:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{d}{dt} g(y)=0\]
+</div>
+</div>
+<div class="paragraph">
+<p>This equation determines \(\lambda\) and ensures that the solution remains on the constraint manifold.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="geometric-projection">4.3.4.2. Geometric Projection (Discrete Correction)</h5>
+<div class="paragraph">
+<p>In this method, at regular intervals during the simulation, we calculate and monitor the value of the known invariants using the current numerical state.
+For example, we compute \(I(x_n, v_n)\) and monitor its change from the initial value \(I(x_0, v_0)\).
+A significant deviation is a direct measure of the simulation&#8217;s accumulated error with respect to the physics of the problem.</p>
+</div>
+<div class="paragraph">
+<p>For critical simulations, the <strong>projection method</strong> is a popular method where the correction is done during the integration.
+With standard numerical solvers (multi-step or single step), after a few steps or even after every step, the solution is "projected" back onto the correct invariant manifold.
+For instance, the state \((x_n, v_n)\) is minimally adjusted to a new state \((\tilde{x}_n, \tilde{v}_n)\) such that \(I(\tilde{x}_n, \tilde{v}_n) = I(x_0, v_0)\).
+Some off-the-shelf open-source numerical solvers support this feature.</p>
+</div>
+<div class="paragraph">
+<p>For multiple invariants, the correction is obtained by solving a small constrained least-squares problem involving the Jacobian of all constraints, replacing the single invariant \(I(x)\) with a vector of \(m\) constraints \(H(x) \in \mathbb{R}^m\).
+For \(m\) constraints \(H(x) \in \mathbb{R}^m\), the correction is:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\tilde{x}_n = x_n - G^T (G G^T)^{-1} H(x_n), \quad G = \frac{\partial H}{\partial x}(x_n) \in \mathbb{R}^{m \times n}\]
+</div>
+</div>
+<div class="paragraph">
+<p>This is the <strong>orthogonal projection</strong> onto the intersection of all constraint manifolds. <a href="#Brenan">[Brenan]</a>, <a href="#Hairer1">[Hairer1]</a>, <a href="#Hairer2">[Hairer2]</a></p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2214,6 +2510,30 @@ Hindmarsh, Alan C., Radu Serban, and Aaron Collier.
 <em>Example Programs for IDA v7.8.0</em>.
 Technical Report UCRL-SM-208113.
 Lawrence Livermore National Laboratory, 2026.</p>
+</li>
+<li>
+<p><a id="Brenan"></a>[Brenan]
+Brenan, K. E., Campbell, S. L.,  Petzold, L. R. (1996)
+"Numerical Solution of Initial-Value Problems in Differential-Algebraic Equations"
+SIAM.</p>
+</li>
+<li>
+<p><a id="Hairer1"></a>[Hairer1]
+Hairer, E., Wanner, G. (1996).
+"Solving Ordinary Differential Equations II: Stiff and Differential-Algebraic Problems"
+Springer.</p>
+</li>
+<li>
+<p><a id="Hairer2"></a>[Hairer2]
+Hairer, E., Lubich, C., &amp; Wanner, G.
+"Geometric Numerical Integration: Structure-Preserving Algorithms for Ordinary Differential Equations"
+Springer.</p>
+</li>
+<li>
+<p><a id="MN2018"></a>[MN2018]
+ NAJAFi M.
+"Simulation of high-index DAEs and ODEs with constraints in FMI"
+ Proceedings of the 2nd Japanese Modelica Conference Tokyo, Japan, 2018.</p>
 </li>
 </ul>
 </div>
