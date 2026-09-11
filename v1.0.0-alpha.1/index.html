@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<title>FMI Layered Standard for DAE (FMI-LS-DAE)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<link rel="icon" type="image/x-icon" href="theme/images/FMI-favicon.svg">
+<link rel="stylesheet" href="theme/css/modelica.css">
+<script src="theme/js/toggle-toc.js" defer></script>
+<script src="theme/js/color-theme.js" defer></script>
+<script src="theme/js/scrollspy.js" defer></script>
+</head>
+<body class="article toc2 toc-left">
+<div class="ma-header" style="display: flex; padding: 0 5px; align-items: center;">
+
+  <a href="https://fmi-standard.org/">
+    <img src="theme/images/FMI-bare.svg" alt="FMI" style="width: 40px; margin-left: 15px;">
+  </a>
+
+  <h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
+
+  <a onclick="toggleTOC()" class="nav-button" style="padding: 3px; margin-right: 10px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg>
+  </a>
+
+  <a onclick="toggleTheme()" class="nav-button" style="padding: 5px; margin-right: 10px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/></svg>
+  </a>
+
+  <a href="https://github.com/modelica/fmi-ls-dae" class="nav-button" style="padding: 5px; margin-right: 10px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+    </svg>
+  </a>
+
+</div>
+
+<div style="text-align: center">
+    <picture>
+        <source media="(prefers-color-scheme: light)" srcset="theme/images/FMI-logo-horizontal-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="theme/images/FMI-logo-horizontal-dark.svg">
+        <img src="theme/images/FMI-logo-horizontal-light.svg" alt="FMI" style="width: 30em; margin: 3em auto">
+    </picture>
+</div>
+<div id="header">
+<h1>FMI Layered Standard for DAE (FMI-LS-DAE)</h1>
+<div class="details">
+<span id="revnumber">version 1.0.0-alpha.1,</span>
+<span id="revdate">2026-09-11</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Contents</div>
+<ul class="sectlevel1">
+<li><a href="#introduction">1. Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#intent-of-this-document">1.1. Intent of this Document</a></li>
+<li><a href="#how-to-read-this-document">1.2. How to read this Document</a></li>
+</ul>
+</li>
+<li><a href="#common-concepts">2. Common Concepts</a>
+<ul class="sectlevel2">
+<li><a href="#mathematical-notation">2.1. Mathematical Notation</a></li>
+<li><a href="#mathematical-formulation">2.2. Mathematical Formulation</a></li>
+<li><a href="#ode-to-dae-mode">2.3. Changing between ODE and DAE Mode</a>
+<ul class="sectlevel3">
+<li><a href="#enable-dae-mode-variable">2.3.1. The <code>enableDAEModeParameter</code> Structural Parameter</a></li>
+<li><a href="#entering-dae-mode">2.3.2. Entering DAE Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#layered-standard-manifest-file">3. Layered Standard Manifest File</a>
+<ul class="sectlevel2">
+<li><a href="#EnableDAEParameter">3.1. Enabling DAE mode</a></li>
+<li><a href="#AlgebraicVariables">3.2. Algebraic variables</a></li>
+<li><a href="#ModelStructure">3.3. Model Structure</a></li>
+<li><a href="#getting-partial-derivatives">3.4. Getting Partial Derivatives</a></li>
+<li><a href="#example">3.5. Example</a>
+<ul class="sectlevel3">
+<li><a href="#robertson-dae-semi-explicit-dae">3.5.1. Robertson DAE - Semi-Explicit DAE</a></li>
+<li><a href="#robertson-dae-explicit-ode">3.5.2. Robertson DAE - Explicit ODE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#appendix">4. Appendix</a>
+<ul class="sectlevel2">
+<li><a href="#dae-representation">4.1. DAE representation</a>
+<ul class="sectlevel3">
+<li><a href="#implicit-dae">4.1.1. Fully-Implicit DAE</a></li>
+<li><a href="#semi-explicit-index-1-dae">4.1.2. Semi-Explicit Index 1 / Hessenberg index 1 DAE</a></li>
+<li><a href="#relationship-fully-implicit-semi-explicit">4.1.3. Relationship between fully-implicit and semi-explicit DAE</a></li>
+<li><a href="#semi-explicit-dae">4.1.4. Semi-Explicit DAE</a></li>
+<li><a href="#mass-matrix-dae">4.1.5. Mass matrix DAE</a></li>
+<li><a href="#linear-time-invariant-dae">4.1.6. Linear time-invariant DAE</a></li>
+<li><a href="#indices">4.1.7. Indices</a></li>
+<li><a href="#dae-example">4.1.8. Hello World DAE Example</a></li>
+</ul>
+</li>
+<li><a href="#generic-dae-use-case">4.2. Generic DAE Use Case</a>
+<ul class="sectlevel3">
+<li><a href="#modelica-example-cauerlowpassanalog">4.2.1. Modelica Example CauerLowPassAnalog</a></li>
+<li><a href="#scaling-power-grids-example">4.2.2. Scaling Power Grids Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><br>
+</p>
+</div>
+<div class="paragraph">
+<p>This layered standard on top of FMI 3.0 defines how to exchange dynamic models in differential algebraic equation form.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Although the document refers to version 3.0 of the FMI standard, everything described in this document also applies to all subsequent minor versions.
+For further information on compatibility, see section <a href="https://fmi-standard.org/docs/3.0/#VersioningLayered">Versioning and Layered Standards</a> in the FMI 3.0 specification.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Copyright &#169; 2025-2026 The Modelica Association Project FMI.</p>
+</div>
+<div class="paragraph">
+<p>This document is licensed under the Attribution-ShareAlike 4.0 International license.
+The code is released under the 2-Clause BSD License.
+The license text can be found in the <a href="LICENSE.txt">LICENSE.txt</a> file that accompanies this distribution.</p>
+</div>
+<div class="paragraph">
+<p></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="intent-of-this-document">1.1. Intent of this Document</h3>
+<div class="paragraph">
+<p>A differential-algebraic system of equations (DAE) is a system of equations that either contains differential equations and algebraic equations, or is equivalent to such a system <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Avoid the requirement of index reduction inside of FMUs.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This could improve accuracy due to better drift handling.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Avoid local nonlinear equation solvers inside of FMUs.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This could improve accuracy and avoid problems with different local and global error tolerances.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Preserve the sparseness of DAE systems which is lost for the corresponding reduced ODE systems.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This could improve the performance by usage of the sparseness.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Allow connections between constraint FMUs.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Connecting reduced ODE FMUs could lead globally to a non-solvable (singular) system but not for unreduced DAE FMUs.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="how-to-read-this-document">1.2. How to read this Document</h3>
+<div class="paragraph">
+<p>The standard document is in HTML allowing heavy use of in-document links: all state names, function names, many function arguments, XML elements and attributes are links to definitions or descriptions.</p>
+</div>
+<div class="paragraph">
+<p>In key parts of this document, non-normative examples are used to help understand the standard.</p>
+</div>
+<div class="paragraph">
+<p>Conventions used in this document:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Non-normative text is given like this:</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Especially examples are defined in this style.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/rfc2119">RFC 2119</a> (regardless of formatting and capitalization).</p>
+</li>
+<li>
+<p>State machine states are formatted as <strong>bold</strong> link, e.g. <strong><a href="https://fmi-standard.org/docs/3.0.2/#InitializationMode">InitializationMode</a></strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="common-concepts">2. Common Concepts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This layered standard extends FMI 3.0 Model Exchange with support for semi-explicit index-1 differential-algebraic equations by introducing algebraic variables and residual equations alongside the continuous states and state derivatives from the core standard.</p>
+</div>
+<div class="sect2">
+<h3 id="mathematical-notation">2.1. Mathematical Notation</h3>
+<div class="paragraph">
+<p>This layered standard uses the same mathematical notation as provided in the FMI 3.0 standard under sub-section <a href="https://fmi-standard.org/docs/3.0.2/#mathematical-definitions">Mathematical Notation</a>, with the addition of the symbols introduced here.</p>
+</div>
+<table id="table-variable-types" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Additional symbols for specific variable types.</caption>
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 88.8889%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="algebraic"></a>\(\mathbf{a}_c\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A vector of real continuous-time variables representing the continuous-time <a href="#AlgebraicVariable">algebraic variables</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="mathematical-formulation">2.2. Mathematical Formulation</h3>
+<div class="paragraph">
+<p>The DAE layered standard version <code>1.0.0-alpha.1</code> is intentionally restricted to <strong>semi-explicit index-1 DAEs</strong> used with FMI Model Exchange during <strong><a href="https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode">Continuous-Time Mode</a></strong>.</p>
+</div>
+<div class="paragraph">
+<p>The supported formulation of DAEs is</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\dot{\mathbf{x}}_c = \mathbf{f}_{\mathit{der}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[0 = \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{y} = \mathbf{f}_{\mathit{out}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(\mathbf{x}_c\) denotes the continuous-time <a href="https://fmi-standard.org/docs/3.0.2/#state">states</a>,</p>
+</li>
+<li>
+<p>\(\dot{\mathbf{x}}_c\) denotes the continuous-state <a href="https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative">derivatives</a>,</p>
+</li>
+<li>
+<p>\(\mathbf{a}_c\) denotes the <a href="#AlgebraicVariable">algebraic variables</a>,</p>
+</li>
+<li>
+<p>\(\mathbf{u}_c\) denotes the continuous-time <a href="https://fmi-standard.org/docs/3.0.2/#input">inputs</a>,</p>
+</li>
+<li>
+<p>\(\mathbf{p}\) denotes the <a href="https://fmi-standard.org/docs/3.0.2/#parameter">parameters</a>,</p>
+</li>
+<li>
+<p>\(t\) denotes time,</p>
+</li>
+<li>
+<p>\(\mathbf{f}_{\mathit{res}}\) denotes the algebraic equations expressed as <a href="#Residual">residuals</a>, and</p>
+</li>
+<li>
+<p>\(\mathbf{y}\) denotes the <a href="https://fmi-standard.org/docs/3.0.2/#output">outputs</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The equations \(\dot{\mathbf{x}}_c = \mathbf{f}_{\mathit{der}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)\) are the differential equations of the model, which can be acquired with the usual way of either</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>calling <a href="https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values"><code>fmi3Get</code></a> on the derivative variables provided in the extended <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> defined in <a href="#layered-standard-manifest-file">Section 3</a> , or</p>
+</li>
+<li>
+<p>calling <a href="https://fmi-standard.org/docs/3.0.2/#fmi3GetContinuousStateDerivatives"><code>fmi3GetContinuousStateDerivatives</code></a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The equations \(0 = \mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)\) are represented in the FMU by <a href="#Residual">residual</a> variables and constrain the algebraic variables together with the other continuous-time variables of the model. These can be acquired by calling <a href="https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values"><code>fmi3Get</code></a> on the <a href="#Residual">residual</a> variables provided in the extended <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> defined in <a href="#layered-standard-manifest-file">Section 3</a>.</p>
+</div>
+<div class="paragraph">
+<p>For the DAE to be index 1 in this layered standard means that the algebraic equations must be solvable for the algebraic variables. In particular, the Jacobian of the algebraic equations with respect to the algebraic variables must be non-singular.</p>
+</div>
+<div class="paragraph">
+<p>Consequently, for given values of \(\mathbf{x}_c\), \(\mathbf{u}_c\), \(\mathbf{p}\), and \(t\), the algebraic equations determine \(\mathbf{a}_c\). The importer is responsible for determining values of the algebraic variables that satisfy</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,t,\mathbf{p}) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>while the FMU provides the continuous-state derivatives and outputs according to the equations above.</p>
+</div>
+<div class="paragraph">
+<p>This version of the layered standard does not define support for more general DAE formulations, including fully implicit DAEs, higher-index DAEs, or formulations that require differentiation of algebraic constraints. Such formulations must first be transformed into the supported semi-explicit index-1 form before they can be represented by this version of the layered standard.</p>
+</div>
+<div class="paragraph">
+<p>The DAE formulation defined by this layered standard applies only while the Model Exchange FMU is in <strong><a href="https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode">Continuous-Time Mode</a></strong>. Behavior associated with discontinuities, event handling, and DAE formulations outside Continuous Time Mode is outside the scope of version <code>1.0.0-alpha.1</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ode-to-dae-mode">2.3. Changing between ODE and DAE Mode</h3>
+<div class="paragraph">
+<p>An FMU that implements this layered standard is simultaneously a valid ODE FMU and a DAE FMU.
+To remain backward-compatible with importers that do not support this layered standard, the FMU <strong>defaults to ODE mode</strong> on instantiation.
+An importer that is aware of this layered standard must explicitly switch the FMU into DAE mode before use.</p>
+</div>
+<div class="sect3">
+<h4 id="enable-dae-mode-variable">2.3.1. The <code>enableDAEModeParameter</code> Structural Parameter</h4>
+<div class="paragraph">
+<p>Switching between ODE and DAE behavior is controlled by a <a href="https://fmi-standard.org/docs/3.0.2/#structuralParameter">structural parameter</a> called <code>enableDAEModeParameter</code>.</p>
+</div>
+<div class="paragraph">
+<p>A structural parameter (<code>causality = structuralParameter</code>) may only be set during <a href="https://fmi-standard.org/docs/3.0.2/#ConfigurationMode"><strong>Configuration Mode</strong></a> or <a href="https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode"><strong>Reconfiguration Mode</strong></a>.
+This constraint ensures that the importer can re-examine the model structure from the manifest and reinitialize its solver before any computation takes place.</p>
+</div>
+<div class="paragraph">
+<p>The variable <code>enableDAEModeParameter</code> is declared in the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> as a <code>Boolean</code> under <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a>. The <code>name</code> and <code>valueReference</code> is assigned freely by the FMU exporter; the importer locates the parameter by its <code>valueReference</code> declared in the <a href="#EnableDAEParameter"><code>&lt;EnableDAEParameter&gt;</code></a> element of <code>fmi-ls-manifest.xml</code>.
+The <code>description</code> attribute is optional.</p>
+</div>
+<div class="paragraph">
+<p>An example of how the <code>enableDAEModeParameter</code> is declared:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;Boolean name="enableDAE"
+         valueReference="123"
+         causality="structuralParameter"
+         variability="tunable"
+         start="false"
+         description="Set to true to enable DAE mode as defined by FMI-LS-DAE."/&gt;</code></pre>
+</div>
+</div>
+<table id="table-dae-mode-parameter" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. <code>enableDAEModeParameter</code> structural parameter values.</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code> (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The FMU behaves as a standard ODE Model Exchange FMU.
+All DAE-specific information in the layered standard manifest is ignored by the importer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The FMU behaves as a DAE FMU.
+The importer must read the <a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a>, <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a>, and <a href="#Residual"><code>&lt;Residual&gt;</code></a> elements from the layered standard manifest and use them to drive the simulation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="entering-dae-mode">2.3.2. Entering DAE Mode</h4>
+<div class="paragraph">
+<p>Because <code>enableDAEModeParameter</code> is a structural parameter, the importer must change it inside a configuration or reconfiguration scope.</p>
+</div>
+<div class="sect4">
+<h5 id="at-instantiation-configuration-mode">2.3.2.1. At Instantiation (Configuration Mode)</h5>
+<div class="paragraph">
+<p>The typical flow for an importer that uses the FMU in DAE mode from the start is:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>fmi3InstantiateModelExchange(&#8230;&#8203;)</code> to create the FMU instance.</p>
+</li>
+<li>
+<p>Call <code>fmi3EnterConfigurationMode(instance)</code> to enter <a href="https://fmi-standard.org/docs/3.0.2/#ConfigurationMode">Configuration Mode</a>.</p>
+</li>
+<li>
+<p>Call <code>fmi3SetBoolean(instance, {vr}, 1, {true}, 1)</code> to enable DAE mode, where <code>vr</code> is the <code>valueReference</code> of <code>enableDAEModeParameter</code>.</p>
+</li>
+<li>
+<p>Call <code>fmi3ExitConfigurationMode(instance)</code> to return to the <a href="https://fmi-standard.org/docs/3.0.2/#InstantiatedState">Instantiated</a> state.</p>
+</li>
+<li>
+<p>Continue with the normal FMI initialization sequence (<code>fmi3EnterInitializationMode</code>, etc.).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>It should be emphasized that initialization in DAE mode is not yet fully specified. This means that when the FMU is initalized in DAE mode, either</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the FMU will lift the <a href="#Residual">residual</a> equations to be solved by the importer, or</p>
+</li>
+<li>
+<p>the FMU will still initialize in ODE mode, or</p>
+</li>
+<li>
+<p>the FMU will error out.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="during-simulation-reconfiguration-mode">2.3.2.2. During Simulation (Reconfiguration Mode)</h5>
+<div class="paragraph">
+<p>When <code>variability="tunable"</code>, an importer may also switch between ODE and DAE mode at runtime by entering <a href="https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode">Reconfiguration Mode</a> from <a href="https://fmi-standard.org/docs/3.0.2/#EventMode">Event Mode</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>fmi3EnterConfigurationMode(instance)</code> from Event Mode to enter Reconfiguration Mode.</p>
+</li>
+<li>
+<p>Call <code>fmi3SetBoolean(instance, {vr}, 1, {newValue}, 1)</code> with the new mode value.</p>
+</li>
+<li>
+<p>Call <code>fmi3ExitConfigurationMode(instance)</code> to return to Event Mode.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After switching modes, the importer is responsible for reinitializing its solver, and ensuring a consistent state before resuming the simulation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="layered-standard-manifest-file">3. Layered Standard Manifest File</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This layered standard requires the use of a layered standard manifest file and it shall be stored inside the FMU at the following path: <code>/extra/org.fmi-standard.fmi-ls-dae/fmi-ls-manifest.xml</code>.</p>
+</div>
+<div class="paragraph">
+<p>Several new elements are included as direct children of the root element in the layered standard manifest file to describe the DAE formulation.</p>
+</div>
+<table id="table-schema-fmiDAEManifest" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. <code>fmiDAEManifest</code> child elements.</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#EnableDAEParameter"><code>&lt;EnableDAEParameter&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required element referencing the <a href="https://fmi-standard.org/docs/3.0.2/#structuralParameter">structural parameter</a> in <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> that enables DAE mode.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of all <a href="#AlgebraicVariables">algebraic variables</a> exposed for the DAE formulation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the structure of the DAE formulation for the model.
+Especially, the ordered lists of <a href="https://fmi-standard.org/docs/3.0.2/#output">outputs</a>, continuous-time <a href="https://fmi-standard.org/docs/3.0.2/#state">states</a>, and the initial unknowns (the unknowns during <strong><a href="https://fmi-standard.org/docs/3.0.2/#InitializationMode">InitializationMode</a></strong>) are <strong>re</strong>-defined and overwrite the corresponding <a href="https://fmi-standard.org/docs/3.0.2/#ModelStructure">ModelStructure</a> present in the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>, with the addition of the  <a href="#Residual">residuals</a> element.
+The <a href="#AlgebraicVariables">algebraic variables</a> can be included as dependencies, and can also be initial unknowns.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Annotations">[Annotations]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional annotations for the top-level element.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The XML attributes of <code>&lt;fmiDAEManifest&gt;</code> are:</p>
+</div>
+<table id="table-schema-fmiDAEManifest-attributes" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. <code>&lt;fmiDAEManifest&gt;</code> attribute details.</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Namespace</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fmi-ls-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://fmi-standard.org/fmi-ls-manifest" class="bare">http://fmi-standard.org/fmi-ls-manifest</a></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.fmi-standard.fmi-ls-dae</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the layered standard in reverse domain name notation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fmi-ls-version</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://fmi-standard.org/fmi-ls-manifest" class="bare">http://fmi-standard.org/fmi-ls-manifest</a></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1.0.0-alpha.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of the layered standard. This layered standard uses semantic versioning, as defined in <a href="#PW13">[PW13]</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fmi-ls-description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="http://fmi-standard.org/fmi-ls-manifest" class="bare">http://fmi-standard.org/fmi-ls-manifest</a></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Layered standard for DAE support in FMI.</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String with a brief description of the layered standard that is suitable for display to users.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="EnableDAEParameter">3.1. Enabling DAE mode</h3>
+<div class="paragraph">
+<p>The element <a href="#EnableDAEParameter"><code>&lt;EnableDAEParameter&gt;</code></a> references the <a href="https://fmi-standard.org/docs/3.0.2/#structuralParameter">structural parameter</a> in the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> that enables DAE mode.
+See <a href="#enable-dae-mode-variable">Section 2.3.1</a> for the full semantics and the calling sequences used to change the mode.</p>
+</div>
+<table id="table-enable-dae-details" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Attributes to <a href="#EnableDAEParameter"><code>&lt;EnableDAEParameter&gt;</code></a> element.</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>valueReference</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="enableDAEModeVariable" class="paragraph">
+<p>The <a href="https://fmi-standard.org/docs/3.0.2/#table-variableBase-attributes">value reference</a> of the structural parameter present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> that enables DAE mode.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="AlgebraicVariables">3.2. Algebraic variables</h3>
+<div class="paragraph">
+<p>The element <a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a> defines the list of the algebraic variables.</p>
+</div>
+<table id="table-algebraic-variables-details" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. AlgebraicVariables elements.</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AlgebraicVariable</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>An <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> element of the modelDescription.xml.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div id="AlgebraicVariable" class="paragraph">
+<p>Each <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> has only one attribute defining the value reference.</p>
+</div>
+<table id="table-alg-details" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Attributes to <a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a> element.</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>valueReference</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The value reference for the algebraic variable present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the modelDescription.xml.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the core Model Exchange standard there exists the API function <a href="https://fmi-standard.org/docs/3.0.2/#fmi3GetNominalsOfContinuousStates"><code>fmi3GetNominalsOfContinuousStates</code></a>, which only holds for the continous time states. There is currently no extension of the API for fmi-ls-dae. The algebraic variable could still have a nominal value defined by the <code>nominal</code> attribute for variables under <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>, but in this case the nominal is constant.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ModelStructure">3.3. Model Structure</h3>
+<div class="paragraph">
+<p>The structure of the model for the DAE-formulation is defined in element <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a>.
+It defines the <a href="#model-dependencies">dependencies</a> between variables.
+The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with an additional element - <a href="#Residual"><code>&lt;Residual&gt;</code></a> - and the optional dependencies can now include algebraic variables.</p>
+</div>
+<div class="paragraph">
+<p>An FMU that follows this layered standard must expose all residuals using the <a href="#Residual"><code>&lt;Residual&gt;</code></a> element.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> defined here extends the one from the core FMI standard.
+All elements defined in the core standard (<a href="https://fmi-standard.org/docs/3.0.2/#Output"><code>&lt;Output&gt;</code></a>, <a href="https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative"><code>&lt;ContinuousStateDerivative&gt;</code></a>, <a href="https://fmi-standard.org/docs/3.0.2/#ClockedState"><code>&lt;ClockedState&gt;</code></a>, <a href="https://fmi-standard.org/docs/3.0.2/#InitialUnknown"><code>&lt;InitialUnknown&gt;</code></a>, <a href="https://fmi-standard.org/docs/3.0.2/#EventIndicator"><code>&lt;EventIndicator&gt;</code></a>) retain their existing semantics in this manifest, with the additions that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each element&#8217;s <code>dependencies</code> attribute may now also reference <a href="#AlgebraicVariable">algebraic variables</a>.</p>
+</li>
+<li>
+<p>The <a href="https://fmi-standard.org/docs/3.0.2/#InitialUnknown"><code>&lt;InitialUnknown&gt;</code></a> element is expanded so that <a href="#AlgebraicVariable">algebraic variables</a> can be included as unknowns.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <a href="#ModelStructure"><code>&lt;ModelStructure&gt;</code></a> element is extended with one additional element, <a href="#Residual"><code>&lt;Residual&gt;</code></a>, described below.</p>
+</div>
+<table id="table-model-structure-dae-element" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Additional ModelStructure element.</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Residual</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="Residual" class="paragraph">
+<p>Ordered list of residual equations (constraints). Each residual element must reference a unique variable present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>. It is the importer&#8217;s responsiblity to find the values of the <a href="#AlgebraicVariables">algebraic variables</a> such that the residuals are 0.
+The functional dependency is defined as:<br>
+\({0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}\)</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<table id="table-residual-details" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Attributes to <code><a href="#Residual"><code>&lt;Residual&gt;</code></a></code> element.</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>valueReference</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The value reference of the residual variable \({v_{\mathit{unknown}}}\), which must be present in the <a href="https://fmi-standard.org/docs/3.0.2/#ModelVariables"><code>&lt;ModelVariables&gt;</code></a> element of the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dependencies</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="model-dependencies" class="paragraph">
+<p>Optional attribute defining the algebraic dependencies as a list of value references of the knowns \({\mathbf{v}_{\mathit{known}}}\) that this residual equation directly depends on.</p>
+</div>
+<div class="paragraph">
+<p>Knowns \({\mathbf{v}_{\mathit{known}}}\) in <strong><a href="https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode">Continuous-Time Mode</a></strong> (ME) for <code><a href="#Residual"><code>&lt;Residual&gt;</code></a></code> elements are:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>inputs (variables with <a href="https://fmi-standard.org/docs/3.0.2/#causality">causality</a> = <a href="https://fmi-standard.org/docs/3.0.2/#input">input</a>),</p>
+</li>
+<li>
+<p>continuous states,</p>
+</li>
+<li>
+<p>parameters (variables with <a href="https://fmi-standard.org/docs/3.0.2/#causality">causality</a> = <a href="https://fmi-standard.org/docs/3.0.2/#parameter">parameter</a>),</p>
+</li>
+<li>
+<p>algebraic variables (variables listed in an <code><a href="#AlgebraicVariables"><code>&lt;AlgebraicVariables&gt;</code></a></code> element),</p>
+</li>
+<li>
+<p><a href="https://fmi-standard.org/docs/3.0.2/#independent">independent</a> variable (usually time; <a href="https://fmi-standard.org/docs/3.0.2/#causality">causality</a> = <a href="https://fmi-standard.org/docs/3.0.2/#independent">independent</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If <code>dependencies</code> is not present, it must be assumed that the residual depends on all knowns.
+If <code>dependencies</code> is present as an empty list, the residual depends on none of the knowns.
+Otherwise the residual depends on the knowns defined by the given value references.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dependenciesKind</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>See the description of <a href="https://fmi-standard.org/docs/3.0.2/#dependenciesKind"><code>dependenciesKind</code></a> in the core FMI standard.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="getting-partial-derivatives">3.4. Getting Partial Derivatives</h3>
+<div class="paragraph">
+<p>The partial derivative API functions <a href="https://fmi-standard.org/docs/3.0.2/#fmi3GetDirectionalDerivative"><code>fmi3GetDirectionalDerivative</code></a> and <a href="https://fmi-standard.org/docs/3.0.2/#fmi3GetAdjointDerivative"><code>fmi3GetAdjointDerivative</code></a> are used as defined in the core FMI standard, with the following extensions for DAE FMUs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#Residual">Residual</a> variables can appear as unknowns.</p>
+</li>
+<li>
+<p><a href="#AlgebraicVariable">Algebraic variables</a> can appear as knowns for any unknown.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="example">3.5. Example</h3>
+<div class="paragraph">
+<p>As an example, consider a problem from chemical kinetics due to Robertson <a href="#Robertson1966">[Robertson1966]</a>, which is also included among the IDA example programs <a href="#Hindmarsh2026IDAExamples">[Hindmarsh2026IDAExamples]</a>, and implemented as the <a href="https://github.com/modelica/Reference-FMUs/tree/main/Roberts">Reference FMU</a> <code>Roberts</code>. The DAE is given by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{dy_1}{dt} = -0.04y_1 + 10^4 y_2 y_3\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{dy_2}{dt} = 0.04y_1 - 10^4 y_2 y_3 - 3\times10^7 y_2^2\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[0 = y_1 + y_2 + y_3 - 1\]
+</div>
+</div>
+<div class="paragraph">
+<p>with initial conditions</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[y_1(0) = 1, \qquad y_2(0) = y_3(0) = 0.\]
+</div>
+</div>
+<div class="paragraph">
+<p>The variable \(y_3\) does not appear differentiated in any equation and is therefore an algebraic variable. In the notation of <a href="#mathematical-formulation">Section 2.2</a>, the continuous-time states and algebraic variables are</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{x}_c =
+\begin{pmatrix}
+y_1 \
+y_2
+\end{pmatrix},
+\qquad
+\mathbf{a}_c =
+\begin{pmatrix}
+y_3
+\end{pmatrix}.\]
+</div>
+</div>
+<div class="paragraph">
+<p>There are no inputs or parameters in this example, i.e., \(\mathbf{u}_c\) and \(\mathbf{p}\) are empty. The equations also have no explicit dependence on time.</p>
+</div>
+<div class="sect3">
+<h4 id="robertson-dae-semi-explicit-dae">3.5.1. Robertson DAE - Semi-Explicit DAE</h4>
+<div class="paragraph">
+<p>Using the semi-explicit formulation defined in <a href="#mathematical-formulation">Section 2.2</a>, the differential equations are</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\dot{\mathbf{x}}_c =
+\mathbf{f}_{\mathit{der}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>with</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{f}_{\mathit{der}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)
+=
+\begin{pmatrix}
+-0.04\,y_1 + 10^4 y_2 y_3 \\
+0.04\,y_1 - 10^4 y_2 y_3 - 3\times10^7 y_2^2
+\end{pmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>and the algebraic equation is</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[0 =
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>with</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[r := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)
+=
+y_1 + y_2 + y_3 - 1\]
+</div>
+</div>
+<div class="paragraph">
+<p>The initial values in this notation are</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{x}_c(0)
+=
+\begin{pmatrix}
+1 \\
+0
+\end{pmatrix},
+\qquad
+\mathbf{a}_c(0)
+=
+\begin{pmatrix}
+0
+\end{pmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>The Jacobian of the residual equation with respect to the algebraic variable is</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{\partial \mathbf{f}_{\mathit{res}}}
+     {\partial \mathbf{a}_c}
+=
+\begin{pmatrix}
+1
+\end{pmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>which is non-singular. Hence, the algebraic equation can be locally solved for \(\mathbf{a}_c\), and the Robertson problem is an index-1 DAE in the representation supported by this layered standard.</p>
+</div>
+<div class="paragraph">
+<p>Assume the FMU has the following variables:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">valueReference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(t\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dae</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_1\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\dot{y}_1\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_2\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\dot{y}_2\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_3\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(r\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Here, \(y_1\) and \(y_2\) are the components of \(\mathbf{x}_c\), while \(y_3\) is the single component of \(\mathbf{a}_c\). The residual \(\mathbf{f}_{\mathit{res}}\) is represented by the variable \(r\).</p>
+</div>
+<div class="paragraph">
+<p>The DAE-specific manifest elements are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;EnableDAEParameter valueReference="1"/&gt;
+
+&lt;AlgebraicVariables&gt;
+  &lt;AlgebraicVariable valueReference="6"/&gt;
+&lt;/AlgebraicVariables&gt;
+
+&lt;ModelStructure&gt;
+  &lt;ContinuousStateDerivative
+    valueReference="3"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+  &lt;ContinuousStateDerivative
+    valueReference="5"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+  &lt;InitialUnknown
+    valueReference="3"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+  &lt;InitialUnknown
+    valueReference="5"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+  &lt;InitialUnknown
+    valueReference="6"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+  &lt;Residual
+    valueReference="7"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/&gt;
+&lt;/ModelStructure&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="robertson-dae-explicit-ode">3.5.2. Robertson DAE - Explicit ODE</h4>
+<div class="paragraph">
+<p>Because the residual equation is locally solvable for \(\mathbf{a}_c\), the algebraic variable can be eliminated to obtain an explicit ODE.</p>
+</div>
+<div class="paragraph">
+<p>For fixed \(\mathbf{x}_c\), \(\mathbf{u}_c\), \(\mathbf{p}\), and \(t\), consider the mapping</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{a}_c
+\mapsto
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>Its inverse with respect to \(\mathbf{a}_c\), evaluated at residual zero, gives</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\mathbf{a}_c =
+\left(
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\cdot,\mathbf{u}_c,\mathbf{p},t)
+\right)^{-1}(0)\]
+</div>
+</div>
+<div class="paragraph">
+<p>For the Robertson problem,</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\left(
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\cdot,\mathbf{u}_c,\mathbf{p},t)
+\right)^{-1}(0)
+=
+1-y_1-y_2\]
+</div>
+</div>
+<div class="paragraph">
+<p>and therefore</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[y_3 = 1-y_1-y_2\]
+</div>
+</div>
+<div class="paragraph">
+<p>Substituting this inverse into the differential equations gives the explicit ODE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\dot{\mathbf{x}}_c =
+\mathbf{f}_{\mathit{der}}
+\left(
+\mathbf{x}_c,
+\left(
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\cdot,\mathbf{u}_c,\mathbf{p},t)
+\right)^{-1}(0),
+\mathbf{u}_c,
+\mathbf{p},
+t
+\right)\]
+</div>
+</div>
+<div class="paragraph">
+<p>For the Robertson problem, this becomes</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\dot{\mathbf{x}}_c =
+\begin{pmatrix}
+-0.04\,y_1 + 10^4 y_2(1-y_1-y_2) \\
+0.04\,y_1 - 10^4 y_2(1-y_1-y_2) - 3\times10^7 y_2^2
+\end{pmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>The quantity corresponding to the algebraic variable in the DAE formulation can still be computed in the ODE representation as</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[y_3 =
+\left(
+\mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\cdot,\mathbf{u}_c,\mathbf{p},t)
+\right)^{-1}(0)
+=
+1-y_1-y_2\]
+</div>
+</div>
+<div class="paragraph">
+<p>The model is then represented as an ODE Model Exchange FMU. Using the value references of the Robertson FMU, the relevant variables are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">valueReference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(t\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_1\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\dot{y}_1\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_2\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\dot{y}_2\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(y_3\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In the ODE representation, \(y_3\) is computed from \(y_1\) and \(y_2\) and is not listed as an <code><a href="#AlgebraicVariable"><code>&lt;AlgebraicVariable&gt;</code></a></code>.</p>
+</div>
+<div class="paragraph">
+<p>The corresponding regular ODE <code>ModelStructure</code> available in the <a href="https://fmi-standard.org/docs/3.0.2/#modelDescription.xml"><code>modelDescription.xml</code></a> is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;ModelStructure&gt;
+    &lt;ContinuousStateDerivative
+      valueReference="3"
+      dependencies="2 4"
+      dependenciesKind="dependent dependent"/&gt;
+    &lt;ContinuousStateDerivative
+      valueReference="5"
+      dependencies="2 4"
+      dependenciesKind="dependent dependent"/&gt;
+    &lt;InitialUnknown
+      valueReference="3"
+      dependencies="2 4"
+      dependenciesKind="dependent dependent"/&gt;
+    &lt;InitialUnknown
+      valueReference="5"
+      dependencies="2 4"
+      dependenciesKind="dependent dependent"/&gt;
+&lt;/ModelStructure&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="appendix">4. Appendix</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This appendix contains some general notes and discussions on the topic of DAEs.</p>
+</div>
+<div class="sect2">
+<h3 id="dae-representation">4.1. DAE representation</h3>
+<div class="paragraph">
+<p>There are different forms of DAEs.</p>
+</div>
+<div class="paragraph">
+<p>For simplicity discontinuous states are currently disregarded.</p>
+</div>
+<div class="sect3">
+<h4 id="implicit-dae">4.1.1. Fully-Implicit DAE</h4>
+<div class="paragraph">
+<p>The generic <em>fully-implicit DAE</em>, or <em>implicit DAE</em>, formulation:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{z}(t), z(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(z(t)\) represents state and additional variables and \(t\) is time.</p>
+</div>
+<div class="paragraph">
+<p>A similar and sometimes more useful representation:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), y(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>with dynamic variables \(x(t)\), algebraic variables \(y(t)\) and time \(t\).</p>
+</div>
+<div class="paragraph">
+<p>Note that \(x(t)\) is not necessarily the state variable, more on this in <a href="#perturbation-index">Section 4.1.7.2</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="semi-explicit-index-1-dae">4.1.2. Semi-Explicit Index 1 / Hessenberg index 1 DAE</h4>
+<div class="paragraph">
+<p>The <em>semi-explicit index 1</em>, also called <em>Hessenberg index 1</em>, DAE representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x}(t) &amp; = f(x(t), y(t), t) \\
+         0 &amp; = g(x(t), y(t), t)
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with \(g\) solvable for \(y\), \(det \left( \frac{\partial}{\partial y}g\right) \neq 0\).</p>
+</div>
+<div class="paragraph">
+<p>Here \(f\) is called the <em>differential equations</em> and \(g\) the <em>algebraic equations</em>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="relationship-fully-implicit-semi-explicit">4.1.3. Relationship between fully-implicit and semi-explicit DAE</h4>
+<div class="paragraph">
+<p>A fully implicit DAE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>can always be rewritten as a semi-explicit DAE by introducing a new algebraic variable \(x^{\prime}\)</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x}(t) &amp;= x^{\prime}(t) \\
+0 &amp;= F(x^{\prime}(t), x(t), t)
+\end{split}\]
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="semi-explicit-dae">4.1.4. Semi-Explicit DAE</h4>
+<div class="paragraph">
+<p>The <em>semi-explicit DAE</em> representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x}(t) &amp; =   f(x(t), y(t), t) \\
+         0 &amp; = g^1(x(t), y(t), t) \\
+         0 &amp; = g^2(x(t), y(t), t) \\
+         0 &amp; = g^3(x(t), y(t), t) \\
+           &amp; \vdots
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with \(g^1\) solvable for \(y\), \(det \left( \frac{\partial}{\partial y}g^1\right) \neq 0\) and \(\left\{ \frac{d}{dt} g_i^k \right\} \subseteq \{ g_i^{k-1}\}, \; k &gt; 1\).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="mass-matrix-dae">4.1.5. Mass matrix DAE</h4>
+<div class="stemblock">
+<div class="content">
+\[M \dot{x}(t) = f(x(t), t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where <em>mass matrix</em> \(M\) is singular.</p>
+</div>
+<div class="paragraph">
+<p>An equivalent explicit formulation:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{bmatrix}
+M_x &amp; 0\\
+0   &amp; 0
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\dot{x} \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{f}(x(t), y(t), t) \\
+g(x(t), y(t), t)
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#cui2020mass">[cui2020mass]</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="linear-time-invariant-dae">4.1.6. Linear time-invariant DAE</h4>
+<div class="stemblock">
+<div class="content">
+\[E \dot{x}(t) = Ax(t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>where matrix \(E\) is singular.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="indices">4.1.7. Indices</h4>
+<div class="paragraph">
+<p>There are multiple, sometimes closely related, definitions of indices for DAE systems.
+Usually these indices are a measure of how far from an ODE the DAE is.</p>
+</div>
+<div class="sect4">
+<h5 id="differential-index">4.1.7.1. Differential Index</h5>
+<div class="paragraph">
+<p>The minimum number of times a DAE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>has to be differentiated with respect to time \(t\) to be able to determine \(\dot{x}(t)\) as a function of \(t\) and \(x\) is called the <em>differential index</em>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="perturbation-index">4.1.7.2. Perturbation Index</h5>
+<div class="paragraph">
+<p>The <em>perturbation index</em> measures the sensitivity of the solution of a DAE to perturbations of its right-hand side.
+The DAE</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}(t), x(t), t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>has perturbation index \(p\) along a solution \(x(t)\) if \(p\) is the smallest non-negative integer such that the solution \(\tilde{x}(t)\) of the perturbed system</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{\tilde{x}}(t), \tilde{x}(t), t) = \delta(t)\]
+</div>
+</div>
+<div class="paragraph">
+<p>satisfies</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\|x(t) - \tilde{x}(t)\| \leq C \left( \|x(t_0) - \tilde{x}(t_0) \| + \max_{t_0 \le \xi \le t}\|\delta(\xi)\| + \max_{t_0 \le \xi \le t}\|\dot{\delta}(\xi)\| + \cdots + \max_{t_0 \le \xi \le t}\|\delta^{(p-1)}(\xi)\| \right)\]
+</div>
+</div>
+<div class="paragraph">
+<p>for some constant \(C\) and a sufficiently small and smooth perturbation \(\delta(t)\).
+A DAE with perturbation index greater than 1 is called a <em>higher-index DAE</em>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#hairer2006numerical">[hairer2006numerical]</a>.</p>
+</div>
+<div class="sect5">
+<h6 id="example-structural-singularity">4.1.7.2.1. Example of Structural Singularity</h6>
+<div class="paragraph">
+<p><a href="#cellier2006continuous">[cellier2006continuous, chapter 7.7 Structural Singularity Elimination]</a> provides a simple electric circuit model that is a higher-index DAE.</p>
+</div>
+<div id="ParallelCapacitor" class="imageblock">
+<div class="content">
+<img src="images/TwoParallelCapacitors.png" alt="Electric circuit">
+</div>
+<div class="title">Figure 1. Modelica model of an electric circuit with two capacitors in parallel.</div>
+</div>
+<div class="paragraph">
+<p>The circuit has two capacitors in parallel and can be represented with equations:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+v_0 &amp;= f(t) \\
+v_R &amp;= R \cdot i_0 \\
+i_1 &amp;= C_1 \cdot \dot{v_1} \\
+i_2 &amp;= C_2 \cdot \dot{v_2} \\
+v_0 &amp;= v_R + v_1 \\
+v_2 &amp;= v_1 \\
+i_0 &amp;= i_1 + i_2
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>When both capacitive voltages \(v_1\) and \(v_2\) are chosen as state variables, equation \(v_2 = v_1\) has no unknowns left, so it is a <em>constraint equation</em>.</p>
+</div>
+<div class="paragraph">
+<p>There are different ways to solve this.
+The modeler could change the causality or exporting tools can try to reduce the perturbation index symbolically <sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> to end up with a consistent initialization for the system.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="dae-example">4.1.8. Hello World DAE Example</h4>
+<div class="paragraph">
+<p>A simple initial-value problem</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp;= y   \\
+y + 2 z &amp;= x   \\
+y - 3 z &amp;= 2 x
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with variables \(x,y,z \in \mathbb{R}\) and start condition</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{pmatrix}
+x(t_0) \\
+y(t_0) \\
+z(t_0) \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_0 \\
+y_0 \\
+z_0 \\
+\end{pmatrix} \; \text{and} \;
+\dot{x}(t_0) = \dot{x}_0\]
+</div>
+</div>
+<div class="paragraph">
+<p>at time \(t_0\).
+For this specific example a start condition \(x_0\) is sufficient to calculate consistent start values.
+The independent variable (usually time) \(t\) is omitted for simplicity.</p>
+</div>
+<div class="sect4">
+<h5 id="hello-world-dae-fully-implicit-dae">4.1.8.1. Hello World DAE - Fully-Implicit DAE</h5>
+<div class="paragraph">
+<p>The fully-implicit representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F(\dot{x}, x, t) = 0\]
+</div>
+</div>
+<div class="paragraph">
+<p>is given by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[F: \mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R} \to \mathbb{R}^3,
+\begin{pmatrix}
+x \\
+\dot{x} \\
+t
+\end{pmatrix}
+\mapsto
+\begin{pmatrix}
+\dot{x_1}   - x_2   \\
+x_2 + 2 x_3 - x_1   \\
+x_2 - 3 x_3 - 2 x_1
+\end{pmatrix}\]
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="hello-world-dae-semi-explicit-dae">4.1.8.2. Hello World DAE - Semi-Explicit DAE</h5>
+<div class="paragraph">
+<p>The semi-explicit representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp; = f(x, y, t) \\
+      0 &amp; = g(x, y, t)
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>is given by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+f: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
+&amp;(x,y,t) \mapsto
+\begin{pmatrix}
+y_1
+\end{pmatrix}
+ \\
+g: \mathbb{R} \times \mathbb{R}^2 \times \mathbb{R} \to \mathbb{R}, \;
+&amp;(x,y,t) \mapsto
+\begin{pmatrix}
+y_1 + 2 y_2 - x   \\
+y_1 - 3 y_2 - 2 x
+\end{pmatrix}
+\end{split}\]
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="hello-world-dae-explicit-ode">4.1.8.3. Hello World DAE - Explicit ODE</h5>
+<div class="paragraph">
+<p>This simple system could also be transformed into an explicit ODE formulation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\dot{x} &amp;= \frac{7}{5}x
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>with local variables \(y\) and \(z\)</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+y       &amp;= \frac{7}{5}x   \\
+z       &amp;= -\frac{x}{5}
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>and exported as an ODE ModelExchange FMU.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generic-dae-use-case">4.2. Generic DAE Use Case</h3>
+<div class="paragraph">
+<p>There are a number of possible reasons to export a model as a system of differential-algebraic equations (DAE) instead of a system of ordinary differential equations (ODE):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The exporting tool doesn&#8217;t support methods to transform a DAE into ODE representation.</p>
+</li>
+<li>
+<p>The time needed to perform symbolic transformation to ODE representation takes a significant amount of time for large systems.</p>
+</li>
+<li>
+<p>Large system models are usually characterized by a high degree of sparsity.
+Some DAE solvers can utilize sparsity to reduce simulation time.</p>
+</li>
+<li>
+<p>More efficient simulation of models with large algebraic loops for DAE representation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="#braun2017solving">[braun2017solving]</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="modelica-example-cauerlowpassanalog">4.2.1. Modelica Example CauerLowPassAnalog</h4>
+<div class="paragraph">
+<p>The Modelica model <a href="#CauerLowPassAnalog">Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</a> from the Modelica Standard Library <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></p>
+</div>
+<div id="CauerLowPassAnalog" class="imageblock">
+<div class="content">
+<img src="images/CauerLowPassAnalog.png" alt="Modelica.Electrical.Analog.Examples.CauerLowPassAnalog">
+</div>
+<div class="title">Figure 2. Graphical representation of the Cauer low-pass-filter <code>Modelica.Electrical.Analog.Examples.CauerLowPassAnalog</code>.</div>
+</div>
+<div class="paragraph">
+<p>has structural singularities.</p>
+</div>
+<div class="paragraph">
+<p>To produce a complete and consistent set of initial conditions for the DAE, exporting tools usually use a symbolic index reduction algorithm.</p>
+</div>
+<div class="paragraph">
+<p>The model has nine state candidates</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>1: L1.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+2: L2.v (unit = "V" stateSelect=StateSelect.never ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+3: C2.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+4: C4.v (start = 0.0 unit = "V" ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+5: L1.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+6: L2.i (start = 0.0 unit = "A" fixed = true ) "Current flowing from pin p to pin n" type: Real
+7: C1.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+8: C5.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real
+9: C3.v (start = 0.0 unit = "V" fixed = true ) "Voltage drop of the two pins (= p.v - n.v)" type: Real</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and four constraint equations</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>1: L2.v = C3.v - C5.v
+2: L1.v = C1.v - C3.v
+3: C4.v = L2.v
+4: C2.v = L1.v</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Modelica tools that want to export an ODE ModelExchange FMU need to reduce the perturbation index to index 1 to end up with an ODE representation of the DAE system.</p>
+</div>
+<div class="paragraph">
+<p>One option to achieve this is the so called dummy derivative method.
+From the set of state candidates, five state variables are chosen (e.g. <code>C1.v</code>, <code>C3.v</code>, <code>C5.v</code>, <code>L1.i</code>, <code>L2.i</code>) and the constraint equations</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+C2.v &amp;= L1.v        \\
+L1.v &amp;= C1.v - C3.v \\
+C4.v &amp;= L2.v        \\
+L2.v &amp;= C3.v - C5.v
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>are differentiated</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{split}
+\frac{d}{dt}C2.v &amp;= \frac{d}{dt}L1.v                    \\
+\frac{d}{dt}L1.v &amp;= \frac{d}{dt}C1.v - \frac{d}{dt}C3.v \\
+\frac{d}{dt}C4.v &amp;= \frac{d}{dt}L2.v                    \\
+\frac{d}{dt}L2.v &amp;= \frac{d}{dt}C3.v - \frac{d}{dt}C5.v
+\end{split}\]
+</div>
+</div>
+<div class="paragraph">
+<p>which results in four additional dummy states (<code>$DER.L1.v</code>, <code>$DER.L2.v</code>, <code>$DER.C2.v</code>, <code>$DER.C4.v</code>).
+Here the Modelica keyword <code>stateSelect</code> influences how variables are picked.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="scaling-power-grids-example">4.2.2. Scaling Power Grids Example</h4>
+<div class="paragraph">
+<p>For simulation models representing power grids on a national or larger scale, traditional ODE solvers could struggle with convergence and performance.
+Also, the time needed to perform symbolic transformation from DAE to ODE is growing with the number of equations.</p>
+</div>
+<div class="paragraph">
+<p>See for example Modelica models <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_10</code> to <code>ScalableTestSuite.Electrical.TransmissionLine.ScaledExperiments.TransmissionLineModelica_N_1280</code> from ScalableTestSuite <sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ODE_vs_DAE_export_times.png" alt="Scaling of symbolic transformation">
+</div>
+</div>
+<div class="paragraph">
+<p>The simulation was performed using <code>OpenModelica v1.27-dev-92</code> with the following settings:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DAE export: <code>--daeMode</code></p>
+</li>
+<li>
+<p>Method: Sundials IDA <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since OpenModelica does not support FMI 3.0 or FMI-LS-DAE at the time of writing, the export and simulation times were measured using OpenModelica&#8217;s default C export and simulation.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="references">References</h2>
+<div class="sectionbody">
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cui2020mass"></a>[cui2020mass]
+Cui, Hantao, Fangxing Li, and Joe H. Chow.
+"Mass-matrix differential-algebraic equation formulation for transient stability simulation."
+arXiv preprint arXiv:2008.03883, 2020.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cellier2006continuous"></a>[cellier2006continuous]
+Cellier, François E., and Ernesto Kofman.
+"Continuous system simulation".
+Boston, MA: Springer US, 2006.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="hairer2006numerical"></a>[hairer2006numerical]
+Hairer, Ernst, Christian Lubich, and Michel Roche.
+"The numerical solution of differential-algebraic systems by Runge-Kutta methods".
+Vol. 1409. Springer, 2006.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="cellier1993automated"></a>[cellier1993automated]
+Cellier, Francois E., and Hilding Elmqvist.
+"Automated formula manipulation supports object-oriented continuous-system modeling".
+IEEE Control Systems Magazine 13.2 (1993): 28-38.</p>
+</li>
+<li>
+<p><a id="braun2017solving"></a>[braun2017solving]
+Willi Braun, Francesco Casella, and Bernhard Bachmann.
+"Solving Large-Scale Modelica Models: New Approaches and Experimental Results Using OpenModelica".
+<em>Linköping Electronic Conference Proceedings (Print)</em>, pp. 557-563.
+Linköping University Electronic Press, 2017.
+<a href="https://re.public.polimi.it/bitstream/11311/1065357/1/2017-BraunCasellaBachmann.pdf" class="bare">https://re.public.polimi.it/bitstream/11311/1065357/1/2017-BraunCasellaBachmann.pdf</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="casella2015simulation"></a>[casella2015simulation]
+Casella, Francesco.
+"Simulation of Large-Scale Models in Modelica: State of the Art and Future Perspectives".
+Proceedings of the 11th International Modelica Conference, pp. 459-468, 2015.
+<a href="https://dx.doi.org/10.3384/ecp15118459" class="bare">https://dx.doi.org/10.3384/ecp15118459</a></p>
+</li>
+<li>
+<p><a id="PW13"></a>[PW13]
+Preston-Werner, T. (2013): <strong>Semantic Versioning 2.0.0</strong>.  <a href="https://semver.org/spec/v2.0.0.html" class="bare">https://semver.org/spec/v2.0.0.html</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="Robertson1966"></a>[Robertson1966]
+Robertson, H. H.
+"The Solution of a Set of Reaction Rate Equations".
+In: J. Walsh (ed.), <em>Numerical Analysis: An Introduction</em>,
+pp. 178–182. Academic Press, 1966.</p>
+</li>
+</ul>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="Hindmarsh2026IDAExamples"></a>[Hindmarsh2026IDAExamples]
+Hindmarsh, Alan C., Radu Serban, and Aaron Collier.
+<em>Example Programs for IDA v7.8.0</em>.
+Technical Report UCRL-SM-208113.
+Lawrence Livermore National Laboratory, 2026.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. Source: <a href="https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations" class="bare">https://en.wikipedia.org/wiki/Differential-algebraic_system_of_equations</a>
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. e.g. by using Pantelides algorithm, see <a href="#cellier1993automated">[cellier1993automated]</a>
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. Modelica Standard Library version 4.1.0
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. <a href="https://github.com/casella/ScalableTestSuite" class="bare">https://github.com/casella/ScalableTestSuite</a>, see also <a href="#casella2015simulation">[casella2015simulation]</a>
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. <a href="https://computing.llnl.gov/projects/sundials/ida" class="bare">https://computing.llnl.gov/projects/sundials/ida</a>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
