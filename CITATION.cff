@@ -7,30 +7,56 @@ license: BSD-2-Clause
 
 preferred-citation:
   type: article
-  title: "Towards an FMI Layered Standard for DAE: Applications for Simulation and Optimization"
+  title: "Towards an FMI Layered Standard for DAE - Applications for Simulation and Optimization"
   authors:
     - family-names: Nahodovic
       given-names: Elmir
+      orcid: "https://orcid.org/0009-0007-8738-3049"
+      affiliation: "Dassault Systèmes, Sweden"
     - family-names: Heuermann
       given-names: Andreas
+      orcid: "https://orcid.org/0009-0000-1792-1701"
+      affiliation: "Santa Anna IT Research Institute, Sweden"
     - family-names: Andersson
       given-names: Joel A. E.
+      orcid: "https://orcid.org/0009-0007-9206-3760"
+      affiliation: "FMIOPT AS, Norway"
     - family-names: Verulkar
       given-names: Adwait
+      orcid: "https://orcid.org/0000-0002-2503-8457"
+      affiliation: "General Motors, USA"
     - family-names: Sivaramakrishnan
       given-names: Srikanth
+      orcid: "https://orcid.org/0000-0001-9082-4182"
+      affiliation: "General Motors, USA"
     - family-names: Najafi
       given-names: Masoud
+      orcid: "https://orcid.org/0009-0006-2202-0266"
+      affiliation: "Siemens Industry Software, France"
     - family-names: Langenkamp
       given-names: Linus
+      orcid: "https://orcid.org/0009-0009-7517-4842"
+      affiliation: "Bielefeld University of Applied Sciences and Arts, Germany"
     - family-names: Bertsch
       given-names: Christian
+      orcid: "https://orcid.org/0009-0009-3627-0153"
+      affiliation: "Bosch Research, Germany"
+    - family-names: Sommer
+      given-names: Torsten
+      orcid: "https://orcid.org/0009-0005-6424-4498"
+      affiliation: "Dassault Systèmes, Sweden"
     - family-names: Henningsson
       given-names: Erik
+      orcid: "https://orcid.org/0000-0001-9881-0041"
+      affiliation: "Dassault Systèmes, Sweden"
     - family-names: Olsson
       given-names: Hans
+      orcid: "https://orcid.org/0009-0004-5370-9459"
+      affiliation: "Dassault Systèmes, Sweden"
     - family-names: Bachmann
       given-names: Bernhard
+      orcid: "https://orcid.org/0000-0002-4339-0438"
+      affiliation: "Bielefeld University of Applied Sciences and Arts, Germany"
   year: 2026
   month: 6
   url: "https://arxiv.org/abs/2606.22544"
