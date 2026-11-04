@@ -1,0 +1,69 @@
+:stem: latexmath
+
+[#initialization-in-dae-mode]
+=== Initialization in DAE Mode
+
+An FMU with <<providesDAEInitialization>> = `true` exposes its initialization problem in DAE mode as <<InitialResidual, initial residuals>> in the <<InitialAlgebraicVariable, initial algebraic variables>>.
+This extends the DAE formulation of <<mathematical-formulation>> to *https://fmi-standard.org/docs/3.0.2/#InitializationMode[Initialization Mode]*.
+
+The supported formulation of the initialization problem is
+
+[latexmath]
+++++
+0 = \mathbf{f}_{\mathit{ires}}(\mathbf{a}_{\mathit{init}}, \mathbf{x}_{c,\mathit{exact}}, \mathbf{u}_c, \mathbf{p}, t_0)
+++++
+
+where:
+
+* latexmath:[\mathbf{a}_{\mathit{init}}] denotes the <<InitialAlgebraicVariable, initial algebraic variables>>,
+* latexmath:[\mathbf{x}_{c,\mathit{exact}}] denotes the continuous-time https://fmi-standard.org/docs/3.0.2/#state[states] with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`,
+* latexmath:[t_0] denotes the start time, and
+* latexmath:[\mathbf{f}_{\mathit{ires}}] denotes the equations of the initialization problem expressed as <<InitialResidual, initial residuals>>.
+
+The initial residuals are the initial equations of the model together with the equations of the model that hold at all times, in particular the <<Residual, residual>> equations of <<mathematical-formulation>>.
+The same variable may be referenced by both an <<InitialResidual>> and a <<Residual>> element.
+The exporter may eliminate explicitly solvable parts of the initialization problem.
+The variables determined by such parts are then computed by the FMU from the knowns and the initial algebraic variables.
+
+The initial algebraic variables are variables with `initial` = `approx` or `initial` = `calculated` that are listed as https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] in the extended <<ModelStructure>>.
+They can be continuous-time states, continuous-state derivatives, <<AlgebraicVariable, algebraic variables>>, or other variables determined by the initial equations.
+A variable with `initial` = `approx` or `initial` = `calculated` that is determined by an eliminated part of the initialization problem is not an initial algebraic variable.
+Variables with `initial` = `exact` are knowns of the initialization problem.
+For a well-posed model, the number of initial residuals equals the number of initial algebraic variables.
+
+NOTE: An importer may add constraints of its own to the initialization problem, or treat knowns such as the continuous-time states with `initial` = `exact` as further unknowns.
+
+If DAE mode is enabled in *https://fmi-standard.org/docs/3.0.2/#ConfigurationMode[Configuration Mode]* before https://fmi-standard.org/docs/3.0.2/#fmi3EnterInitializationMode[`fmi3EnterInitializationMode`] is called, the FMU is initialized in DAE mode.
+The importer is responsible for determining values of the initial algebraic variables that satisfy
+
+[latexmath]
+++++
+\mathbf{f}_{\mathit{ires}}(\mathbf{a}_{\mathit{init}}, \mathbf{x}_{c,\mathit{exact}}, \mathbf{u}_c, \mathbf{p}, t_0) = 0
+++++
+
+while the FMU computes all other variables from the knowns and the initial algebraic variables:
+
+* The FMU must not solve the initialization problem exposed by the initial residuals, and calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] in Initialization Mode must not trigger its solution.
+* The importer sets the initial algebraic variables with https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Set`] in Initialization Mode, independent of their https://fmi-standard.org/docs/3.0.2/#causality[causality] and https://fmi-standard.org/docs/3.0.2/#initial[`initial`] attribute, in the same way as it sets the <<AlgebraicVariable, algebraic variables>> in Continuous-Time Mode.
+* The value of an initial algebraic variable is its start value until the importer sets it.
+The FMU must not change this value in Initialization Mode or in https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`].
+* https://fmi-standard.org/docs/3.0.2/#fmi3EnterInitializationMode[`fmi3EnterInitializationMode`] and https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`] must not fail because the initial residuals are not zero.
+The initial values are consistent only if the importer has found values of the initial algebraic variables for which all initial residuals are zero.
+* The https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] elements of the extended <<ModelStructure>> are not used for the initialization in DAE mode.
+
+If the FMU is initialized in ODE mode, it solves the initialization problem itself as defined in the core FMI standard, and the <<InitialAlgebraicVariables>> and <<InitialResidual>> elements are ignored by the importer.
+If <<providesDAEInitialization>> = `false`, initialization in DAE mode is not specified by this version of the layered standard, see <<enable-dae-mode-variable>>.
+
+NOTE: An importer that needs the initial values computed by the FMU, e.g. as an initial guess, can initialize a second instance of the FMU in ODE mode.
+
+The initial residuals can be acquired by calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] on the <<InitialResidual, initial residual>> variables provided in the extended <<ModelStructure>> in Initialization Mode and in *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]*.
+They are evaluated at the current values of their knowns, in Continuous-Time Mode at the current time instead of latexmath:[t_0].
+The initial residuals can appear as unknowns of https://fmi-standard.org/docs/3.0.2/#fmi3GetDirectionalDerivative[`fmi3GetDirectionalDerivative`] and https://fmi-standard.org/docs/3.0.2/#fmi3GetAdjointDerivative[`fmi3GetAdjointDerivative`], see <<getting-partial-derivatives>>.
+
+NOTE: Evaluating the initial residuals in Continuous-Time Mode allows an importer to impose the initial equations at the first point of its own discretization, e.g. at the first collocation point.
+
+The attribute <<providesDAESimulation>> declares whether the FMU provides algebraic variables and residuals for Continuous-Time Mode as defined in <<mathematical-formulation>>.
+If <<providesDAESimulation>> = `false`, the importer must switch the FMU to ODE mode in *https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode[Reconfiguration Mode]* after initialization in DAE mode, which requires `variability = "tunable"` for the <<enable-dae-mode-variable, `enableDAEModeParameter`>>.
+
+This version of the layered standard does not define the evaluation of the initial residuals in *https://fmi-standard.org/docs/3.0.2/#EventMode[Event Mode]*, nor initialization in DAE mode after Reconfiguration Mode.
+Calculated parameters (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = `calculatedParameter`) may be listed as initial algebraic variables, but an exporter is not required to support this.
