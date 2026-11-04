@@ -55,6 +55,19 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="InitialAlgebraicVariables" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">
+                            Initial algebraic variables of the initialization problem in DAE mode.
+                            Required if providesDAEInitialization is true.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="InitialAlgebraicVariable" type="TVariableReference" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="ModelStructure">
                     <xs:complexType>
                         <xs:sequence>
@@ -65,6 +78,7 @@
                             <xs:element name="EventIndicator" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                             <xs:element name="Residual" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                             <xs:element name="Invariant" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="InitialResidual" type="fmi3Unknown" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -75,6 +89,21 @@
             <xs:attribute ref="fmi-ls:fmi-ls-version" use="required"/>
             <xs:attribute ref="fmi-ls:fmi-ls-description" use="required"
                 fixed="Layered standard for DAE support in FMI."/>
+            <xs:attribute name="providesDAEInitialization" type="xs:boolean" use="optional" default="false">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        If true, the FMU exposes its initialization problem in DAE mode
+                        as initial residuals in the initial algebraic variables.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="providesDAESimulation" type="xs:boolean" use="optional" default="true">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        If true, the FMU provides algebraic variables and residuals for Continuous-Time Mode in DAE mode.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 

@@ -19,9 +19,13 @@ Several new elements are included as direct children of the root element in the 
 |<<AlgebraicVariables>>
 |List of all <<AlgebraicVariables, algebraic variables>> exposed for the DAE formulation.
 
+|<<InitialAlgebraicVariables>>
+|List of all <<InitialAlgebraicVariables, initial algebraic variables>> exposed for the initialization in DAE mode, see <<initialization-in-dae-mode>>.
+Required if <<providesDAEInitialization>> = `true`.
+
 |<<ModelStructure>>
 |Defines the structure of the DAE formulation for the model.
-Especially, the ordered lists of https://fmi-standard.org/docs/3.0.2/#output[outputs], continuous-time https://fmi-standard.org/docs/3.0.2/#state[states], and the initial unknowns (the unknowns during *https://fmi-standard.org/docs/3.0.2/#InitializationMode[InitializationMode]*) are *re*-defined and overwrite the corresponding https://fmi-standard.org/docs/3.0.2/#ModelStructure[ModelStructure] present in the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`], with the addition of the  <<Residual, residuals>> element.
+Especially, the ordered lists of https://fmi-standard.org/docs/3.0.2/#output[outputs], continuous-time https://fmi-standard.org/docs/3.0.2/#state[states], and the initial unknowns (the unknowns during *https://fmi-standard.org/docs/3.0.2/#InitializationMode[InitializationMode]*) are *re*-defined and overwrite the corresponding https://fmi-standard.org/docs/3.0.2/#ModelStructure[ModelStructure] present in the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`], with the addition of the  <<Residual, residuals>> and <<InitialResidual, initial residuals>> elements.
 The <<AlgebraicVariables,algebraic variables>> can be included as dependencies, and can also be initial unknowns.
 
 |<<Annotations>>
@@ -54,6 +58,16 @@ The XML attributes of `<fmiDAEManifest>` are:
 |`http://fmi-standard.org/fmi-ls-manifest`
 |`Layered standard for DAE support in FMI.`
 |String with a brief description of the layered standard that is suitable for display to users.
+
+|[[providesDAEInitialization,`providesDAEInitialization`]]`providesDAEInitialization`
+|
+|`true` or `false` (default)
+|If `true`, the FMU exposes its initialization problem in DAE mode as <<InitialResidual, initial residuals>> in the <<InitialAlgebraicVariables, initial algebraic variables>>, see <<initialization-in-dae-mode>>.
+
+|[[providesDAESimulation,`providesDAESimulation`]]`providesDAESimulation`
+|
+|`true` (default) or `false`
+|If `true`, the FMU provides <<AlgebraicVariables, algebraic variables>> and <<Residual, residuals>> for *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]* in DAE mode, see <<mathematical-formulation>>.
 |====
 
 === Enabling DAE mode [[EnableDAEParameter, `<EnableDAEParameter>`]]
@@ -104,14 +118,48 @@ Each <<AlgebraicVariable>> has only one attribute defining the value reference.
 
 NOTE: In the core Model Exchange standard there exists the API function https://fmi-standard.org/docs/3.0.2/#fmi3GetNominalsOfContinuousStates[`fmi3GetNominalsOfContinuousStates`], which only holds for the continous time states. There is currently no extension of the API for fmi-ls-dae. The algebraic variable could still have a nominal value defined by the `nominal` attribute for variables under https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] of the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`], but in this case the nominal is constant.
 
+=== Initial Algebraic Variables [[InitialAlgebraicVariables, `<InitialAlgebraicVariables>`]]
+
+The element <<InitialAlgebraicVariables>> defines the list of the initial algebraic variables, see <<initialization-in-dae-mode>>.
+It is required if <<providesDAEInitialization>> = `true` and may be empty.
+
+.InitialAlgebraicVariables elements.
+[[table-initial-algebraic-variables-details]]
+[cols="1,5a", options="header"]
+|====
+|Element
+|Description
+
+|`InitialAlgebraicVariable`
+|An <<InitialAlgebraicVariable>> present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] element of the modelDescription.xml.
+|====
+
+[[InitialAlgebraicVariable, `<InitialAlgebraicVariable>`]]
+Each <<InitialAlgebraicVariable>> has only one attribute defining the value reference.
+The referenced variable must have https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `approx` or `initial` = `calculated` and must be listed as https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] in the extended <<ModelStructure>>.
+It can be a continuous-time state, a continuous-state derivative or an <<AlgebraicVariable, algebraic variable>>.
+Each variable must be referenced at most once.
+
+.Attributes to <<InitialAlgebraicVariable>> element.
+[[table-initial-alg-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`valueReference`
+|The value reference for the initial algebraic variable present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] of the modelDescription.xml.
+|====
+
 === Model Structure [[ModelStructure,`<ModelStructure>`]]
 
 The structure of the model for the DAE-formulation is defined in element <<ModelStructure>>.
 It defines the <<model-dependencies,dependencies>> between variables.
-The <<ModelStructure>> element is extended with two additional elements - <<Residual>> and <<Invariant>> - and the optional dependencies can now include algebraic variables.
+The <<ModelStructure>> element is extended with three additional elements - <<Residual>>, <<Invariant>> and <<InitialResidual>> - and the optional dependencies can now include algebraic variables.
 
 An FMU that follows this layered standard must expose all residuals using the <<Residual>> element.
 Invariants of the model can optionally be exposed using the <<Invariant>> element.
+An FMU with <<providesDAEInitialization>> = `true` must expose all initial residuals using the <<InitialResidual>> element.
 
 The <<ModelStructure>> defined here extends the one from the core FMI standard.
 All elements defined in the core standard (https://fmi-standard.org/docs/3.0.2/#Output[`<Output>`], https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative[`<ContinuousStateDerivative>`], https://fmi-standard.org/docs/3.0.2/#ClockedState[`<ClockedState>`], https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`], https://fmi-standard.org/docs/3.0.2/#EventIndicator[`<EventIndicator>`]) retain their existing semantics in this manifest, with the additions that:
@@ -119,7 +167,7 @@ All elements defined in the core standard (https://fmi-standard.org/docs/3.0.2/#
 * Each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>.
 * The https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] element is expanded so that <<AlgebraicVariable, algebraic variables>> can be included as unknowns.
 
-The <<ModelStructure>> element is extended with two additional elements, <<Residual>> and <<Invariant>>, described below.
+The <<ModelStructure>> element is extended with three additional elements, <<Residual>>, <<Invariant>> and <<InitialResidual>>, described below.
 
 .Additional ModelStructure elements.
 [#table-model-structure-dae-element]
@@ -142,6 +190,15 @@ Invariants are independent of the <<Residual, residuals>>, and the same variable
 The dependencies on continuous states, inputs, algebraic variables, and parameters can optionally be included <<MN2018>>.
 The functional dependency is defined as: +
 latexmath:[{\mathit{const} := \mathbf{f}_{\mathit{inv}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}]
+
+|`InitialResidual`
+|[[InitialResidual,`<InitialResidual>`]]
+Ordered list of initial residual equations, see <<initialization-in-dae-mode>>.
+Each initial residual element must reference a unique variable present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] of the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`].
+The same variable may also be referenced by a <<Residual>> element.
+It is the importer's responsibility to find the values of the <<InitialAlgebraicVariables, initial algebraic variables>> such that the initial residuals are 0.
+The functional dependency is defined as: +
+latexmath:[{0 := \mathbf{f}_{\mathit{ires}}(\mathbf{a}_{\mathit{init}}, \mathbf{x}_{c,\mathit{exact}}, \mathbf{u}_c, \mathbf{p}, t)}]
 |====
 
 .Attributes to `<<Residual>>` element.
@@ -179,13 +236,51 @@ Otherwise the residual depends on the knowns defined by the given value referenc
 
 |====
 
+.Attributes to `<<InitialResidual>>` element.
+[[table-initial-residual-details]]
+[cols="1,5a", options="header"]
+|====
+|Attribute
+|Description
+
+|`valueReference`
+|The value reference of the initial residual variable, which must be present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] element of the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`].
+The variable has https://fmi-standard.org/docs/3.0.2/#variability[variability] = `continuous` and https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `calculated`.
+
+|`dependencies`
+|Optional attribute defining the algebraic dependencies as a list of value references of the knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] that this initial residual equation directly depends on.
+
+Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] for `<<InitialResidual>>` elements are: +
+
+* inputs (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#input[input]),
+
+* continuous states with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`,
+
+* parameters (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#parameter[parameter]),
+
+* initial algebraic variables (variables listed in an `<<InitialAlgebraicVariables>>` element),
+
+* https://fmi-standard.org/docs/3.0.2/#independent[independent] variable (usually time; https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#independent[independent]).
+
+If `dependencies` is not present, it must be assumed that the initial residual depends on all knowns.
+If `dependencies` is present as an empty list, the initial residual depends on none of the knowns.
+Otherwise the initial residual depends on the knowns defined by the given value references.
+
+|`dependenciesKind`
+|See the description of https://fmi-standard.org/docs/3.0.2/#dependenciesKind[`dependenciesKind`] in the core FMI standard.
+
+|====
+
 ---
 
+[#getting-partial-derivatives]
 === Getting Partial Derivatives
 
 The partial derivative API functions https://fmi-standard.org/docs/3.0.2/#fmi3GetDirectionalDerivative[`fmi3GetDirectionalDerivative`] and https://fmi-standard.org/docs/3.0.2/#fmi3GetAdjointDerivative[`fmi3GetAdjointDerivative`] are used as defined in the core FMI standard, with the following extensions for DAE FMUs:
 
 * <<Residual, Residual>> variables can appear as unknowns.
+* <<InitialResidual, Initial residual>> variables can appear as unknowns in *https://fmi-standard.org/docs/3.0.2/#InitializationMode[Initialization Mode]* and *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]*.
+* <<InitialAlgebraicVariable, Initial algebraic variables>> can appear as knowns for initial residuals.
 * <<AlgebraicVariable, Algebraic variables>> can appear as knowns for any unknown.
 
 ---
@@ -496,3 +591,70 @@ The corresponding regular ODE `ModelStructure` available in the https://fmi-stan
       dependenciesKind="dependent dependent"/>
 </ModelStructure>
 ```
+
+[#example-initial-residuals]
+=== Example with Initial Residuals
+
+As an example of <<initialization-in-dae-mode>>, consider the model
+
+[source,modelica]
+----
+model InitialResidualExample
+  Real x(start = 1);
+  Real z;
+initial equation
+  0 = sin(x*z) + cos(z) + 1;
+equation
+  der(x) = x + z;
+  0 = z^2 + z - 1 - x;
+end InitialResidualExample;
+----
+
+The continuous-time state latexmath:[x] has `initial` = `approx`, and latexmath:[z] is the algebraic variable.
+The residual is latexmath:[r := z^2 + z - 1 - x] and the initial equation is latexmath:[\mathit{ir} := \sin(x z) + \cos(z) + 1].
+Assume the FMU has the following variables:
+
+[cols="1,1", options="header"]
+|====
+
+|Variable |valueReference
+
+|latexmath:[t] |0
+
+|latexmath:[x] |1
+
+|latexmath:[\dot{x}] |2
+
+|latexmath:[z] |3
+
+|`dae` |4
+
+|latexmath:[r] |5
+
+|latexmath:[\mathit{ir}] |6
+
+|====
+
+An exporter that eliminates nothing lists latexmath:[x] and latexmath:[z] as initial algebraic variables, and latexmath:[r] and latexmath:[\mathit{ir}] as initial residuals.
+With `providesDAEInitialization="true"`, the DAE-specific manifest elements for the initialization are:
+
+[source,xml]
+----
+include::../examples/xml/fmi-ls-manifest-initial-residuals-example.xml[tag=initial-algebraic-variables]
+----
+
+and in the extended <<ModelStructure>>:
+
+[source,xml]
+----
+include::../examples/xml/fmi-ls-manifest-initial-residuals-example.xml[tags=initial-unknowns;initial-residuals]
+----
+
+In DAE mode, the importer sets latexmath:[x] and latexmath:[z] in Initialization Mode such that latexmath:[r = \mathit{ir} = 0], e.g. latexmath:[x = 1.2514898178] and latexmath:[z = -2.0816098817], and calls https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`].
+The complete manifest is given in `examples/xml/fmi-ls-manifest-initial-residuals-example.xml`.
+
+NOTE: An optimization importer can instead impose latexmath:[r = \mathit{ir} = 0] as constraints at the initial time of its problem.
+
+An exporter may instead eliminate the explicitly solvable part latexmath:[x = z^2 + z - 1] of the initialization problem.
+Then latexmath:[z] is the only initial algebraic variable, latexmath:[x] is computed by the FMU from latexmath:[z] in Initialization Mode, and latexmath:[\mathit{ir}] is the only initial residual and depends on latexmath:[z] only.
+The corresponding manifest is given in `examples/xml/fmi-ls-manifest-initial-residuals-eliminated-example.xml`.

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Model with an initial equation, see the section "Example with Initial Residuals":
+
+       Real x(start = 1);
+       Real z;
+     initial equation
+       0 = sin(x*z) + cos(z) + 1;
+     equation
+       der(x) = x + z;
+       0 = z^2 + z - 1 - x;
+
+     Variables: time(vr=0), x(vr=1), der(x)(vr=2), z(vr=3), dae(vr=4),
+                r = z^2 + z - 1 - x (vr=5), ir = sin(x*z) + cos(z) + 1 (vr=6)
+
+     The exporter eliminates nothing: the initial algebraic variables are x and z,
+     the initial residuals are r and ir. -->
+<fmiDAEManifest
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+  fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
+  fmi-ls:fmi-ls-version="1.0.0-alpha.1"
+  fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
+  providesDAEInitialization="true"
+>
+  <EnableDAEParameter valueReference="4" />
+
+  <AlgebraicVariables>
+    <AlgebraicVariable valueReference="3" /> <!-- z -->
+  </AlgebraicVariables>
+
+  <!-- tag::initial-algebraic-variables[] -->
+  <InitialAlgebraicVariables>
+    <InitialAlgebraicVariable valueReference="1" /> <!-- x -->
+    <InitialAlgebraicVariable valueReference="3" /> <!-- z -->
+  </InitialAlgebraicVariables>
+  <!-- end::initial-algebraic-variables[] -->
+
+  <ModelStructure>
+    <!-- der(x) = x + z -->
+    <ContinuousStateDerivative
+      valueReference="2"
+      dependencies="1 3"
+      dependenciesKind="constant constant" />
+    <!-- tag::initial-unknowns[] -->
+    <!-- x, der(x) and z are initial unknowns; the initial algebraic
+         variables x and z are among them -->
+    <InitialUnknown valueReference="1" dependencies="" />
+    <InitialUnknown valueReference="2" dependencies="" />
+    <InitialUnknown valueReference="3" dependencies="" />
+    <!-- end::initial-unknowns[] -->
+    <!-- r = z^2 + z - 1 - x -->
+    <Residual
+      valueReference="5"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+    <!-- tag::initial-residuals[] -->
+    <!-- r is also an initial residual -->
+    <InitialResidual
+      valueReference="5"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+    <!-- ir = sin(x*z) + cos(z) + 1 -->
+    <InitialResidual
+      valueReference="6"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+    <!-- end::initial-residuals[] -->
+  </ModelStructure>
+
+</fmiDAEManifest>
