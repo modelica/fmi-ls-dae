@@ -8,6 +8,6 @@ include::2_2__mathematical_formulation.adoc[]
 
 include::2_3__ode_to_dae_mode.adoc[]
 
-include::2_6__event_handling.adoc[]
+include::2_4__event_handling.adoc[]
 
-include::2_4__ode_with_invariants.adoc[]
+include::2_5__ode_with_invariants.adoc[]
