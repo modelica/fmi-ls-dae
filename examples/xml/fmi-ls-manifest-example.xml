@@ -37,4 +37,8 @@
       dependenciesKind="dependent dependent dependent dependent" />
   </ModelStructure>
 
+  <EventHandling>
+    <NoEvents />
+  </EventHandling>
+
 </fmiDAEManifest>

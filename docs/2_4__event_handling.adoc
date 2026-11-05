@@ -1,0 +1,79 @@
+:stem: latexmath
+
+=== Event Handling in DAE Mode [[event-handling]]
+
+In DAE mode the importer owns the <<AlgebraicVariables, algebraic variables>>.
+When the FMU enters *https://fmi-standard.org/docs/3.0.2/#EventMode[Event Mode]*, their values still belong to the discrete variables before the event.
+A discrete equation that reads such a value can latch a wrong result, which no later pass of the event iteration can undo.
+The discrete equations therefore have to be evaluated with algebraic variables that belong to the new values of the discrete variables they depend on.
+
+The FMU states how this is achieved in the <<EventHandling>> element of the manifest.
+
+These rules apply only while DAE mode is enabled.
+In ODE mode, event handling follows the core standard.
+
+==== Selecting a Method
+
+* An FMU whose model has events in DAE mode must declare at least one of <<SwitchToODEMode>> and <<StayInDAEMode>>.
+* The importer must use a method the FMU declares, and should use the first declared method it supports.
+* An importer that supports none of the declared methods must not use the FMU in DAE mode.
+* The importer must not change the method during an event iteration.
+
+==== No Events [[event-handling-no-events]]
+
+An FMU that declares <<NoEvents>> must not have state events, time events or step events while DAE mode is enabled:
+
+* The manifest must not contain <<ModelStructure, `<EventIndicator>`>> elements, and the FMU must report no event indicators.
+* `fmi3UpdateDiscreteStates` must return `discreteStatesNeedUpdate = false` and `nextEventTimeDefined = false`, and must not change a discrete variable.
+* `fmi3CompletedIntegratorStep` must return `enterEventMode = false`.
+
+The importer still passes through Event Mode after initialization, as required by the core standard.
+
+==== Switching to ODE Mode [[event-handling-switch-to-ode-mode]]
+
+The FMU computes the algebraic variables itself, and evaluates the discrete equations in sorted order.
+An FMU that declares <<SwitchToODEMode>> must declare the <<EnableDAEParameter>> with `variability="tunable"`, and must provide valid values of the algebraic variables in ODE mode.
+
+For each event, the importer must:
+
+. Call `fmi3EnterEventMode`.
+. Switch to ODE mode, see <<during-simulation-reconfiguration-mode>>.
+. Call `fmi3UpdateDiscreteStates` until `discreteStatesNeedUpdate = false`.
+. Read the algebraic variables.
+. Switch to DAE mode, see <<during-simulation-reconfiguration-mode>>.
+. Set the algebraic variables to the values it has read.
+. Call `fmi3EnterContinuousTimeMode` and restart the integration.
+
+==== Staying in DAE Mode [[event-handling-stay-in-dae-mode]]
+
+The importer solves the <<Residual, residuals>> during the event iteration, and the FMU splits the discrete equations into sorted layers.
+A new layer starts wherever a discrete equation depends on an algebraic variable that depends on a discrete variable of an earlier layer.
+
+For each event, the importer must:
+
+. Set algebraic variables that are consistent with the discrete variables before the event, then call `fmi3EnterEventMode`.
+. Call `fmi3UpdateDiscreteStates`.
+. If `discreteStatesNeedUpdate = true`, solve the residuals for the algebraic variables to its tolerance, then repeat from the previous step.
+. Call `fmi3EnterContinuousTimeMode` and restart the integration.
+
+While solving the residuals in Event Mode, the importer may set algebraic variables and read residuals, and must not change the time or the continuous states.
+
+An FMU that declares <<StayInDAEMode>>:
+
+* must not evaluate, in one call of `fmi3UpdateDiscreteStates`, a discrete equation that depends on an algebraic variable affected by a discrete variable changed earlier in the same call,
+* must return `discreteStatesNeedUpdate = true` if the call has changed a discrete variable,
+* must decide what to evaluate from the current values, not from the number of calls,
+* must keep the values used for edge detection of when-equations between calls, so that a condition that stays true does not fire again, and
+* must only declare this method if the residuals can be solved for all values of the discrete variables reached during the event iteration.
+
+The number of calls is not known in advance and depends on which discrete variables change.
+
+==== Restarting the Integration [[event-handling-restart]]
+
+For both <<SwitchToODEMode>> and <<StayInDAEMode>>:
+
+* The importer must restart the integration from the algebraic variables it holds after the event iteration.
+* `valuesOfContinuousStatesChanged` only applies to continuous states. If it is `false`, the algebraic variables may still have changed. If it is `true`, the importer must solve the residuals again before the restart.
+* Event indicators may depend on algebraic variables, and these dependencies must be declared in the manifest. The importer must evaluate event indicators only with solved algebraic variables.
+* An event indicator can change its sign at the event. The importer must use the signs after the event as the reference for detecting the next crossing.
+* If the residuals cannot be solved or the event iteration does not settle, the importer must stop with an error. The limit for the number of calls is up to the importer.

@@ -49,4 +49,8 @@
 
   </ModelStructure>
 
+  <EventHandling>
+    <NoEvents />
+  </EventHandling>
+
 </fmiDAEManifest>
