@@ -120,3 +120,8 @@ jobs:
       run: pytest .ci/reference-FMUs/test_mass_spring_oscillator.py -v
       env:
         MASS_SPRING_OSCILLATOR_FMU: fmus/MassSpringOscillator.fmu
+
+    - name: Simulate and verify LoadShedding in ODE and DAE mode
+      run: pytest .ci/reference-FMUs/test_load_shedding.py -v
+      env:
+        LOAD_SHEDDING_FMU: fmus/LoadShedding.fmu

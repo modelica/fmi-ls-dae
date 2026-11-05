@@ -22,7 +22,7 @@ Output:
 import os
 import zipfile
 
-FMU_NAMES = ["SimpleDAE", "MassSpringOscillator"]
+FMU_NAMES = ["SimpleDAE", "MassSpringOscillator", "LoadShedding"]
 
 PLATFORMS = [
     "x86_64-linux",

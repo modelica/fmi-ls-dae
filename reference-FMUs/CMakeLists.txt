@@ -198,3 +198,4 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/fmus)
 
 add_fmu(SimpleDAE)
 add_fmu(MassSpringOscillator)
+add_fmu(LoadShedding)

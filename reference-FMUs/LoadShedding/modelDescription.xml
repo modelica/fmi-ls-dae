@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiModelDescription
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/modelica/fmi-standard/v3.0.2/schema/fmi3ModelDescription.xsd"
+  fmiVersion="3.0"
+  modelName="Load Shedding"
+  description="Capacitor discharging into two loads, with an event iteration that depends on the sorted order of the equations"
+  generationTool="Reference FMUs (development build)"
+  instantiationToken="{6F2C8E41-7D3A-4B95-A1E6-0C9D5B7F3A28}">
+
+  <ModelExchange
+    modelIdentifier="LoadShedding"
+    canGetAndSetFMUState="true"
+    canSerializeFMUState="true"
+    providesDirectionalDerivatives="false"
+    providesAdjointDerivatives="false" />
+
+  <LogCategories>
+    <Category name="logEvents" description="Log events" />
+    <Category name="logStatusError" description="Log error messages" />
+  </LogCategories>
+
+  <DefaultExperiment startTime="0" stopTime="2.0" stepSize="1e-3" />
+
+  <ModelVariables>
+    <Float64
+      name="time"
+      valueReference="0"
+      causality="independent" />
+    <Float64
+      name="v"
+      valueReference="1"
+      causality="output"
+      initial="exact"
+      start="1.0"
+      description="Voltage of the capacitor" />
+    <Float64
+      name="der(v)"
+      valueReference="2"
+      derivative="1" />
+    <Float64
+      name="i"
+      valueReference="3"
+      causality="output"
+      initial="approx"
+      start="1.0"
+      description="Current through the main load" />
+    <Float64
+      name="C"
+      valueReference="4"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="1.0"
+      description="Capacitance" />
+    <Float64
+      name="R"
+      valueReference="5"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="1.0"
+      description="Resistance of the main load, normal operation" />
+    <Float64
+      name="RShed"
+      valueReference="6"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="10.0"
+      description="Resistance of the main load, after shedding" />
+    <Float64
+      name="RAux"
+      valueReference="7"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="2.0"
+      description="Resistance of the auxiliary load" />
+    <Float64
+      name="vShed"
+      valueReference="8"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="0.5"
+      description="Undervoltage threshold that sheds the main load" />
+    <Float64
+      name="iMax"
+      valueReference="9"
+      causality="parameter"
+      variability="fixed"
+      initial="exact"
+      start="0.2"
+      description="Current limit of the main load after shedding" />
+    <Float64
+      name="__residual0"
+      valueReference="10"
+      causality="local"
+      variability="continuous"
+      description="residual equation" />
+    <Float64
+      name="g1"
+      valueReference="11"
+      causality="local"
+      variability="continuous"
+      description="Event indicator of shed = v &lt; vShed" />
+    <Float64
+      name="g2"
+      valueReference="12"
+      causality="local"
+      variability="continuous"
+      description="Event indicator of the relation i &gt; iMax" />
+    <Boolean
+      name="shed"
+      valueReference="13"
+      causality="output"
+      variability="discrete"
+      description="True if the main load is shed" />
+    <Boolean
+      name="tripped"
+      valueReference="14"
+      causality="output"
+      variability="discrete"
+      description="True if the auxiliary load has been disconnected, never resets" />
+    <Boolean
+      name="ODE_DAE_Switch"
+      valueReference="15"
+      causality="structuralParameter"
+      variability="tunable"
+      start="false"
+      description="Set to true to enable DAE mode as defined by FMI-LS-DAE." />
+  </ModelVariables>
+
+  <ModelStructure>
+    <Output valueReference="1" dependencies="" />
+    <!-- i = v/R(shed)
+         deps: v(vr=1) -->
+    <Output valueReference="3"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <Output valueReference="13" dependencies="" />
+    <Output valueReference="14" dependencies="" />
+    <!-- der(v) = (-i - v/RAux)/C
+         In ODE mode i is resolved to v/R(shed), so the direct dependency is:
+         v(vr=1) -->
+    <ContinuousStateDerivative valueReference="2"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- der(v) at initialization — same dependencies as in ContinuousTimeMode -->
+    <InitialUnknown valueReference="2"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- i at initialization — same dependencies as Output -->
+    <InitialUnknown valueReference="3"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- shed = v < vShed
+         deps: v(vr=1) -->
+    <InitialUnknown valueReference="13"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- tripped starts as false -->
+    <InitialUnknown valueReference="14" dependencies="" />
+    <!-- g1 = v - vShed -->
+    <EventIndicator valueReference="11"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- g2 = v/R(shed) - iMax -->
+    <EventIndicator valueReference="12"
+      dependencies="1"
+      dependenciesKind="dependent" />
+  </ModelStructure>
+</fmiModelDescription>

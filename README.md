@@ -35,6 +35,10 @@ They are built for all supported platforms by CI and can be
   the algebraic variable. Its total mechanical energy is exposed as an
   `<Invariant>`, which makes it the worked example for invariants and the
   numerical drift they are meant to detect.
+* [`LoadShedding`][load-shedding] -- a capacitor discharging into two loads,
+  with one state, one algebraic variable and two discrete variables. Its event
+  iteration only gives the right result when the discrete equations are
+  evaluated in sorted order, which makes it the worked example for events.
 
 Further FMUs implementing this layered standard are maintained in the
 [modelica/Reference-FMUs][reference-fmus] repository. Currently there is only
@@ -85,6 +89,7 @@ For development there is a private sandbox
 [reference-fmus-dir]: reference-FMUs
 [simple-dae]: reference-FMUs/SimpleDAE
 [mass-spring-oscillator]: reference-FMUs/MassSpringOscillator
+[load-shedding]: reference-FMUs/LoadShedding
 [roberts]: https://github.com/modelica/Reference-FMUs/tree/main/Roberts
 [contributing-file]: CONTRIBUTING.md
 [2-Clause BSD License]: https://opensource.org/licenses/BSD-2-Clause
