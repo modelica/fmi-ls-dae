@@ -53,4 +53,4 @@ while the FMU provides the continuous-state derivatives and outputs according to
 
 This version of the layered standard does not define support for more general DAE formulations, including fully implicit DAEs, higher-index DAEs, or formulations that require differentiation of algebraic constraints. Such formulations must first be transformed into the supported semi-explicit index-1 form before they can be represented by this version of the layered standard.
 
-The DAE formulation defined by this layered standard applies only while the Model Exchange FMU is in *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]*. Behavior associated with discontinuities, event handling, and DAE formulations outside Continuous Time Mode is outside the scope of version `1.0.0-alpha.1`.
+The DAE formulation defined by this layered standard applies only while the Model Exchange FMU is in *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]*. Event handling while DAE mode is enabled is defined in <<event-handling>>. Other DAE formulations outside Continuous Time Mode are outside the scope of version `1.0.0-alpha.1`.

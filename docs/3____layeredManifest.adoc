@@ -24,6 +24,9 @@ Several new elements are included as direct children of the root element in the 
 Especially, the ordered lists of https://fmi-standard.org/docs/3.0.2/#output[outputs], continuous-time https://fmi-standard.org/docs/3.0.2/#state[states], and the initial unknowns (the unknowns during *https://fmi-standard.org/docs/3.0.2/#InitializationMode[InitializationMode]*) are *re*-defined and overwrite the corresponding https://fmi-standard.org/docs/3.0.2/#ModelStructure[ModelStructure] present in the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`], with the addition of the  <<Residual, residuals>> element.
 The <<AlgebraicVariables,algebraic variables>> can be included as dependencies, and can also be initial unknowns.
 
+|<<EventHandling>>
+|Required element stating how event handling works while DAE mode is enabled.
+
 |<<Annotations>>
 |Optional annotations for the top-level element.
 
@@ -180,6 +183,43 @@ Otherwise the residual depends on the knowns defined by the given value referenc
 |====
 
 ---
+
+=== Event Handling [[EventHandling, `<EventHandling>`]]
+
+The element <<EventHandling>> states how event handling works while DAE mode is enabled.
+It contains either <<NoEvents>>, or one or both of <<SwitchToODEMode>> and <<StayInDAEMode>>.
+If an FMU supports both methods, the first element is the method the FMU prefers.
+See <<event-handling>> for the full semantics and the calling sequences.
+
+.EventHandling elements.
+[[table-event-handling-details]]
+[cols="1,5a", options="header"]
+|====
+|Element
+|Description
+
+|`NoEvents`
+|[[NoEvents,`<NoEvents>`]]
+The model has no events in DAE mode.
+
+|`SwitchToODEMode`
+|[[SwitchToODEMode,`<SwitchToODEMode>`]]
+The importer switches the FMU to ODE mode for the event iteration, and the FMU computes the <<AlgebraicVariables, algebraic variables>>.
+
+|`StayInDAEMode`
+|[[StayInDAEMode,`<StayInDAEMode>`]]
+The FMU stays in DAE mode for the event iteration, and the importer solves the <<Residual, residuals>> between the calls of https://fmi-standard.org/docs/3.0.2/#fmi3UpdateDiscreteStates[`fmi3UpdateDiscreteStates`].
+|====
+
+An FMU that supports both methods and prefers to stay in DAE mode declares:
+
+[source,xml]
+----
+<EventHandling>
+  <StayInDAEMode/>
+  <SwitchToODEMode/>
+</EventHandling>
+----
 
 === Getting Partial Derivatives
 

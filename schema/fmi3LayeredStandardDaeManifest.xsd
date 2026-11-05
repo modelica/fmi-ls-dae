@@ -68,6 +68,27 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="EventHandling">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">
+                            How event handling works while DAE mode is enabled. Either NoEvents,
+                            or the supported methods with the preferred method first.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="NoEvents" type="TEventHandlingMethod"/>
+                            <xs:sequence>
+                                <xs:element name="SwitchToODEMode" type="TEventHandlingMethod"/>
+                                <xs:element name="StayInDAEMode" type="TEventHandlingMethod" minOccurs="0"/>
+                            </xs:sequence>
+                            <xs:sequence>
+                                <xs:element name="StayInDAEMode" type="TEventHandlingMethod"/>
+                                <xs:element name="SwitchToODEMode" type="TEventHandlingMethod" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element ref="Annotations" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute ref="fmi-ls:fmi-ls-name" use="required"
@@ -77,6 +98,12 @@
                 fixed="Layered standard for DAE support in FMI."/>
         </xs:complexType>
     </xs:element>
+
+    <xs:complexType name="TEventHandlingMethod">
+        <xs:sequence>
+            <xs:element ref="Annotations" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:complexType name="TVariableReference">
         <xs:complexContent>
