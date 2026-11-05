@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiDAEManifest
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+  fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
+  fmi-ls:fmi-ls-version="1.0.0-alpha.1"
+  fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
+>
+  <EnableDAEParameter valueReference="15" />
+
+  <AlgebraicVariables>
+    <AlgebraicVariable valueReference="3" /> <!-- i -->
+  </AlgebraicVariables>
+
+  <ModelStructure>
+    <Output valueReference="1" dependencies="" />
+    <!-- i is an algebraic variable in DAE mode
+           DAE-mode deps: i(vr=3) -->
+    <Output
+      valueReference="3"
+      dependencies="3"
+      dependenciesKind="dependent" />
+    <Output valueReference="13" dependencies="" />
+    <Output valueReference="14" dependencies="" />
+    <!-- der(v) = (-i - v/RAux)/C
+           DAE-mode deps: v(vr=1), i(vr=3) -->
+    <ContinuousStateDerivative
+      valueReference="2"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+    <!-- g1 = v - vShed
+           DAE-mode deps: v(vr=1) -->
+    <EventIndicator
+      valueReference="11"
+      dependencies="1"
+      dependenciesKind="dependent" />
+    <!-- g2 = i - iMax
+           DAE-mode deps: i(vr=3) -->
+    <EventIndicator
+      valueReference="12"
+      dependencies="3"
+      dependenciesKind="dependent" />
+    <!-- __residual0 = R(shed)*i - v
+           DAE-mode deps: v(vr=1), i(vr=3) -->
+    <Residual
+      valueReference="10"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+
+  </ModelStructure>
+
+</fmiDAEManifest>
