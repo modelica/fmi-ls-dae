@@ -384,7 +384,7 @@ For the Robertson problem, the system is given in fully implicit residual form b
 
 [latexmath]
 ++++
-r_0 = \dot{y}_1 + 0.04,y_1 - 10^4 y_2 y_3
+r_0 = \dot{y}_1 + 0.04 y_1 - 10^4 y_2 y_3
 ++++
 
 [latexmath]
