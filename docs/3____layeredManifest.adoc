@@ -380,16 +380,42 @@ Using the fully implicit DAE formulation, all equations (both differential and a
 ++++
 \mathbf{f}_{\mathit{res}}(\dot{\mathbf{x}}_c, \mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t) = \mathbf{0}
 ++++
+
 For the Robertson problem, the system is given in fully implicit residual form by:
 
 [latexmath]
 ++++
-r_0 = \dot{y}_1 + 0.04 y_1 - 10^4 y_2 y_3
+\dot{y}_1 + 0.04\,y_1 - 10^4 y_2 y_3 = 0
 ++++
 
 [latexmath]
 ++++
-r_1 = \dot{y}_2 - 0.04 y_1 + 10^4 y_2 y_3 + 3\times10^7 y_2^2
+\dot{y}_2 - 0.04\,y_1 + 10^4 y_2 y_3 + 3\times10^7 y_2^2 = 0
+++++
+
+[latexmath]
+++++
+y_1 + y_2 + y_3 - 1 = 0
+++++
+
+In this fully implicit representation, both the state derivatives latexmath:[\dot{\mathbf{x}}_c] and the algebraic variables latexmath:[\mathbf{a}_c] are treated as unknowns determined simultaneously through the residual constraints.
+ expressed as a unified system of residual equations:
+
+[latexmath]
+++++
+r := \mathbf{f}_{\mathit{res}}(\dot{\mathbf{x}}_c, \mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)
+++++
+
+For the Robertson problem, the system is given in fully implicit residual form by:
+
+[latexmath]
+++++
+r_0 = \dot{y}_1 + 0.04\,y_1 - 10^4 y_2 y_3
+++++
+
+[latexmath]
+++++
+r_1 = \dot{y}_2 - 0.04\,y_1 + 10^4 y_2 y_3 + 3\times10^7 y_2^2
 ++++
 
 [latexmath]
@@ -397,7 +423,7 @@ r_1 = \dot{y}_2 - 0.04 y_1 + 10^4 y_2 y_3 + 3\times10^7 y_2^2
 r_2 = y_1 + y_2 + y_3 - 1
 ++++
 
-In this fully implicit representation, the state derivatives latexmath:[\dot{\mathbf{x}}_c], along with the continuous states latexmath:[\mathbf{x}_c] and the algebraic variables latexmath:[\mathbf{a}_c] are treated as knowns determined simultaneously through the unknown residual constraints.
+In this fully implicit representation, both the state derivatives latexmath:[\dot{\mathbf{x}}_c] and the algebraic variables latexmath:[\mathbf{a}_c] are treated as unknowns determined simultaneously through the residual constraints.
 
 In the implicit DAE case, the FMU has the following variables:
 
@@ -440,31 +466,6 @@ The DAE-specific manifest elements are:
 </AlgebraicVariables>
 
 <ModelStructure>
-  <ContinuousStateDerivative
-    valueReference="3"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-  <ContinuousStateDerivative
-    valueReference="5"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-  <InitialUnknown
-    valueReference="3"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-  <InitialUnknown
-    valueReference="5"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-  <InitialUnknown
-    valueReference="6"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-  <Residual
-    valueReference="7"
-    dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
-<ModelStructure>
   <InitialUnknown
     valueReference="3"
     dependencies="2 4 6"
@@ -480,15 +481,15 @@ The DAE-specific manifest elements are:
   <Residual
     valueReference="7"
     dependencies="2 3 4 6"
-    dependenciesKind="constant constant dependent dependent"/>
+    dependenciesKind="dependent dependent constant constant"/>
   <Residual
     valueReference="8"
     dependencies="2 4 5 6"
-    dependenciesKind="constant dependent constant dependent"/>
+    dependenciesKind="dependent dependent constant constant"/>
   <Residual
     valueReference="9"
     dependencies="2 4 6"
-    dependenciesKind="constant constant constant"/>
+    dependenciesKind="constant constant constant "/>
 </ModelStructure>
 ```
 
