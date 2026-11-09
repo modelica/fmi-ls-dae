@@ -464,6 +464,31 @@ The DAE-specific manifest elements are:
     valueReference="7"
     dependencies="2 4 6"
     dependenciesKind="constant constant constant"/>
+<ModelStructure>
+  <InitialUnknown
+    valueReference="3"
+    dependencies="2 4 6"
+    dependenciesKind="constant dependent dependent"/>
+  <InitialUnknown
+    valueReference="5"
+    dependencies="2 4 6"
+    dependenciesKind="constant dependent dependent"/>
+  <InitialUnknown
+    valueReference="6"
+    dependencies="2 4"
+    dependenciesKind="constant constant"/>
+  <Residual
+    valueReference="7"
+    dependencies="2 3 4 6"
+    dependenciesKind="constant constant dependent dependent"/>
+  <Residual
+    valueReference="8"
+    dependencies="2 4 5 6"
+    dependenciesKind="constant dependent constant dependent"/>
+  <Residual
+    valueReference="9"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant"/>
 </ModelStructure>
 ```
 
