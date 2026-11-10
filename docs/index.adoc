@@ -19,7 +19,7 @@
 :logo: FMI
 :favicon: images/favicon.ico
 :revdate: 04.09.2026
-:revnumber: 1.0.0-alpha.1
+:revnumber: 1.0.0-alpha.2
 
 {empty} +
 {empty}

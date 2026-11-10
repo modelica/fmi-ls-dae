@@ -47,7 +47,7 @@ The XML attributes of `<fmiDAEManifest>` are:
 
 |`fmi-ls-version`
 |`http://fmi-standard.org/fmi-ls-manifest`
-|`1.0.0-alpha.1`
+|`1.0.0-alpha.2`
 |Version of the layered standard. This layered standard uses semantic versioning, as defined in <<PW13>>.
 
 |`fmi-ls-description`
