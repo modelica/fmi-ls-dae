@@ -44,7 +44,7 @@ so the energy grows at *every* step and the solution spirals outward. Integratin
 
 This is the *numerical drift* that motivates exposing invariants. An importer that reads the `<Invariant>` element can evaluate `E` during the simulation, compare it against its initial value, and either report the accumulated drift or project the states back onto the manifold `E = E(0)`.
 
-Version `1.0.0-alpha.1` of the layered standard describes the optional correction `δ = x̃ - x` between the integrated and the projected state, but does not yet define a manifest element for it, so this FMU does not expose it.
+Version `1.0.0-alpha.2` of the layered standard describes the optional correction `δ = x̃ - x` between the integrated and the projected state, but does not yet define a manifest element for it, so this FMU does not expose it.
 
 ## FMI interface
 

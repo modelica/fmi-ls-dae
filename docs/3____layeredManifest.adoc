@@ -47,7 +47,7 @@ The XML attributes of `<fmiDAEManifest>` are:
 
 |`fmi-ls-version`
 |`http://fmi-standard.org/fmi-ls-manifest`
-|`1.0.0-alpha.1`
+|`1.0.0-alpha.2`
 |Version of the layered standard. This layered standard uses semantic versioning, as defined in <<PW13>>.
 
 |`fmi-ls-description`
@@ -116,7 +116,7 @@ Invariants of the model can optionally be exposed using the <<Invariant>> elemen
 The <<ModelStructure>> defined here extends the one from the core FMI standard.
 All elements defined in the core standard (https://fmi-standard.org/docs/3.0.2/#Output[`<Output>`], https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative[`<ContinuousStateDerivative>`], https://fmi-standard.org/docs/3.0.2/#ClockedState[`<ClockedState>`], https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`], https://fmi-standard.org/docs/3.0.2/#EventIndicator[`<EventIndicator>`]) retain their existing semantics in this manifest, with the additions that:
 
-* Each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>.
+* Each element's `dependencies` attribute may now also reference <<AlgebraicVariable, algebraic variables>>. For an implicit DAE formulation the <<Residual>> could have a dependency on a https://fmi-standard.org/docs/3.0.2/#derivative[`derivative` of a state]. In this case the `derivative` of that state *must not* appear as a https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative[`<ContinuousStateDerivative>`] element under the <<ModelStructure>> defined here.
 * The https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] element is expanded so that <<AlgebraicVariable, algebraic variables>> can be included as unknowns.
 
 The <<ModelStructure>> element is extended with two additional elements, <<Residual>> and <<Invariant>>, described below.
@@ -132,7 +132,7 @@ The <<ModelStructure>> element is extended with two additional elements, <<Resid
 |[[Residual,`<Residual>`]]
 Ordered list of residual equations (constraints). Each residual element must reference a unique variable present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] of the https://fmi-standard.org/docs/3.0.2/#modelDescription.xml[`modelDescription.xml`]. It is the importer's responsiblity to find the values of the <<AlgebraicVariables, algebraic variables>> such that the residuals are 0.
 The functional dependency is defined as: +
-latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}]
+latexmath:[{0 := \mathbf{f}_{\mathit{res}}(\dot{\mathbf{x}}_c, \mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t)}]
 
 |`Invariant`
 |[[Invariant,`<Invariant>`]]
@@ -161,6 +161,8 @@ Optional attribute defining the algebraic dependencies as a list of value refere
 Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] in *https://fmi-standard.org/docs/3.0.2/#ContinuousTimeMode[Continuous-Time Mode]* (ME) for `<<Residual>>` elements are: +
 
 * inputs (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#input[input]),
+
+* continuous state derivatives,
 
 * continuous states,
 
@@ -367,6 +369,102 @@ The DAE-specific manifest elements are:
     valueReference="7"
     dependencies="2 4 6"
     dependenciesKind="constant constant constant"/>
+</ModelStructure>
+```
+
+==== Robertson DAE - Implicit DAE
+
+Using the fully implicit DAE formulation, all equations (both differential and algebraic) are expressed as a unified system of residual equations:
+
+[latexmath]
+++++
+\mathbf{f}_{\mathit{res}}(\dot{\mathbf{x}}_c, \mathbf{x}_c, \mathbf{a}_c, \mathbf{u}_c, \mathbf{p}, t) = \mathbf{0}
+++++
+
+For the Robertson problem, the system is given in fully implicit residual form by:
+
+[latexmath]
+++++
+r_0 = \dot{y}_1 + 0.04\,y_1 - 10^4 y_2 y_3
+++++
+
+[latexmath]
+++++
+r_1 = \dot{y}_2 - 0.04\,y_1 + 10^4 y_2 y_3 + 3\times10^7 y_2^2
+++++
+
+[latexmath]
+++++
+r_2 = y_1 + y_2 + y_3 - 1
+++++
+
+In this implicit representation, the state derivatives latexmath:[\dot{\mathbf{x}}_c], along with the continuous states latexmath:[\mathbf{x}_c] and the algebraic variables latexmath:[\mathbf{a}_c] are treated as knowns determined simultaneously through the unknown residual constraints.
+
+In the implicit DAE case, the FMU has the following variables:
+
+[cols="1,1", options="header"]
+|====
+
+|Variable |valueReference
+
+|latexmath:[t] |0
+
+|`dae` |1
+
+|latexmath:[y_1] |2
+
+|latexmath:[\dot{y}_1] |3
+
+|latexmath:[y_2] |4
+
+|latexmath:[\dot{y}_2] |5
+
+|latexmath:[y_3] |6
+
+|latexmath:[r_0] |7
+
+|latexmath:[r_1] |8
+
+|latexmath:[r_2] |9
+
+|====
+
+Here, latexmath:[y_1] and latexmath:[y_2] are the components of latexmath:[\mathbf{x}_c], while latexmath:[y_3] is the single component of latexmath:[\mathbf{a}_c]. The residual latexmath:[\mathbf{f}_{\mathit{res}}] is represented by the variable latexmath:[r_0], latexmath:[r_1], and latexmath:[r_2].
+
+The DAE-specific manifest elements are:
+
+```xml
+<EnableDAEParameter valueReference="1"/>
+
+<AlgebraicVariables>
+  <AlgebraicVariable valueReference="6"/>
+</AlgebraicVariables>
+
+<ModelStructure>
+  <InitialUnknown
+    valueReference="3"
+    dependencies="2 4 6"
+    dependenciesKind="constant dependent dependent"/>
+  <InitialUnknown
+    valueReference="5"
+    dependencies="2 4 6"
+    dependenciesKind="constant dependent dependent"/>
+  <InitialUnknown
+    valueReference="6"
+    dependencies="2 4"
+    dependenciesKind="constant constant"/>
+  <Residual
+    valueReference="7"
+    dependencies="2 3 4 6"
+    dependenciesKind="constant constant dependent dependent"/>
+  <Residual
+    valueReference="8"
+    dependencies="2 4 5 6"
+    dependenciesKind="constant dependent constant dependent"/>
+  <Residual
+    valueReference="9"
+    dependencies="2 4 6"
+    dependenciesKind="constant constant constant "/>
 </ModelStructure>
 ```
 
