@@ -85,7 +85,7 @@ The element <<AlgebraicVariables>> defines the list of the algebraic variables.
 |Description
 
 |`AlgebraicVariable`
-|An <<AlgebraicVariable>> present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] element of the modelDescription.xml.
+|An <<AlgebraicVariable>> present in the https://fmi-standard.org/docs/3.0.2/#ModelVariables[`<ModelVariables>`] element of the modelDescription.xml. It is a https://fmi-standard.org/docs/3.0.2/#local[`local`] dependent variable which is does not appear differentiated in any unknown.
 |====
 
 [[AlgebraicVariable, `<AlgebraicVariable>`]]
@@ -189,6 +189,7 @@ The partial derivative API functions https://fmi-standard.org/docs/3.0.2/#fmi3Ge
 
 * <<Residual, Residual>> variables can appear as unknowns.
 * <<AlgebraicVariable, Algebraic variables>> can appear as knowns for any unknown.
+* If the DAE formulation is implicit, then the continuous state derivatives appearing as dependencies of <<Residual, residual>> variables can appear as knowns for any unknowns.
 
 ---
 

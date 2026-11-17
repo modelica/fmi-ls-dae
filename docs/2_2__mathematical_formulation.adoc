@@ -45,14 +45,16 @@ where:
 * latexmath:[\mathbf{f}_{\mathit{res}}] denotes the algebraic equations expressed as <<Residual, residuals>>, and
 * latexmath:[\mathbf{y}] denotes the https://fmi-standard.org/docs/3.0.2/#output[outputs].
 
+==== Semi-explicit
+
 The equations latexmath:[\dot{\mathbf{x}}_c = \mathbf{f}_{\mathit{der}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,\mathbf{p},t)] are the differential equations of the model, which can be acquired with the usual way of either
 
 * calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] on the derivative variables provided in the extended <<ModelStructure>> defined in <<layered-standard-manifest-file>> , or
 * calling https://fmi-standard.org/docs/3.0.2/#fmi3GetContinuousStateDerivatives[`fmi3GetContinuousStateDerivatives`].
 
-The equations latexmath:[0 = \mathbf{f}_{\mathit{res}}] are represented in the FMU by <<Residual, residual>> variables and constrain the algebraic variables together with the other continuous-time variables of the model. These can be acquired by calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] on the <<Residual, residual>> variables provided in the extended <<ModelStructure>> defined in <<layered-standard-manifest-file>>.
+The equations latexmath:[0 = \mathbf{f}_{\mathit{res}}(\mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,t,\mathbf{p})] are represented in the FMU by <<Residual, residual>> variables and constrain the algebraic variables together with the other continuous-time variables of the model. These can be acquired by calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] on the <<Residual, residual>> variables provided in the extended <<ModelStructure>> defined in <<layered-standard-manifest-file>>.
 
-For the DAE to be index 1 in this layered standard means that the algebraic equations must be solvable for the algebraic variables. In particular, the Jacobian of the algebraic equations with respect to the algebraic variables must be non-singular.
+For the semi-explicit DAE to be index 1 in this layered standard means that the algebraic equations must be solvable for the algebraic variables. In particular, the Jacobian of the algebraic equations with respect to the algebraic variables must be non-singular.
 
 Consequently, for given values of latexmath:[\mathbf{x}_c], latexmath:[\mathbf{u}_c], latexmath:[\mathbf{p}], and latexmath:[t], the algebraic equations determine latexmath:[\mathbf{a}_c]. The importer is responsible for determining values of the algebraic variables that satisfy
 
@@ -62,6 +64,16 @@ Consequently, for given values of latexmath:[\mathbf{x}_c], latexmath:[\mathbf{u
 ++++
 
 while the FMU provides the continuous-state derivatives and outputs according to the equations above.
+
+==== Implicit
+
+The derivatives are implicitly defined through the <<Residual, residual>> variables that depend on them. This means that calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Set`] on the derivative variables is allowed as long as they are dependencies of <<Residual, residual>> variables and don't appear as https://fmi-standard.org/docs/3.0.2/#ContinuousStateDerivative[`<ContinuousStateDerivative>`] elements.
+
+The equations latexmath:[0 = \mathbf{f}_{\mathit{res}}(\dot{\mathbf{x}}_c, \mathbf{x}_c,\mathbf{a}_c,\mathbf{u}_c,t,\mathbf{p})] are represented in the FMU by <<Residual, residual>> variables and constrain the algebraic variables, states, and state derivatives. These can be acquired by calling https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Get`] on the <<Residual, residual>> variables provided in the extended <<ModelStructure>> defined in <<layered-standard-manifest-file>>.
+
+For the implicit DAE to be index 1 in this layered standard means that the residual equations must be solvable for the algebraic- and state derivative variables. In particular, the Jacobian of the residual equations with respect to the algebraic- and state derivative variables must be non-singular.
+
+==== Constraints
 
 This version of the layered standard does not define support for more general DAE formulations, including higher-index DAEs or formulations that require differentiation of algebraic constraints. Such formulations must first be transformed into the supported index-1 form before they can be represented by this version of the layered standard.
 
