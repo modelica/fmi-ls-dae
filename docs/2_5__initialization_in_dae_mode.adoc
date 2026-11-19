@@ -52,7 +52,7 @@ The initial values are consistent only if the importer has found values of the i
 * The https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] elements of the extended <<ModelStructure>> are not used for the initialization in DAE mode.
 
 If the FMU is initialized in ODE mode, it solves the initialization problem itself as defined in the core FMI standard, and the <<InitialAlgebraicVariables>> and <<InitialResidual>> elements are ignored by the importer.
-If <<providesDAEInitialization>> = `false`, initialization in DAE mode is not specified by this version of the layered standard, see <<enable-dae-mode-variable>>.
+If <<providesDAEInitialization>> = `false`, initialization in DAE mode is not allowed, see <<enable-dae-mode-variable>>.
 
 NOTE: An importer that needs the initial values computed by the FMU, e.g. as an initial guess, can initialize a second instance of the FMU in ODE mode.
 
