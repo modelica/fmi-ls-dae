@@ -25,7 +25,7 @@ The same variable may be referenced by both an <<InitialResidual>> and a <<Resid
 The exporter may eliminate explicitly solvable parts of the initialization problem.
 The variables determined by such parts are then computed by the FMU from the knowns and the initial algebraic variables.
 
-The initial algebraic variables are variables with `initial` = `approx` or `initial` = `calculated` that are listed as https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] in the extended <<ModelStructure>>.
+The initial algebraic variables are variables with `initial` = `approx` or `initial` = `calculated`.
 They can be continuous-time states, continuous-state derivatives, <<AlgebraicVariable, algebraic variables>>, or other variables determined by the initial equations.
 A variable with `initial` = `approx` or `initial` = `calculated` that is determined by an eliminated part of the initialization problem is not an initial algebraic variable.
 Variables with `initial` = `exact` are knowns of the initialization problem.

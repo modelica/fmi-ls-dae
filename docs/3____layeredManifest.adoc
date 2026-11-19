@@ -136,7 +136,7 @@ It is required if <<providesDAEInitialization>> = `true` and may be empty.
 
 [[InitialAlgebraicVariable, `<InitialAlgebraicVariable>`]]
 Each <<InitialAlgebraicVariable>> has only one attribute defining the value reference.
-The referenced variable must have https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `approx` or `initial` = `calculated` and must be listed as https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] in the extended <<ModelStructure>>.
+The referenced variable must have https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `approx` or `initial` = `calculated`.
 It can be a continuous-time state, a continuous-state derivative or an <<AlgebraicVariable, algebraic variable>>.
 Each variable must be referenced at most once.
 
