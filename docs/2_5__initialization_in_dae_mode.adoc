@@ -66,4 +66,3 @@ The attribute <<providesDAESimulation>> declares whether the FMU provides algebr
 If <<providesDAESimulation>> = `false`, the importer must switch the FMU to ODE mode in *https://fmi-standard.org/docs/3.0.2/#ReconfigurationMode[Reconfiguration Mode]* after initialization in DAE mode, which requires `variability = "tunable"` for the <<enable-dae-mode-variable, `enableDAEModeParameter`>>.
 
 This version of the layered standard does not define the evaluation of the initial residuals in *https://fmi-standard.org/docs/3.0.2/#EventMode[Event Mode]*, nor initialization in DAE mode after Reconfiguration Mode.
-Calculated parameters (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = `calculatedParameter`) may be listed as initial algebraic variables, but an exporter is not required to support this.
