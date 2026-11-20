@@ -10,13 +10,13 @@ The supported formulation of the initialization problem is
 
 [latexmath]
 ++++
-0 = \mathbf{f}_{\mathit{ires}}(\mathbf{a}_{\mathit{init}}, \mathbf{x}_{c,\mathit{exact}}, \mathbf{u}_c, \mathbf{p}, t_0)
+0 = \mathbf{f}_{\mathit{ires}}(\mathbf{a}_{\mathit{init}}, \mathbf{v}_{\mathit{exact}}, \mathbf{u}_c, \mathbf{p}, t_0)
 ++++
 
 where:
 
 * latexmath:[\mathbf{a}_{\mathit{init}}] denotes the <<InitialAlgebraicVariable, initial algebraic variables>>,
-* latexmath:[\mathbf{x}_{c,\mathit{exact}}] denotes the continuous-time https://fmi-standard.org/docs/3.0.2/#state[states] with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`,
+* latexmath:[\mathbf{v}_{\mathit{exact}}] denotes any variables with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`, such as the continuous-time https://fmi-standard.org/docs/3.0.2/#state[states],
 * latexmath:[t_0] denotes the start time, and
 * latexmath:[\mathbf{f}_{\mathit{ires}}] denotes the equations of the initialization problem expressed as <<InitialResidual, initial residuals>>.
 
