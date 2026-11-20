@@ -47,7 +47,7 @@ while the FMU computes all other variables from the knowns and the initial algeb
 * The importer sets the initial algebraic variables with https://fmi-standard.org/docs/3.0.2/#get-and-set-variable-values[`fmi3Set`] in Initialization Mode, independent of their https://fmi-standard.org/docs/3.0.2/#causality[causality] and https://fmi-standard.org/docs/3.0.2/#initial[`initial`] attribute, in the same way as it sets the <<AlgebraicVariable, algebraic variables>> in Continuous-Time Mode.
 * The value of an initial algebraic variable is its start value until the importer sets it.
 The FMU must not change this value in Initialization Mode or in https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`].
-* https://fmi-standard.org/docs/3.0.2/#fmi3EnterInitializationMode[`fmi3EnterInitializationMode`] and https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`] must not fail because the initial residuals are not zero.
+* Non-zero initial residual should not automatically trigger a failure for https://fmi-standard.org/docs/3.0.2/#fmi3EnterInitializationMode[`fmi3EnterInitializationMode`] and https://fmi-standard.org/docs/3.0.2/#fmi3ExitInitializationMode[`fmi3ExitInitializationMode`]
 The initial values are consistent only if the importer has found values of the initial algebraic variables for which all initial residuals are zero.
 * The https://fmi-standard.org/docs/3.0.2/#InitialUnknown[`<InitialUnknown>`] elements of the extended <<ModelStructure>> are not used for the initialization in DAE mode.
 
