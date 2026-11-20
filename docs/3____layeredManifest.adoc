@@ -254,7 +254,7 @@ Knowns latexmath:[{\mathbf{v}_{\mathit{known}}}] for `<<InitialResidual>>` eleme
 
 * inputs (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#input[input]),
 
-* continuous states with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`,
+* variables with https://fmi-standard.org/docs/3.0.2/#initial[`initial`] = `exact`, such as continuous states or algebraic variables,
 
 * parameters (variables with https://fmi-standard.org/docs/3.0.2/#causality[causality] = https://fmi-standard.org/docs/3.0.2/#parameter[parameter]),
 
