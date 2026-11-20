@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Same model as fmi-ls-manifest-initial-residuals-example.xml.
+     The exporter eliminates the explicitly solvable part x = z^2 + z - 1 of the
+     initialization problem: the only initial algebraic variable is z, and the only
+     initial residual is ir = sin(x*z) + cos(z) + 1 with x computed from z. -->
+<fmiDAEManifest
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../schema/fmi3LayeredStandardDaeManifest.xsd"
+  xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
+  fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
+  fmi-ls:fmi-ls-version="1.0.0-alpha.1"
+  fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
+  providesDAEInitialization="true"
+>
+  <EnableDAEParameter valueReference="4" />
+
+  <AlgebraicVariables>
+    <AlgebraicVariable valueReference="3" /> <!-- z -->
+  </AlgebraicVariables>
+
+  <!-- tag::initial-algebraic-variables[] -->
+  <InitialAlgebraicVariables>
+    <InitialAlgebraicVariable valueReference="3" /> <!-- z -->
+  </InitialAlgebraicVariables>
+  <!-- end::initial-algebraic-variables[] -->
+
+  <ModelStructure>
+    <ContinuousStateDerivative
+      valueReference="2"
+      dependencies="1 3"
+      dependenciesKind="constant constant" />
+    <InitialUnknown valueReference="1" dependencies="" />
+    <InitialUnknown valueReference="2" dependencies="" />
+    <InitialUnknown valueReference="3" dependencies="" />
+    <Residual
+      valueReference="5"
+      dependencies="1 3"
+      dependenciesKind="dependent dependent" />
+    <!-- tag::initial-residuals[] -->
+    <!-- ir = sin(x*z) + cos(z) + 1 with x = z^2 + z - 1 -->
+    <InitialResidual
+      valueReference="6"
+      dependencies="3"
+      dependenciesKind="dependent" />
+    <!-- end::initial-residuals[] -->
+  </ModelStructure>
+
+</fmiDAEManifest>

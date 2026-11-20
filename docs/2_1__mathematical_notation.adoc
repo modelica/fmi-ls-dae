@@ -11,4 +11,6 @@ This layered standard uses the same mathematical notation as provided in the FMI
 |Description
 |[[algebraic,algebraic variables]]latexmath:[\mathbf{a}_c]
 |A vector of real continuous-time variables representing the continuous-time <<AlgebraicVariable, algebraic variables>>.
+|[[initial-algebraic,initial algebraic variables]]latexmath:[\mathbf{a}_{\mathit{init}}]
+|A vector of real variables representing the <<InitialAlgebraicVariable, initial algebraic variables>>, the unknowns of the initialization problem in DAE mode.
 |====

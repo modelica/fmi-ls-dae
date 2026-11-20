@@ -58,7 +58,9 @@ The typical flow for an importer that uses the FMU in DAE mode from the start is
 . Call `fmi3ExitConfigurationMode(instance)` to return to the https://fmi-standard.org/docs/3.0.2/#InstantiatedState[Instantiated] state.
 . Continue with the normal FMI initialization sequence (`fmi3EnterInitializationMode`, etc.).
 
-It should be emphasized that initialization in DAE mode is not yet fully specified. This means that when the FMU is initalized in DAE mode, either
+For an FMU with <<providesDAEInitialization>> = `true`, initialization in DAE mode is defined in <<initialization-in-dae-mode>>.
+
+Otherwise, initialization in DAE mode is not yet fully specified. This means that when the FMU is initalized in DAE mode, either
 
 * the FMU will lift the <<Residual, residual>> equations to be solved by the importer, or
 * the FMU will still initialize in ODE mode, or
