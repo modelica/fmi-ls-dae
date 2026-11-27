@@ -43,7 +43,7 @@ one:
 * [`Roberts`][roberts] -- the Robertson problem from chemical kinetics, a
   semi-explicit index-1 DAE with two differential states and one algebraic
   variable. It ships the layered standard manifest `fmi-ls-dae.xml` for
-  FMI-LS-DAE version `1.0.0-alpha.1` and is the worked example of the
+  FMI-LS-DAE version `1.0.0-alpha.2` and is the worked example of the
   [specification][spec].
 
 ## Citation

@@ -4,7 +4,7 @@
   xsi:noNamespaceSchemaLocation="../../schema/fmi3LayeredStandardDaeManifest.xsd"
   xmlns:fmi-ls="http://fmi-standard.org/fmi-ls-manifest"
   fmi-ls:fmi-ls-name="org.fmi-standard.fmi-ls-dae"
-  fmi-ls:fmi-ls-version="1.0.0-alpha.1"
+  fmi-ls:fmi-ls-version="1.0.0-alpha.2"
   fmi-ls:fmi-ls-description="Layered standard for DAE support in FMI."
 >
   <EnableDAEParameter valueReference="13" />

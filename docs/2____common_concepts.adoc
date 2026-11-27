@@ -1,6 +1,6 @@
 == Common Concepts
 
-This layered standard extends FMI 3.0 Model Exchange with support for semi-explicit index-1 differential-algebraic equations by introducing algebraic variables and residual equations alongside the continuous states and state derivatives from the core standard.
+This layered standard extends FMI 3.0 Model Exchange with support for index-1 differential-algebraic equations by introducing algebraic variables and residual equations alongside the continuous states and state derivatives from the core standard.
 
 include::2_1__mathematical_notation.adoc[]
 
